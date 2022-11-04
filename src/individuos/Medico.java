@@ -2,7 +2,7 @@ package individuos;
 
 import clinica.prestacion.Turno;
 
-public class Doctor extends Persona{
+public class Medico extends Persona{
     /**
      * CONSTRUCTOR
      *
@@ -12,10 +12,7 @@ public class Doctor extends Persona{
      * @param turnos
      * @param servicio
      **/
-    public Doctor(String nombre, String apellido, String dni, Turno[] turnos, TipoServicio servicio) {
+    public Medico(String nombre, String apellido, String dni, Turno[] turnos, TipoServicio servicio) {
         super(nombre, apellido, dni, turnos, servicio);
     }
-
-    private void registrarAsistencia(){};
-
 }
