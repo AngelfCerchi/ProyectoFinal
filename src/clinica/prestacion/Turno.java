@@ -1,12 +1,11 @@
 package clinica.prestacion;
 
 import clinica.Especialidad;
-import individuos.Persona;
 
 import java.time.LocalDateTime;
 
 public class Turno {
-    public static int nTurno = 0;
+    public static int NRO_TURNO = 0;
     private LocalDateTime inicio;
     private LocalDateTime fin;
     private Boolean ausente = true;
@@ -21,15 +20,15 @@ public class Turno {
     }
 
     private static void incrementarN(){
-        nTurno++;
+        NRO_TURNO++;
     }
 
-    public static int getnTurno() {
-        return nTurno;
+    public static int getNroTurno() {
+        return NRO_TURNO;
     }
 
-    public static void setnTurno(int nTurno) {
-        Turno.nTurno = nTurno;
+    public static void setNroTurno(int nroTurno) {
+        Turno.NRO_TURNO = nroTurno;
     }
 
     public LocalDateTime getInicio() {
