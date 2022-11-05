@@ -1,18 +1,15 @@
 package clinica;
 
 import clinica.prestacion.Prestacion;
-import individuos.Administrativo;
-import individuos.Director;
-import individuos.Doctor;
-import individuos.Persona;
+import individuos.*;
 
 public class Clinica {
     private static Clinica instance;
-    private Prestacion[] prestaciones; //Puede ser areas medicas
+    private Prestacion[] prestaciones; //Puede ser areas medicas //TODO por?
     private Persona[] pacientes;
     private Director director;
     private Administrativo[] administrativos;
-    private Doctor[] doctores;
+    private Medico[] medicos;
 
 
     private Clinica() {}
@@ -54,11 +51,11 @@ public class Clinica {
         this.administrativos = administrativos;
     }
 
-    public Doctor[] getDoctores() {
-        return doctores;
+    public Medico[] getDoctores() {
+        return medicos;
     }
 
-    public void setDoctores(Doctor[] doctores) {
-        this.doctores = doctores;
+    public void setMedicos(Medico[] medicos) {
+        this.medicos = medicos;
     }
 }

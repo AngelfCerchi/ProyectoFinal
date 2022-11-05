@@ -1,9 +1,9 @@
 package clinica.prestacion;
 
-import individuos.Doctor;
+import individuos.Medico;
 
 public class Prestacion {
     private String nombre;
-    private Doctor doctor;
+    private Medico medico;
     private Boolean activa = false;
 }

@@ -1,5 +1,6 @@
 package individuos;
 
+import clinica.prestacion.Especialidad;
 import clinica.prestacion.Prestacion;
 import clinica.prestacion.Turno;
 
@@ -22,15 +23,17 @@ public class Administrativo extends Persona{
     }
     public Prestacion[] prestacionesActivas(){
         //TODO: Se debe poder traer todas las prestaciones activas para luego poder brindar turnos.
-        return;
+        return null;
     }
 
     public Especialidad[] especialidadesDisponibles(){
         //TODO: Se debe poder conocer las actividades con turnos disponibles
+        return null;
     }
 
     public Turno[] turnosTomados(Persona paciente){
         //TODO: Turnos tomados por el paciente
+        return null;
     }
 
     public void asignarUbicacion(Turno turno, Medico medico){
