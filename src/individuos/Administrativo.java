@@ -68,9 +68,4 @@ public class Administrativo extends Persona{
         //Evitar la supersposición de turnos y medicos.
      }
 
-     public void verMenu(){
-         MenuAdministrativo menu = new MenuAdministrativo();
-         menu.mostrar(this);
-     }
-
 }
