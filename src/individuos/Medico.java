@@ -15,4 +15,9 @@ public class Medico extends Persona{
     public Medico(String nombre, String apellido, String dni, Turno[] turnos, TipoServicio servicio) {
         super(nombre, apellido, dni, turnos, servicio);
     }
+
+    public void brindarPrestacion(Prestacion prestacion , Persona paciente){
+        //TODO: Brindar prestacion al paciente
+    }
+
 }
