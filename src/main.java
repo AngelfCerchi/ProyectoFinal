@@ -7,7 +7,6 @@ public class main {
         Clinica clinica = Clinica.getInstance();
         Administrativo administrativo = new Administrativo("Fabian","Cerchi","38324991");
 
-
         MenuPrincipal.mostrarMenu(clinica,administrativo);
     }
 }
