@@ -1,11 +1,11 @@
 package clinica;
 
 public class Especialidad {
-    public static int nroEspecialidad = 0;
+    public static int NRO_ESPECIALIDAD = 0;
     private String nombre;
 
     public static int getNroEspecialidad() {
-        return nroEspecialidad;
+        return NRO_ESPECIALIDAD;
     }
 
     public Especialidad(String nombre) {
@@ -14,7 +14,7 @@ public class Especialidad {
     }
 
     private static void incrementarNro(){
-        nroEspecialidad++;
+        NRO_ESPECIALIDAD++;
     }
     public String getNombre() {
         return nombre;
@@ -27,7 +27,7 @@ public class Especialidad {
     @Override
     public String toString() {
         return "Especialidad{" +
-                "Nro=='" + nroEspecialidad + '\'' +
+                "Nro=='" + NRO_ESPECIALIDAD + '\'' +
                 "nombre='" + nombre + '\'' +
                 '}';
     }

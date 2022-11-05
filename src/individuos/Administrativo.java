@@ -1,13 +1,10 @@
 package individuos;
 
 import clinica.Clinica;
-import clinica.Especialidad;
 import clinica.prestacion.Prestacion;
 import clinica.prestacion.Turno;
-import menus.MenuAdministrativo;
 
 import java.util.ArrayList;
-import java.util.stream.Stream;
 
 public class Administrativo extends Persona{
     /**

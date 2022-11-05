@@ -10,7 +10,7 @@ import java.util.List;
 public class Clinica {
     private static Clinica instance;
     private Director director;
-    private List<Prestacion> prestaciones = new ArrayList<Prestacion>();
+    private ArrayList<Prestacion> prestaciones = new ArrayList<Prestacion>();
     private ArrayList<Paciente> pacientes = new ArrayList<Paciente>();
     private ArrayList<Turno> turnosDisponibles = new ArrayList<Turno>();
     private ArrayList<Administrativo> administrativos = new ArrayList<Administrativo>();
@@ -41,7 +41,7 @@ public class Clinica {
         return prestaciones;
     }
 
-    public void setPrestaciones(List prestaciones) {
+    public void setPrestaciones(ArrayList prestaciones) {
         this.prestaciones = prestaciones;
     }
 
