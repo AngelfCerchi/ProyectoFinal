@@ -31,4 +31,9 @@ public class Paciente extends Persona {
     public void setTipoServicio(TipoServicio tipoServicio) {
         this.tipoServicio = tipoServicio;
     }
+
+    private void abonar() {
+        //TODO Se debe poder abonar la prestación
+    }
+
 }
