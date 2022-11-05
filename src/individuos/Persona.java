@@ -4,7 +4,7 @@ import clinica.prestacion.Turno;
 
 import java.util.ArrayList;
 
-public class Persona {
+public abstract class Persona {
     private String nombre, apellido, dni;
 
     /** CONSTRUCTOR **/

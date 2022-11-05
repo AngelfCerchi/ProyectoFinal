@@ -1,7 +1,7 @@
 package clinica.prestacion;
 
 import clinica.Especialidad;
-
+import individuos.Paciente;
 import java.time.LocalDateTime;
 
 public class Turno {
@@ -9,6 +9,8 @@ public class Turno {
     private LocalDateTime inicio;
     private LocalDateTime fin;
     private Boolean ausente = true;
+    private Boolean disponible = true;
+    private Paciente pacienteAsociado;
     private Especialidad especialidad;
 
 

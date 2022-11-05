@@ -5,16 +5,15 @@ import clinica.prestacion.Turno;
 import individuos.*;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Clinica {
     private static Clinica instance;
     private Director director;
+
+    private ArrayList<Persona> pacientes = new ArrayList<Persona>();
     private ArrayList<Prestacion> prestaciones = new ArrayList<Prestacion>();
-    private ArrayList<Paciente> pacientes = new ArrayList<Paciente>();
-    private ArrayList<Turno> turnosDisponibles = new ArrayList<Turno>();
-    private ArrayList<Administrativo> administrativos = new ArrayList<Administrativo>();
-    private ArrayList<Doctor> doctores = new ArrayList<Doctor>();
+    private ArrayList<Turno> turnos = new ArrayList<Turno>();
+
 
 
     private Clinica() {}
@@ -37,7 +36,7 @@ public class Clinica {
         this.director = director;
     }
 
-    public List<Prestacion> getPrestaciones() {
+    public ArrayList<Prestacion> getPrestaciones() {
         return prestaciones;
     }
 
@@ -45,36 +44,20 @@ public class Clinica {
         this.prestaciones = prestaciones;
     }
 
-    public ArrayList<Paciente> getPacientes() {
+    public ArrayList<Persona> getPacientes() {
         return pacientes;
     }
 
-    public void setPacientes(ArrayList<Paciente> pacientes) {
+    public void setPacientes(ArrayList<Persona> pacientes) {
         this.pacientes = pacientes;
     }
 
-    public ArrayList<Turno> getTurnosDisponibles() {
-        return turnosDisponibles;
+    public ArrayList<Turno> getTurnos() {
+        return turnos;
     }
 
-    public void setTurnosDisponibles(ArrayList<Turno> turnosDisponibles) {
-        this.turnosDisponibles = turnosDisponibles;
-    }
-
-    public ArrayList<Administrativo> getAdministrativos() {
-        return administrativos;
-    }
-
-    public void setAdministrativos(ArrayList<Administrativo> administrativos) {
-        this.administrativos = administrativos;
-    }
-
-    public ArrayList<Doctor> getDoctores() {
-        return doctores;
-    }
-
-    public void setDoctores(ArrayList<Doctor> doctores) {
-        this.doctores = doctores;
+    public void setTurnos(ArrayList<Turno> turnos) {
+        this.turnos = turnos;
     }
 
     public void agregarPrestacion(Prestacion nuevaPrestacion){
