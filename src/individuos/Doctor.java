@@ -25,8 +25,4 @@ public class Doctor extends Persona {
 
     }
 
-    public void brindarPrestacion(Prestacion prestacion, Persona paciente) {
-        prestacion.brindarAPaciente(paciente);
-    }
-
 }
