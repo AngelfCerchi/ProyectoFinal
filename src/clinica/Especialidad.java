@@ -8,11 +8,12 @@ public class Especialidad {
     public static int nroEspecialidad = 0;
     private String nombre;
     private Boolean activa;
-    private ArrayList<Prestacion> prestaciones = new ArrayList<>();
+    private ArrayList<Prestacion> prestaciones;
 
     public Especialidad(String nombre) {
         this.nombre = nombre;
         this.activa = true;
+        this.prestaciones = new ArrayList<>();
         nroEspecialidad++;
     }
 
@@ -43,6 +44,8 @@ public class Especialidad {
     public void setActiva(Boolean activa) {
         this.activa = activa;
     }
+
+
 
     @Override
     public String toString() {
