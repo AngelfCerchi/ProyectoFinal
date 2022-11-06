@@ -1,29 +1,20 @@
 package clinica.prestacion;
 
 import individuos.Doctor;
-import clinica.Especialidad;
+
+import java.util.ArrayList;
 
 public class Prestacion {
     public static int nroPrestacion;
     private String nombre;
-    private Doctor doctor;
-    private Boolean activa = false;
+    private Doctor doctorAsociado;
+    private Boolean activa;
+    private ArrayList<CompositeSalud> prescripciones = new ArrayList<CompositeSalud>();
 
-    public Prestacion(String nombre, Boolean activa) {
+    public Prestacion(String nombre) {
         this.nombre = nombre;
-        this.activa = activa;
-        incrementarNro();
-    }
-
-    public Prestacion(String nombre, Doctor doctor, Boolean activa) {
-        this.nombre = nombre;
-        this.doctor = doctor;
-        this.activa = activa;
-        incrementarNro();
-    }
-
-    private static void incrementarNro(){
-        nroPrestacion += 1;
+        this.activa = true;
+        nroPrestacion++;
     }
 
     public String getNombre() {
@@ -34,12 +25,12 @@ public class Prestacion {
         this.nombre = nombre;
     }
 
-    public Doctor getDoctor() {
-        return doctor;
+    public Doctor getDoctorAsociado() {
+        return doctorAsociado;
     }
 
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
+    public void setDoctorAsociado(Doctor doctorAsociado) {
+        this.doctorAsociado = doctorAsociado;
     }
 
     public Boolean getActiva() {
@@ -54,7 +45,7 @@ public class Prestacion {
         return "Prestacion{" +
                 "nroPrestacion'" + this.nroPrestacion+ '\'' +
                 "nombre='" + this.nombre + '\'' +
-                ", doctor=" + this.doctor +
+                ", doctor=" + this.doctorAsociado +
                 ", activa=" + this.activa +
                 '}';
     }

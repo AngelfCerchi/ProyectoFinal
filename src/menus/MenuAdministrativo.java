@@ -1,12 +1,14 @@
 package menus;
 
+import clinica.Especialidad;
+import clinica.prestacion.Prestacion;
 import individuos.Administrativo;
 
 import java.util.Scanner;
 
 public class MenuAdministrativo {
 
-    public static void mostrarMenu(Administrativo admin) {
+    public static void mostrarMenu(Administrativo administrativo) {
         Scanner sn = new Scanner(System.in);
         boolean salir = false;
         int op;
@@ -25,18 +27,19 @@ public class MenuAdministrativo {
                     String nombre;
                     System.out.println("Nombre de la prestacion: ");
                     nombre = sn.next();
-                    admin.crearPrestacion(nombre);
-                    mostrarMenu(admin);
+                    administrativo.crearPrestacion(nombre, new Especialidad(null));
+                    mostrarMenu(administrativo);
                     break;
                 case 2:
-                    admin.prestacionesActivas();
-                    mostrarMenu(admin);
+                    administrativo.prestacionesActivasPorEspecialidad(new Especialidad(null));
+                    mostrarMenu(administrativo);
                     break;
                 case 3:
-                    admin.especialidadesTurnoDisponibles();
-                    mostrarMenu(admin);
+                    administrativo.turnosDisponiblesPorPrestacion(new Prestacion(null));
+                    mostrarMenu(administrativo);
                     break;
-
+                case 0:
+                    salir = true;
             }
 
         }
@@ -44,4 +47,3 @@ public class MenuAdministrativo {
 
 
 }
-//TODO y si nos ponemos a ver si se puede heredar el menu?

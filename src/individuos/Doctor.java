@@ -1,8 +1,13 @@
 package individuos;
 
-import clinica.prestacion.Turno;
+import clinica.Especialidad;
+import clinica.Turno;
 
-public class Doctor extends Persona{
+import java.util.ArrayList;
+
+public class Doctor extends Persona {
+
+    private ArrayList<Especialidad> especialidades = new ArrayList<>();
     /**
      * CONSTRUCTOR
      *
@@ -14,15 +19,20 @@ public class Doctor extends Persona{
         super(nombre, apellido, dni);
     }
 
-    private void registrarAsistencia(Turno turno){
-        //TODO: Se debe poder registrar asistencia de c/paciente.
-    }
-    private void cargarEstudios(){
-        //TODO: Se debe poder cargar los estudios y recetas prescriptas durante la visita
+    private void registrarAsistencia(Turno turno) {
+        turno.registrarAsistenciaPaciente();
     }
 
-    public void brindarPrestacion(String dni){
-        //TODO: Brindar prestacion al paciente
+    private void cargarPrestacion() {
+
+    }
+
+    public ArrayList<Especialidad> getEspecialidades() {
+        return especialidades;
+    }
+
+    public void setEspecialidades(ArrayList<Especialidad> especialidades) {
+        this.especialidades = especialidades;
     }
 
 }
