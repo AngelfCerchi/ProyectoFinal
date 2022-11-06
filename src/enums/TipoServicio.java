@@ -1,4 +1,4 @@
-package individuos;
+package enums;
 
 public enum TipoServicio {
 
@@ -6,9 +6,9 @@ public enum TipoServicio {
     PARTICULAR("Particular"),
     PREPAGA("Prepaga");
 
-    private String tipo;
+    private final String tipo;
 
-    private TipoServicio(String tipo) {
+    TipoServicio(String tipo) {
         this.tipo = tipo;
     }
 

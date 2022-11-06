@@ -1,5 +1,7 @@
 package menus;
 
+import clinica.Especialidad;
+import clinica.prestacion.Prestacion;
 import individuos.Administrativo;
 
 import java.util.Scanner;
@@ -25,18 +27,19 @@ public class MenuAdministrativo {
                     String nombre;
                     System.out.println("Nombre de la prestacion: ");
                     nombre = sn.next();
-                    administrativo.crearPrestacion(nombre);
+                    administrativo.crearPrestacion(nombre, new Especialidad(null));
                     mostrarMenu(administrativo);
                     break;
                 case 2:
-                    administrativo.prestacionesActivas();
+                    administrativo.prestacionesActivasPorEspecialidad(new Especialidad(null));
                     mostrarMenu(administrativo);
                     break;
                 case 3:
-                    administrativo.especialidadesTurnoDisponibles();
+                    administrativo.turnosDisponiblesPorPrestacion(new Prestacion(null));
                     mostrarMenu(administrativo);
                     break;
-
+                case 0:
+                    salir = true;
             }
 
         }
@@ -44,4 +47,3 @@ public class MenuAdministrativo {
 
 
 }
-//TODO y si nos ponemos a ver si se puede heredar el menu?

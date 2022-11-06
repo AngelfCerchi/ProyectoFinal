@@ -1,19 +1,20 @@
 package clinica;
 
 import clinica.prestacion.Prestacion;
-import clinica.prestacion.Turno;
 import individuos.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class Clinica {
     private static Clinica instance;
     private Director director;
-    private ArrayList<Persona> pacientes = new ArrayList<Persona>();
-    private ArrayList<Prestacion> prestaciones = new ArrayList<Prestacion>();
-    private HashMap<Especialidad, ArrayList<Turno>> especialidadesConSusTurnos = new HashMap<>();
+    private ArrayList<Paciente> pacientes;
+    private ArrayList<Especialidad> especialidades;
+    private HashMap<Prestacion, ArrayList<Turno>> turnos;
+    private HashMap<Prestacion, ArrayList<Turno>> sobreTurnos;
 
     private Clinica() {
     }
@@ -33,54 +34,81 @@ public class Clinica {
         this.director = director;
     }
 
-    public ArrayList<Prestacion> getPrestaciones() {
-        return prestaciones;
-    }
-
-    public void setPrestaciones(ArrayList prestaciones) {
-        this.prestaciones = prestaciones;
-    }
-
-    public ArrayList<Persona> getPacientes() {
+    public ArrayList<Paciente> getPacientes() {
         return pacientes;
     }
 
-    public void setPacientes(ArrayList<Persona> pacientes) {
+    public void setPacientes(ArrayList<Paciente> pacientes) {
         this.pacientes = pacientes;
     }
 
-    public HashMap<Especialidad, ArrayList<Turno>> getEspecialidadesConSusTurnos() {
-        return especialidadesConSusTurnos;
+    public ArrayList<Especialidad> getEspecialidades() {
+        return especialidades;
     }
 
-    public void setEspecialidadesConSusTurnos(HashMap<Especialidad, ArrayList<Turno>> especialidadesConSusTurnos) {
-        this.especialidadesConSusTurnos = especialidadesConSusTurnos;
+    public void setEspecialidades(ArrayList<Especialidad> especialidades) {
+        this.especialidades = especialidades;
     }
 
-    public void agregarPrestacion(Prestacion nuevaPrestacion) {
-        this.prestaciones.add(nuevaPrestacion);
+    public HashMap<Prestacion, ArrayList<Turno>> getTurnos() {
+        return turnos;
     }
 
-    public void elimnarPrestacio(Integer nroPrestacion) {
-        this.prestaciones.remove(nroPrestacion);
+    public void setTurnos(HashMap<Prestacion, ArrayList<Turno>> turnos) {
+        this.turnos = turnos;
     }
 
-    public String generarReporteMensual(Doctor doctor) {
-        StringBuilder reporte = new StringBuilder();
-        reporte.append(doctor.getNombreCompleto() + "\n");
-        for (Especialidad especialidad : doctor.getEspecialidades()) {
-            reporte.append(especialidad.getNombre() + "\n");
-            obtenerTurnosAsistidos(especialidad).stream().forEach(x -> reporte.append(x.getPrestacionBrindada().toString() + "\n"));
-        }
-        return reporte.toString();
+    public HashMap<Prestacion, ArrayList<Turno>> getSobreTurnos() {
+        return sobreTurnos;
     }
 
-    private ArrayList<Turno> obtenerTurnosDisponibles(Especialidad especialidad) {
-        return especialidadesConSusTurnos.get(especialidad).stream().filter(x -> x.getDisponible().equals(true)).collect(Collectors.toCollection(ArrayList::new));
+    public void setSobreTurnos(HashMap<Prestacion, ArrayList<Turno>> sobreTurnos) {
+        this.sobreTurnos = sobreTurnos;
     }
 
-    private ArrayList<Turno> obtenerTurnosAsistidos(Especialidad especialidad) {
-        return especialidadesConSusTurnos.get(especialidad).stream().filter(x -> x.getAusente().equals(false)).collect(Collectors.toCollection(ArrayList::new));
+    public void agregarPrestacion(Prestacion nuevaPrestacion, Especialidad especialidad) {
+
     }
 
+//    public String generarReporteMensual(Doctor doctor) {
+//        StringBuilder reporte = new StringBuilder();
+//        reporte.append(doctor.getNombreCompleto()).append("\n");
+//        for (Especialidad especialidad : doctor.getEspecialidades()) {
+//            reporte.append(especialidad.getNombre()).append("\n");
+//            getTurnosAsistidosPorPrestacion(especialidad).stream().forEach(x -> reporte.append(x.getPrestacionBrindada().toString()).append("\n"));
+//        }
+//        return reporte.toString();
+//    }
+
+    public List<Turno> getTurnosDisponiblesPorPrestacion(Prestacion prestacion) {
+        return obtenerTurnosDisponiblesSegunEspeciliadadYMapa(turnos, prestacion);
+    }
+
+    public List<Turno> getSobreTurnosDisponiblesPorPrestacion(Prestacion prestacion) {
+        return obtenerTurnosDisponiblesSegunEspeciliadadYMapa(sobreTurnos, prestacion);
+    }
+
+    public List<Turno> getTurnosAsistidosPorPrestacion(Prestacion prestacion) {
+        return obtenerTurnosAsistidosSegunEspeciliadadYMapa(turnos, prestacion);
+    }
+
+    public List<Turno> getSobreTurnosAsistidosPorPrestacion(Prestacion prestacion) {
+        return obtenerTurnosAsistidosSegunEspeciliadadYMapa(sobreTurnos, prestacion);
+    }
+
+    public List<Prestacion> getPrestacionesActivasPorEspecialidad(Especialidad especialidad) {
+        return especialidad.getPrestaciones().stream().filter(Prestacion::getActiva).collect(Collectors.toList());
+    }
+
+    public Paciente getPacientePorDni(String dni){
+        return getPacientes().stream().filter(p -> p.getDni().equals(dni)).findFirst().get();
+    }
+
+    private List<Turno> obtenerTurnosAsistidosSegunEspeciliadadYMapa(HashMap<Prestacion, ArrayList<Turno>> turnos, Prestacion especialidad) {
+        return turnos.get(especialidad).stream().filter(x -> x.getAusente().equals(false)).collect(Collectors.toList());
+    }
+
+    private List<Turno> obtenerTurnosDisponiblesSegunEspeciliadadYMapa(HashMap<Prestacion, ArrayList<Turno>> turnos, Prestacion especialidad) {
+        return turnos.get(especialidad).stream().filter(Turno::getDisponible).collect(Collectors.toList());
+    }
 }

@@ -1,6 +1,8 @@
-package clinica.prestacion;
+package clinica;
 
-import clinica.Especialidad;
+import clinica.prestacion.Prestacion;
+import clinica.ubicaciones.Ubicacion;
+import individuos.Doctor;
 import individuos.Persona;
 
 import java.time.LocalDateTime;
@@ -12,27 +14,21 @@ public class Turno {
     private Boolean ausente;
     private Boolean disponible;
     private Persona pacienteAsociado;
+    private Doctor doctor;
     private Prestacion prestacionBrindada;
     private Especialidad especialidadDelTurno;
+    private Ubicacion ubicacionTurno;
 
     public Turno(LocalDateTime inicio, LocalDateTime fin) {
         this.inicio = inicio;
         this.fin = fin;
         this.ausente = false;
         this.disponible = true;
-        incrementarN();
-    }
-
-    private static void incrementarN() {
         nroTurno++;
     }
 
     public static int getNroTurno() {
         return nroTurno;
-    }
-
-    public static void setNroTurno(int nroTurno) {
-        Turno.nroTurno = nroTurno;
     }
 
     public LocalDateTime getInicio() {
@@ -83,6 +79,30 @@ public class Turno {
         this.pacienteAsociado = pacienteAsociado;
     }
 
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+    }
+
+    public Especialidad getEspecialidadDelTurno() {
+        return especialidadDelTurno;
+    }
+
+    public void setEspecialidadDelTurno(Especialidad especialidadDelTurno) {
+        this.especialidadDelTurno = especialidadDelTurno;
+    }
+
+    public Ubicacion getUbicacionTurno() {
+        return ubicacionTurno;
+    }
+
+    public void setUbicacionTurno(Ubicacion ubicacionTurno) {
+        this.ubicacionTurno = ubicacionTurno;
+    }
+
     public void registrarAsistenciaPaciente() {
         setAusente(false);
     }
@@ -90,6 +110,7 @@ public class Turno {
     public void asociarPaciente(Persona paciente) {
         setPacienteAsociado(paciente);
     }
+
 
     @Override
     public String toString() {

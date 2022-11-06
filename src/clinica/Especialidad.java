@@ -3,24 +3,21 @@ package clinica;
 import clinica.prestacion.Prestacion;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Especialidad {
     public static int nroEspecialidad = 0;
     private String nombre;
+    private Boolean activa;
     private ArrayList<Prestacion> prestaciones = new ArrayList<>();
 
     public Especialidad(String nombre) {
         this.nombre = nombre;
-        incrementarNro();
+        this.activa = true;
+        nroEspecialidad++;
     }
 
     public int getNroEspecialidad() {
         return nroEspecialidad;
-    }
-
-    private void incrementarNro() {
-        nroEspecialidad++;
     }
 
     public String getNombre() {
@@ -31,6 +28,22 @@ public class Especialidad {
         this.nombre = nombre;
     }
 
+    public ArrayList<Prestacion> getPrestaciones() {
+        return prestaciones;
+    }
+
+    public void setPrestaciones(ArrayList<Prestacion> prestaciones) {
+        this.prestaciones = prestaciones;
+    }
+
+    public Boolean getActiva() {
+        return activa;
+    }
+
+    public void setActiva(Boolean activa) {
+        this.activa = activa;
+    }
+
     @Override
     public String toString() {
         return "Especialidad{" +
@@ -38,6 +51,4 @@ public class Especialidad {
                 "nombre='" + nombre + '\'' +
                 '}';
     }
-
-
 }

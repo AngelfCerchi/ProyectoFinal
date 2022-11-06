@@ -1,7 +1,7 @@
 package individuos;
 
 import clinica.Especialidad;
-import clinica.prestacion.Turno;
+import clinica.Turno;
 
 import java.util.ArrayList;
 
@@ -20,7 +20,6 @@ public class Doctor extends Persona {
     }
 
     private void registrarAsistencia(Turno turno) {
-        //TODO: Se debe poder registrar asistencia de c/paciente.
         turno.registrarAsistenciaPaciente();
     }
 

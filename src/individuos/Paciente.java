@@ -1,6 +1,7 @@
 package individuos;
 
-import clinica.prestacion.Turno;
+import clinica.Turno;
+import enums.TipoServicio;
 
 import java.util.ArrayList;
 
@@ -12,22 +13,12 @@ public class Paciente extends Persona {
     public Paciente(String nombre, String apellido, String dni, TipoServicio tipoServicio) {
         super(nombre, apellido, dni);
         this.tipoServicio = tipoServicio;
-        incrementarNro();
-    }
-
-    private static void incrementarNro(){
         nroAfiliado++;
     }
 
     public static int getNroAfiliado() {
         return nroAfiliado;
     }
-
-    public static void setNroAfiliado(int nroAfiliado) {
-        Paciente.nroAfiliado = nroAfiliado;
-    }
-
-
 
     public TipoServicio getTipoServicio() {
         return tipoServicio;
@@ -37,15 +28,15 @@ public class Paciente extends Persona {
         this.tipoServicio = tipoServicio;
     }
 
-    private void abonar() {
-        //TODO Se debe poder abonar la prestación
-    }
-
     public ArrayList<Turno> getTurnosAsignados() {
         return turnosAsignados;
     }
 
     public void setTurnosAsignados(ArrayList<Turno> turnosAsignados) {
         this.turnosAsignados = turnosAsignados;
+    }
+
+    public void agregarTurno(Turno turno) {
+        getTurnosAsignados().add(turno);
     }
 }

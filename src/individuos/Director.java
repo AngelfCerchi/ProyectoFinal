@@ -1,7 +1,5 @@
 package individuos;
 
-import clinica.prestacion.Turno;
-
 public class Director extends Persona{
     private static Director instance;
     private Director(String nombre, String apellido, String dni) {

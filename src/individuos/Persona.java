@@ -1,9 +1,5 @@
 package individuos;
 
-import clinica.prestacion.Turno;
-
-import java.util.ArrayList;
-
 public abstract class Persona {
     private String nombre;
     private String apellido;

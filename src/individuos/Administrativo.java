@@ -1,12 +1,17 @@
 package individuos;
 
 import clinica.Clinica;
+import clinica.Especialidad;
 import clinica.prestacion.Prestacion;
-import clinica.prestacion.Turno;
+import clinica.Turno;
+import clinica.ubicaciones.Ubicacion;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Administrativo extends Persona {
+
+    private final Clinica clinica = Clinica.getInstance();
+
     /**
      * CONSTRUCTOR
      *
@@ -18,57 +23,28 @@ public class Administrativo extends Persona {
         super(nombre, apellido, dni);
     }
 
-    public void crearPrestacion(String nombre) {
-        //TODO: Se debe poder armar una prestacion inicial.
-        Clinica clinica = Clinica.getInstance();
+    public void crearPrestacion(String nombre, Especialidad especialidad) {
         Prestacion nuevaPrestacion = new Prestacion(nombre);
-        clinica.agregarPrestacion(nuevaPrestacion);
+        clinica.agregarPrestacion(nuevaPrestacion, especialidad);
     }
 
-    public void darTurno(String dni, Integer nroTurno) {
-        Clinica clinica = Clinica.getInstance();
-        Persona paciente = clinica.getPacientes().stream().filter(p -> p.equals(dni)).findFirst().get();
-        Turno turno = new Turno(null, null);
-        //paciente.getTurnos().add(turno);
+    public Turno darTurno(Paciente paciente, Turno turno, Ubicacion ubicacion, Doctor doctor) {
+        turno.setUbicacionTurno(ubicacion);
+        turno.setDoctor(doctor);
+        turno.asociarPaciente(paciente);
+        paciente.agregarTurno(turno);
+        return turno;
     }
 
-    public void prestacionesActivas() {
-        //TODO: Se debe poder traer todas las prestaciones activas para luego poder brindar turnos.
-        Clinica clinica = Clinica.getInstance();
-        if (clinica.getPrestaciones().size() > 0) {
-            clinica.getPrestaciones().forEach(prestacion -> System.out.println(prestacion.toString()));
-        } else {
-            System.out.println("No hay prestaciones activas");
-        }
+    public List<Prestacion> prestacionesActivasPorEspecialidad(Especialidad especialidad) {
+        return clinica.getPrestacionesActivasPorEspecialidad(especialidad);
     }
 
-    public void especialidadesTurnoDisponibles() {
-        //TODO: Se debe poder conocer las especialidades con turnos disponibles
-        Clinica clinica = Clinica.getInstance();
-        //if (clinica.getTurnos().size() > 0) {
-        //     clinica.getTurnos().stream().map(t -> t.getEspecialidad()).forEach(t -> System.out.println(t.toString()));
-        // } else {
-        //    System.out.println("No hay especialidades disponibles ");
-        // }
-
+    public List<Turno> turnosDisponiblesPorPrestacion(Prestacion prestacion) {
+        return clinica.getTurnosDisponiblesPorPrestacion(prestacion);
     }
 
-    // TODO: Cambiar la funcion de busqueda de los turnos
-    public void turnosTomados(String dni) {
-        /*
-         * Rertona los turnos del paciente con dni *DNI*
-         * */
-        //TODO: Validaciones.
-        Clinica clinica = Clinica.getInstance();
-
-
-        //ArrayList<Turno> turnos = clinica.getPacientes().stream().filter(p -> p.getDni().equals(dni)).findFirst().get().getTurnos();
-
+    public List<Turno> turnosTomados(Paciente paciente) {
+        return paciente.getTurnosAsignados();
     }
-
-    public void asignarUbicacion(Integer nroTurno, Doctor doctor) {
-        //TODO: Se debe poder asignar ubicaciones (Consultorio/Laboratorio) donde van a brindarse la atencion y un medico
-        //Evitar la supersposición de turnos y medicos.
-    }
-
 }
