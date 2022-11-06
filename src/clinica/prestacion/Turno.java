@@ -1,36 +1,38 @@
 package clinica.prestacion;
 
-import clinica.Especialidad;
-import individuos.Paciente;
+import individuos.Persona;
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class Turno {
-    public static int NRO_TURNO = 0;
+    public static int nroTurno = 0;
     private LocalDateTime inicio;
     private LocalDateTime fin;
-    private Boolean ausente = true;
-    private Boolean disponible = true;
-    private Paciente pacienteAsociado;
-    private Especialidad especialidad;
+    private Boolean ausente;
+    private Boolean disponible;
+    private Persona pacienteAsociado;
+    private Prestacion prestacion;
+    private Especialidad especialidadDelTurno;
 
-
-    public Turno(LocalDateTime inicio, LocalDateTime fin, Boolean ausente) {
+    public Turno(LocalDateTime inicio, LocalDateTime fin) {
         this.inicio = inicio;
         this.fin = fin;
-        this.ausente = ausente;
+        this.ausente = false;
+        this.disponible = true;
         incrementarN();
     }
 
-    private static void incrementarN(){
-        NRO_TURNO++;
+    private static void incrementarN() {
+        nroTurno++;
     }
 
     public static int getNroTurno() {
-        return NRO_TURNO;
+        return nroTurno;
     }
 
     public static void setNroTurno(int nroTurno) {
-        Turno.NRO_TURNO = nroTurno;
+        Turno.nroTurno = nroTurno;
     }
 
     public LocalDateTime getInicio() {
@@ -57,12 +59,36 @@ public class Turno {
         this.ausente = ausente;
     }
 
-    public Especialidad getEspecialidad() {
-        return especialidad;
+    public Prestacion getPrestacion() {
+        return prestacion;
     }
 
-    public void setEspecialidad(Especialidad especialidad) {
-        this.especialidad = especialidad;
+    public void setPrestacion(Prestacion prestacion) {
+        this.prestacion = prestacion;
+    }
+
+    public Boolean getDisponible() {
+        return disponible;
+    }
+
+    public void setDisponible(Boolean disponible) {
+        this.disponible = disponible;
+    }
+
+    public Persona getPacienteAsociado() {
+        return pacienteAsociado;
+    }
+
+    public void setPacienteAsociado(Persona pacienteAsociado) {
+        this.pacienteAsociado = pacienteAsociado;
+    }
+
+    public void registrarAsistenciaPaciente() {
+        setAusente(false);
+    }
+
+    public void asociarPaciente(Persona paciente) {
+        setPacienteAsociado(paciente);
     }
 
     @Override
@@ -71,7 +97,6 @@ public class Turno {
                 "inicio=" + inicio +
                 ", fin=" + fin +
                 ", ausente=" + ausente +
-                ", especialidad=" + especialidad +
                 '}';
     }
 }

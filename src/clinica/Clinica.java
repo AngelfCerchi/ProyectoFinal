@@ -9,14 +9,13 @@ import java.util.ArrayList;
 public class Clinica {
     private static Clinica instance;
     private Director director;
-
     private ArrayList<Persona> pacientes = new ArrayList<Persona>();
     private ArrayList<Prestacion> prestaciones = new ArrayList<Prestacion>();
     private ArrayList<Turno> turnos = new ArrayList<Turno>();
 
+    private Clinica() {
+    }
 
-
-    private Clinica() {}
     public static Clinica getInstance() {
         if (instance == null) {
             instance = new Clinica();
@@ -60,10 +59,11 @@ public class Clinica {
         this.turnos = turnos;
     }
 
-    public void agregarPrestacion(Prestacion nuevaPrestacion){
+    public void agregarPrestacion(Prestacion nuevaPrestacion) {
         this.prestaciones.add(nuevaPrestacion);
     }
-    public void elimnarPrestacio(Integer nroPrestacion){
+
+    public void elimnarPrestacio(Integer nroPrestacion) {
         this.prestaciones.remove(nroPrestacion);
     }
 

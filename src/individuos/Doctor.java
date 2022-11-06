@@ -1,8 +1,10 @@
 package individuos;
 
+import clinica.prestacion.Prestacion;
 import clinica.prestacion.Turno;
 
-public class Doctor extends Persona{
+public class Doctor extends Persona {
+
     /**
      * CONSTRUCTOR
      *
@@ -14,15 +16,17 @@ public class Doctor extends Persona{
         super(nombre, apellido, dni);
     }
 
-    private void registrarAsistencia(Turno turno){
+    private void registrarAsistencia(Turno turno) {
         //TODO: Se debe poder registrar asistencia de c/paciente.
-    }
-    private void cargarEstudios(){
-        //TODO: Se debe poder cargar los estudios y recetas prescriptas durante la visita
+        turno.registrarAsistenciaPaciente();
     }
 
-    public void brindarPrestacion(String dni){
-        //TODO: Brindar prestacion al paciente
+    private void cargarPrestacion() {
+
+    }
+
+    public void brindarPrestacion(Prestacion prestacion, Persona paciente) {
+        prestacion.brindarAPaciente(paciente);
     }
 
 }

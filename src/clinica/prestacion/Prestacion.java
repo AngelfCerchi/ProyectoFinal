@@ -7,7 +7,7 @@ public class Prestacion {
     public static int nroPrestacion;
     private String nombre;
     private Doctor doctor;
-    private Boolean activa = false;
+    private Boolean activa;
 
     public Prestacion(String nombre, Boolean activa) {
         this.nombre = nombre;

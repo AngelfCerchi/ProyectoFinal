@@ -1,18 +1,18 @@
 package individuos;
 
 public enum TipoServicio {
-    OBRASOCIAL, PREPAGA,PARTICULAR;
 
-    public String getName() {
-        switch(this) {
-            case OBRASOCIAL:
-                return "Obra Social";
-            case PARTICULAR:
-                return "Particular";
-            case PREPAGA:
-                return "Prepaga";
-            default:
-                return null;
-        }
+    OBRASOCIAL("Obra Social"),
+    PARTICULAR("Particular"),
+    PREPAGA("Prepaga");
+
+    private String tipo;
+
+    private TipoServicio(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public String getTipo() {
+        return tipo;
     }
 }
