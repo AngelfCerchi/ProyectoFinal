@@ -2,6 +2,7 @@ package menus;
 
 import clinica.Clinica;
 import clinica.Especialidad;
+import clinica.Turno;
 import clinica.prestacion.Prestacion;
 import enums.TipoServicio;
 import individuos.Administrativo;
@@ -11,14 +12,11 @@ import java.util.Scanner;
 
 public class MenuAdministrativo {
 
+    //TODO er q esto funcione
+    private static final Clinica clinica = Clinica.getInstance();
 
+    public static void mostrarMenu(Administrativo administrativo, Scanner sn) {
 
-    public static void mostrarMenu(Administrativo administrativo) {
-
-        //TODO er q esto funcione
-        Clinica clinica = Clinica.getInstance();
-
-        Scanner sn = new Scanner(System.in);
         boolean salir = false;
         int op;
 
@@ -38,19 +36,19 @@ public class MenuAdministrativo {
                     System.out.println("Nombre de la prestacion: ");
                     nombre = sn.next();
                     administrativo.crearPrestacion(nombre, new Especialidad(null));
-                    mostrarMenu(administrativo);
+                    mostrarMenu(administrativo, sn);
                     break;
                 case 2:
                     administrativo.prestacionesActivasPorEspecialidad(new Especialidad(null));
-                    mostrarMenu(administrativo);
+                    mostrarMenu(administrativo, sn);
                     break;
                 case 3:
                     administrativo.turnosDisponiblesPorPrestacion(new Prestacion(null));
-                    mostrarMenu(administrativo);
+                    mostrarMenu(administrativo, sn);
                     break;
                 case 6:
-                    darTurno(clinica, sn);
-                    mostrarMenu(administrativo);
+                    darTurno(administrativo, sn);
+                    mostrarMenu(administrativo, sn);
                     break;
                 case 0:
                     salir = true;
@@ -59,41 +57,44 @@ public class MenuAdministrativo {
         }
     }
 
-    private static void darTurno(Clinica c,  Scanner sn){
+    private static void darTurno(Administrativo administrativo, Scanner sn) {
         //Pido el DNI y lo busco en el singletone o lo creo...
         System.out.println("Ingrese el DNI del paciente: ");
         int dni = sn.nextInt();
-        Paciente p = c.getPacientePorDni(String.valueOf(dni));
+        Paciente paciente = clinica.getPacientePorDni(String.valueOf(dni));
 
-        if (p == null) {
-            System.out.println("Paciente no encontrado. Ingrese su Apellido: ");
+        if (paciente == null) {
+            System.out.println("Paciente no encontrado.");
+            System.out.println("Ingrese su Apellido: ");
             String apellido = sn.next();
 
             //apellido
             System.out.println("Ingrese su nombre: ");
             String nombre = sn.next();
-            //DNI
 
-            System.out.println("Ingrese su DNI: ");
-            int documento = sn.nextInt();
             //Tipo Servicvio
-
             System.out.println("Seleccione su tipo de cobertura: ");
             System.out.println(TipoServicio.mostrarTipos());
 
             int tipoServicio = sn.nextInt();
-
-
-            Paciente nuevoPaciente = new Paciente(apellido, nombre, String.valueOf(dni), TipoServicio.seleccionarTipoPorIndice(tipoServicio));
-            p = nuevoPaciente;
-
+            paciente = new Paciente(apellido, nombre, String.valueOf(dni), TipoServicio.seleccionarTipoPorIndice(tipoServicio));
         }
 
-        System.out.println("Seleccione la prestacion deseada:");
-        //Imprimir todas las prestaciones
-    //TODO imprimir aca las prestaciones de clinica
-        int prestacionElegida = sn.nextInt();
+        System.out.println("Seleccione la especialidad deseada:");
+        System.out.println(clinica.listarEspecialidadesActivas());
+        int especialidad = sn.nextInt();
 
+        System.out.println("Seleccione la prestacion deseada:");
+        System.out.println(clinica.listarPrestacionesActivas(clinica.getEspecialidades().get(especialidad)));
+        int prestacionElegida = sn.nextInt();
+        Prestacion prestacion = clinica.getPrestacionesActivas().get(prestacionElegida - 1);
+
+        System.out.println("Seleccione el horario deseado: ");
+        System.out.println(clinica.listarHorariosDeTodosLosTurnosPorPrestacion(prestacion));
+        int horarioElegido = sn.nextInt();
+        Turno turno = clinica.seleccionarTurnoPorPrestacionConIndice(prestacion, horarioElegido);
+        turno = administrativo.darTurno(paciente, turno);
+        System.out.println("Se creo el siguiente turno: \n" + turno.toString());
 
     }
 

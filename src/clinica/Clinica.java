@@ -68,9 +68,9 @@ public class Clinica {
     }
 
     public void agregarPrestacion(Prestacion nuevaPrestacion, Especialidad especialidad) {
-        for (Especialidad  e: getEspecialidades()) {
-            if(e.getNombre().equals(especialidad.getNombre())){
-                System.out.println("Se agregara la prestacion nueva para la especialidad "+ especialidad.getNombre());
+        for (Especialidad e : getEspecialidades()) {
+            if (e.getNombre().equals(especialidad.getNombre())) {
+                System.out.println("Se agregara la prestacion nueva para la especialidad " + especialidad.getNombre());
                 e.getPrestaciones().add(nuevaPrestacion);
             }
             System.out.println("No existe la especialidad para la que se desea agregar la especliadad. PELOTUDO!");
@@ -85,21 +85,18 @@ public class Clinica {
     }
 
 
-
-    private int cantidadPrestaciones(Doctor doctor, boolean esEstudio){
+    private int cantidadPrestaciones(Doctor doctor, boolean esEstudio) {
         int cantidad = 0;
 
-        for (Prestacion p: this.turnos.keySet()) {
-            for (Turno t : this.turnos.get(p)){
-                if(t.getDoctor().getDni().equals(doctor.getDni()) && !t.getAusente() && t.getPrestacionBrindada().getEsEstudio().equals(esEstudio)){
+        for (Prestacion p : this.turnos.keySet()) {
+            for (Turno t : this.turnos.get(p)) {
+                if (t.getDoctor().getDni().equals(doctor.getDni()) && !t.getAusente() && t.getPrestacionBrindada().getEsEstudio().equals(esEstudio)) {
                     cantidad++;
                 }
             }
         }
         return cantidad;
     }
-
-
 
     public List<Turno> getTurnosDisponiblesPorPrestacion(Prestacion prestacion) {
         return obtenerTurnosDisponiblesSegunEspeciliadadYMapa(turnos, prestacion);
@@ -139,14 +136,49 @@ public class Clinica {
         return turnos.get(especialidad).stream().filter(Turno::getDisponible).collect(Collectors.toList());
     }
 
-    public String listarEspecialidades(){
+    public String listarEspecialidadesActivas() {
         int indice = 1;
         StringBuilder str = new StringBuilder();
         for (Especialidad e : getEspecialidades()) {
-            str.append(indice).append(" - ").append(e.getNombre()).append("\n");
+            if (e.getActiva())
+                str.append(indice).append(" - ").append(e.getNombre()).append("\n");
             indice++;
         }
         return str.toString();
     }
 
+    public String listarPrestacionesActivas(Especialidad especialidad) {
+        int indice = 1;
+        StringBuilder str = new StringBuilder();
+        for (Prestacion p : getPrestacionesActivasPorEspecialidad(especialidad)) {
+            str.append(indice).append(" - ").append(p.getNombre()).append("\n");
+            indice++;
+        }
+        return str.toString();
+    }
+
+    public String listarHorariosDeTodosLosTurnosPorPrestacion(Prestacion prestacion) {
+        int indice = 1;
+        StringBuilder str = new StringBuilder();
+        for (Turno t : getTurnosDisponiblesPorPrestacion(prestacion)) {
+            str.append(indice).append(" - ").append(t.getHorario()).append("\n");
+            indice++;
+        }
+        str.append("Sobre turnos:").append("\n");
+        for (Turno t : getSobreTurnosDisponiblesPorPrestacion(prestacion)) {
+            str.append(indice).append(" - ").append(t.getHorario()).append("\n");
+            indice++;
+        }
+        return str.toString();
+    }
+
+    public Turno seleccionarTurnoPorPrestacionConIndice(Prestacion prestacion, int indice) {
+        Turno turno;
+        if (indice < turnos.size()) {
+            turno = turnos.get(prestacion).get(indice - 1);
+        } else {
+            turno = sobreTurnos.get(prestacion).get(indice - 1 - turnos.size());
+        }
+        return turno;
+    }
 }

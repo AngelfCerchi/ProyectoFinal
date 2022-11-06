@@ -111,13 +111,19 @@ public class Turno {
         setPacienteAsociado(paciente);
     }
 
+    public String getHorario() {
+        return getInicio() + " - " + getFin();
+    }
 
     @Override
     public String toString() {
         return "Turno{" +
                 "inicio=" + inicio +
                 ", fin=" + fin +
-                ", ausente=" + ausente +
+                ", doctor=" + doctor +
+                ", prestacionBrindada=" + prestacionBrindada +
+                ", especialidadDelTurno=" + especialidadDelTurno +
+                ", ubicacionTurno=" + ubicacionTurno +
                 '}';
     }
 }

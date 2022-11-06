@@ -12,7 +12,7 @@ public class MenuPrincipal {
         boolean salir = false;
         int op;
 
-        while (!salir){
+        while (!salir) {
             System.out.println("1. Menu Gerencial");
             System.out.println("2. Menu Administrativo");
             System.out.println("3. Menu Doctor");
@@ -20,18 +20,18 @@ public class MenuPrincipal {
             System.out.println("5. Salir");
 
             op = sn.nextInt();
-            switch (op){
+            switch (op) {
                 case 1:
                     //clinica.verMenu();
                     break;
                 case 2:
-                    MenuAdministrativo.mostrarMenu(administrativo);
+                    MenuAdministrativo.mostrarMenu(administrativo, sn);
                     break;
                 case 3:
                     System.out.println("Has seleccionado la opcion 3");
                     break;
                 case 4:
-                    salir=true;
+                    salir = true;
                     break;
                 default:
                     System.out.println("Solo números entre 1 y 4");
