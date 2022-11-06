@@ -1,6 +1,7 @@
 package clinica;
 
 import clinica.prestacion.Prestacion;
+import enums.TipoServicio;
 import individuos.Director;
 import individuos.Doctor;
 import individuos.Paciente;
@@ -138,5 +139,14 @@ public class Clinica {
         return turnos.get(especialidad).stream().filter(Turno::getDisponible).collect(Collectors.toList());
     }
 
+    public String listarEspecialidades(){
+        int indice = 1;
+        StringBuilder str = new StringBuilder();
+        for (Especialidad e : getEspecialidades()) {
+            str.append(indice).append(" - ").append(e.getNombre()).append("\n");
+            indice++;
+        }
+        return str.toString();
+    }
 
 }

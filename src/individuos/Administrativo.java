@@ -6,6 +6,7 @@ import clinica.prestacion.Prestacion;
 import clinica.Turno;
 import clinica.ubicaciones.Ubicacion;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Administrativo extends Persona {
@@ -28,12 +29,24 @@ public class Administrativo extends Persona {
         clinica.agregarPrestacion(nuevaPrestacion, especialidad);
     }
 
+    //TODO si es un solo Doctor por especialidad, para que se lo pasammos aca como parametro?
+    //TODO Por la firma del metodo, entiendo que este turno se llamara desde el MENU una vez que se haya pedido data del paciente y la prestacion a pedir turno
     public Turno darTurno(Paciente paciente, Turno turno, Ubicacion ubicacion, Doctor doctor) {
-        turno.setUbicacionTurno(ubicacion);
-        turno.setDoctor(doctor);
-        turno.asociarPaciente(paciente);
-        paciente.agregarTurno(turno);
-        return turno;
+
+        //Recupero los turnos por la especialidad
+        ArrayList<Turno> turnos = clinica.getTurnos().get(turno.getPrestacionBrindada());
+
+        //Agarro uno q este disponible
+        Turno turnoDisponible = turnos.stream().filter(t->t.getDisponible()).findFirst().get();
+        turnoDisponible.asociarPaciente(paciente);
+        turnoDisponible.setUbicacionTurno(ubicacion);
+        turnoDisponible.setDisponible(false);
+
+        paciente.agregarTurno(turnoDisponible);
+
+        //TODO verificar que el turno asignado en la linea anterior ya este no-disponible en el turnos del singletone de Clinica
+
+        return turnoDisponible;
     }
 
     public List<Prestacion> prestacionesActivasPorEspecialidad(Especialidad especialidad) {
@@ -44,7 +57,11 @@ public class Administrativo extends Persona {
         return clinica.getTurnosDisponiblesPorPrestacion(prestacion);
     }
 
+    //TODO no debería esto ser por DNI? Porque asi, entiendo que en el menu vamos a tener q buscar por DNI,
+    //y recuperarlo para pasarselo a este metodo
     public List<Turno> turnosTomados(Paciente paciente) {
-        return paciente.getTurnosAsignados();
+        Paciente pacienteEncontrado = clinica.getPacientes().stream().filter(p->p.getDni().equals(paciente.getDni())).findFirst().get();
+        //pacienteEncontrado.
+        return pacienteEncontrado.getTurnosAsignados();
     }
 }
