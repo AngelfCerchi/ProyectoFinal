@@ -9,16 +9,12 @@ public class Prestacion {
     private String nombre;
     private Doctor doctorAsociado;
     private Boolean activa;
-    private ArrayList<CompositeSalud> pasos = new ArrayList<CompositeSalud>();
+    private ArrayList<CompositeSalud> prescripciones = new ArrayList<CompositeSalud>();
 
     public Prestacion(String nombre) {
         this.nombre = nombre;
         this.activa = true;
-        incrementarNro();
-    }
-
-    private static void incrementarNro(){
-        nroPrestacion += 1;
+        nroPrestacion++;
     }
 
     public String getNombre() {
