@@ -1,10 +1,13 @@
 package individuos;
 
-import clinica.prestacion.Prestacion;
+import clinica.Especialidad;
 import clinica.prestacion.Turno;
+
+import java.util.ArrayList;
 
 public class Doctor extends Persona {
 
+    private ArrayList<Especialidad> especialidades = new ArrayList<>();
     /**
      * CONSTRUCTOR
      *
@@ -23,6 +26,14 @@ public class Doctor extends Persona {
 
     private void cargarPrestacion() {
 
+    }
+
+    public ArrayList<Especialidad> getEspecialidades() {
+        return especialidades;
+    }
+
+    public void setEspecialidades(ArrayList<Especialidad> especialidades) {
+        this.especialidades = especialidades;
     }
 
 }

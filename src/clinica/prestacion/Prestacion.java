@@ -2,11 +2,14 @@ package clinica.prestacion;
 
 import individuos.Doctor;
 
+import java.util.ArrayList;
+
 public class Prestacion {
     public static int nroPrestacion;
     private String nombre;
     private Doctor doctorAsociado;
     private Boolean activa;
+    private ArrayList<CompositeSalud> pasos = new ArrayList<CompositeSalud>();
 
     public Prestacion(String nombre) {
         this.nombre = nombre;

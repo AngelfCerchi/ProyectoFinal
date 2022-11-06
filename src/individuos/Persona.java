@@ -33,6 +33,10 @@ public abstract class Persona {
         return dni;
     }
 
+    public String getNombreCompleto(){
+        return getNombre() + " " + getApellido();
+    }
+
     /**
      * SETTERS
      **/
