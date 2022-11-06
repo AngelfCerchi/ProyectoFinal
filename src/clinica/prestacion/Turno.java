@@ -1,18 +1,18 @@
 package clinica.prestacion;
 
+import clinica.Especialidad;
 import individuos.Persona;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 public class Turno {
-    public static int nroTurno = 0;
+    private static int nroTurno = 0;
     private LocalDateTime inicio;
     private LocalDateTime fin;
     private Boolean ausente;
     private Boolean disponible;
     private Persona pacienteAsociado;
-    private Prestacion prestacion;
+    private Prestacion prestacionBrindada;
     private Especialidad especialidadDelTurno;
 
     public Turno(LocalDateTime inicio, LocalDateTime fin) {
@@ -59,12 +59,12 @@ public class Turno {
         this.ausente = ausente;
     }
 
-    public Prestacion getPrestacion() {
-        return prestacion;
+    public Prestacion getPrestacionBrindada() {
+        return prestacionBrindada;
     }
 
-    public void setPrestacion(Prestacion prestacion) {
-        this.prestacion = prestacion;
+    public void setPrestacionBrindada(Prestacion prestacionBrindada) {
+        this.prestacionBrindada = prestacionBrindada;
     }
 
     public Boolean getDisponible() {

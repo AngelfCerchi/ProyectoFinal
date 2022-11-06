@@ -5,13 +5,14 @@ import clinica.prestacion.Turno;
 import individuos.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Clinica {
     private static Clinica instance;
     private Director director;
     private ArrayList<Persona> pacientes = new ArrayList<Persona>();
     private ArrayList<Prestacion> prestaciones = new ArrayList<Prestacion>();
-    private ArrayList<Turno> turnos = new ArrayList<Turno>();
+    private HashMap<Especialidad,ArrayList<Turno>> especialidadesConSusTurnos = new HashMap<>();
 
     private Clinica() {
     }
@@ -21,10 +22,6 @@ public class Clinica {
             instance = new Clinica();
         }
         return instance;
-    }
-
-    public static void setInstance(Clinica instance) {
-        Clinica.instance = instance;
     }
 
     public Director getDirector() {
@@ -51,12 +48,12 @@ public class Clinica {
         this.pacientes = pacientes;
     }
 
-    public ArrayList<Turno> getTurnos() {
-        return turnos;
+    public HashMap<Especialidad, ArrayList<Turno>> getEspecialidadesConSusTurnos() {
+        return especialidadesConSusTurnos;
     }
 
-    public void setTurnos(ArrayList<Turno> turnos) {
-        this.turnos = turnos;
+    public void setEspecialidadesConSusTurnos(HashMap<Especialidad, ArrayList<Turno>> especialidadesConSusTurnos) {
+        this.especialidadesConSusTurnos = especialidadesConSusTurnos;
     }
 
     public void agregarPrestacion(Prestacion nuevaPrestacion) {
