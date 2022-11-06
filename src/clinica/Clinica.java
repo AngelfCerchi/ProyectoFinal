@@ -1,11 +1,11 @@
 package clinica;
 
 import clinica.prestacion.Prestacion;
-import individuos.*;
+import individuos.Director;
+import individuos.Doctor;
+import individuos.Paciente;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Clinica {
@@ -67,18 +67,38 @@ public class Clinica {
     }
 
     public void agregarPrestacion(Prestacion nuevaPrestacion, Especialidad especialidad) {
-
+        for (Especialidad  e: getEspecialidades()) {
+            if(e.getNombre().equals(especialidad.getNombre())){
+                System.out.println("Se agregara la prestacion nueva para la especialidad "+ especialidad.getNombre());
+                e.getPrestaciones().add(nuevaPrestacion);
+            }
+            System.out.println("No existe la especialidad para la que se desea agregar la especliadad. PELOTUDO!");
+        }
     }
 
-//    public String generarReporteMensual(Doctor doctor) {
-//        StringBuilder reporte = new StringBuilder();
-//        reporte.append(doctor.getNombreCompleto()).append("\n");
-//        for (Especialidad especialidad : doctor.getEspecialidades()) {
-//            reporte.append(especialidad.getNombre()).append("\n");
-//            getTurnosAsistidosPorPrestacion(especialidad).stream().forEach(x -> reporte.append(x.getPrestacionBrindada().toString()).append("\n"));
-//        }
-//        return reporte.toString();
-//    }
+    public String reportePrestacionesPorDoctor(Doctor doctor) {
+        //TODO probar esto
+        int estudios = cantidadPrestaciones(doctor, true);
+        int prestaciones = cantidadPrestaciones(doctor, false);
+        return "El doctor " + doctor.getNombreCompleto() + " realizo " + estudios + " estudios y " + prestaciones + " prestaciones";
+    }
+
+
+
+    private int cantidadPrestaciones(Doctor doctor, boolean esEstudio){
+        int cantidad = 0;
+
+        for (Prestacion p: this.turnos.keySet()) {
+            for (Turno t : this.turnos.get(p)){
+                if(t.getDoctor().getDni().equals(doctor.getDni()) && !t.getAusente() && t.getPrestacionBrindada().getEsEstudio().equals(esEstudio)){
+                    cantidad++;
+                }
+            }
+        }
+        return cantidad;
+    }
+
+
 
     public List<Turno> getTurnosDisponiblesPorPrestacion(Prestacion prestacion) {
         return obtenerTurnosDisponiblesSegunEspeciliadadYMapa(turnos, prestacion);
@@ -100,7 +120,13 @@ public class Clinica {
         return especialidad.getPrestaciones().stream().filter(Prestacion::getActiva).collect(Collectors.toList());
     }
 
-    public Paciente getPacientePorDni(String dni){
+    public List<Prestacion> getPrestacionesActivas() {
+        List<Prestacion> prestaciones = new ArrayList<>();
+        getEspecialidades().stream().forEach(x -> prestaciones.addAll(getPrestacionesActivasPorEspecialidad(x)));
+        return prestaciones;
+    }
+
+    public Paciente getPacientePorDni(String dni) {
         return getPacientes().stream().filter(p -> p.getDni().equals(dni)).findFirst().get();
     }
 
@@ -111,4 +137,6 @@ public class Clinica {
     private List<Turno> obtenerTurnosDisponiblesSegunEspeciliadadYMapa(HashMap<Prestacion, ArrayList<Turno>> turnos, Prestacion especialidad) {
         return turnos.get(especialidad).stream().filter(Turno::getDisponible).collect(Collectors.toList());
     }
+
+
 }

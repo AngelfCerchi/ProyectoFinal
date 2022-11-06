@@ -2,14 +2,13 @@ package clinica.prestacion;
 
 import individuos.Doctor;
 
-import java.util.ArrayList;
-
 public class Prestacion {
     public static int nroPrestacion;
     private String nombre;
     private Doctor doctorAsociado;
     private Boolean activa;
-    private ArrayList<CompositeSalud> prescripciones = new ArrayList<CompositeSalud>();
+
+    private Boolean esEstudio;
 
     public Prestacion(String nombre) {
         this.nombre = nombre;
@@ -40,6 +39,19 @@ public class Prestacion {
     public void setActiva(Boolean activa) {
         this.activa = activa;
     }
+
+    public static int getNroPrestacion() {
+        return nroPrestacion;
+    }
+
+    public Boolean getEsEstudio() {
+        return esEstudio;
+    }
+
+    public void setEsEstudio(Boolean esEstudio) {
+        this.esEstudio = esEstudio;
+    }
+
     @Override
     public String toString() {
         return "Prestacion{" +
