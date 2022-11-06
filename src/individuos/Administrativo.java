@@ -21,7 +21,7 @@ public class Administrativo extends Persona {
     public void crearPrestacion(String nombre) {
         //TODO: Se debe poder armar una prestacion inicial.
         Clinica clinica = Clinica.getInstance();
-        Prestacion nuevaPrestacion = new Prestacion(nombre, new Doctor(null, null, null));
+        Prestacion nuevaPrestacion = new Prestacion(nombre);
         clinica.agregarPrestacion(nuevaPrestacion);
     }
 

@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class MenuAdministrativo {
 
-    public static void mostrarMenu(Administrativo admin) {
+    public static void mostrarMenu(Administrativo administrativo) {
         Scanner sn = new Scanner(System.in);
         boolean salir = false;
         int op;
@@ -25,16 +25,16 @@ public class MenuAdministrativo {
                     String nombre;
                     System.out.println("Nombre de la prestacion: ");
                     nombre = sn.next();
-                    admin.crearPrestacion(nombre);
-                    mostrarMenu(admin);
+                    administrativo.crearPrestacion(nombre);
+                    mostrarMenu(administrativo);
                     break;
                 case 2:
-                    admin.prestacionesActivas();
-                    mostrarMenu(admin);
+                    administrativo.prestacionesActivas();
+                    mostrarMenu(administrativo);
                     break;
                 case 3:
-                    admin.especialidadesTurnoDisponibles();
-                    mostrarMenu(admin);
+                    administrativo.especialidadesTurnoDisponibles();
+                    mostrarMenu(administrativo);
                     break;
 
             }

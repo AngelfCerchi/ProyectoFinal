@@ -8,9 +8,8 @@ public class Prestacion {
     private Doctor doctorAsociado;
     private Boolean activa;
 
-    public Prestacion(String nombre, Doctor doctorAsociado) {
+    public Prestacion(String nombre) {
         this.nombre = nombre;
-        this.doctorAsociado = doctorAsociado;
         this.activa = true;
         incrementarNro();
     }
