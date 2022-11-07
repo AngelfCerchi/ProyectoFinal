@@ -19,7 +19,7 @@ public class MenuAdministrativo {
 
 
         boolean salir = false;
-        int op=0;
+        int op = 0;
 
         while (!salir) {
             System.out.println("1. Crear Prestacion");
@@ -89,6 +89,7 @@ public class MenuAdministrativo {
 
             int tipoServicio = sn.nextInt();
             paciente = new Paciente(apellido, nombre, String.valueOf(dni), TipoServicio.seleccionarTipoPorIndice(tipoServicio));
+            clinica.getPacientes().add(paciente);
         }
 
         System.out.println("Seleccione la especialidad deseada:");
@@ -96,7 +97,7 @@ public class MenuAdministrativo {
         int especialidad = sn.nextInt();
 
         System.out.println("Seleccione la prestacion deseada:");
-        System.out.println(clinica.listarPrestacionesActivas(clinica.getEspecialidades().get(especialidad-1)));
+        System.out.println(clinica.listarPrestacionesActivas(clinica.getEspecialidades().get(especialidad - 1)));
         int prestacionElegida = sn.nextInt();
         Prestacion prestacion = clinica.getPrestacionesActivas().get(prestacionElegida);
 
@@ -105,8 +106,9 @@ public class MenuAdministrativo {
         int horarioElegido = sn.nextInt();
         Turno turno = clinica.seleccionarTurnoPorPrestacionConIndice(prestacion, horarioElegido);
         turno.setPrestacionBrindada(prestacion);
-        turno = administrativo.darTurno(paciente, turno);
-        System.out.println("Se creo el siguiente turno: \n" + turno.toString());
+        turno = administrativo.darTurno(paciente, turno, (clinica.getTurnos().get(prestacion).size() < horarioElegido));
+        String mensaje = turno != null ? "Se creo el siguiente turno: \n" + turno : "No se encontro el turno o el mismo ya no esta disponible. Saque otro turno.";
+        System.out.println(mensaje);
 
     }
 

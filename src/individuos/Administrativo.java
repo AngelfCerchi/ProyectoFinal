@@ -5,9 +5,7 @@ import clinica.Especialidad;
 import clinica.Turno;
 import clinica.prestacion.Prestacion;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Administrativo extends Persona {
 
@@ -29,13 +27,17 @@ public class Administrativo extends Persona {
         clinica.agregarPrestacion(nuevaPrestacion, especialidad);
     }
 
-    public Turno darTurno(Paciente paciente, Turno turno) {
-
-
-        for (Map.Entry<Prestacion, ArrayList<Turno>> entry : clinica.getTurnos().entrySet()) {
-            if(entry.getKey().getNombre().equals(turno.getPrestacionBrindada().getNombre())){
-                for(Turno t : entry.getValue()){
-                    if(t.getHorario().equals(turno.getHorario())){
+    public Turno darTurno(Paciente paciente, Turno turno, boolean esSobreTurno) {
+        Set<Map.Entry<Prestacion, ArrayList<Turno>>> listaTurnos;
+        if (esSobreTurno) {
+            listaTurnos = clinica.getSobreTurnos().entrySet();
+        } else {
+            listaTurnos = clinica.getTurnos().entrySet();
+        }
+        for (Map.Entry<Prestacion, ArrayList<Turno>> entry : listaTurnos) {
+            if (entry.getKey().getNombre().equals(turno.getPrestacionBrindada().getNombre())) {
+                for (Turno t : entry.getValue()) {
+                    if (t.getHorario().equals(turno.getHorario())) {
                         t.asociarPaciente(paciente);
                         t.setDisponible(false);
                         t.setEspecialidadDelTurno(entry.getKey().getEspecialidad());
@@ -46,9 +48,6 @@ public class Administrativo extends Persona {
                 }
             }
         }
-
-        //TODO verificar que el turno asignado en la linea anterior ya este no-disponible en el turnos del singletone de Clinica
-        System.out.println("No se encontro el turno o el mismo ya no esta disponible. Saque otro turno.");
         return null;
     }
 

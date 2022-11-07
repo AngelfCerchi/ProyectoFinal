@@ -117,12 +117,13 @@ public class Clinica {
     public List<Turno> getTurnosDisponiblesPorPrestacion(Prestacion prestacion) {
         return obtenerTurnosDisponiblesSegunEspeciliadadYMapa(turnos, prestacion);
     }
+
     public List<Turno> getSobreTurnosDisponiblesPorPrestacion(Prestacion prestacion) {
         return obtenerTurnosDisponiblesSegunEspeciliadadYMapa(sobreTurnos, prestacion);
     }
 
     public List<Turno> getTurnosPorPrestacion(Prestacion prestacion) {
-       return turnos.get(prestacion).stream().collect(Collectors.toList());
+        return turnos.get(prestacion).stream().collect(Collectors.toList());
     }
 
     public List<Turno> getTurnosAsistidosPorPrestacion(Prestacion prestacion) {
@@ -184,10 +185,10 @@ public class Clinica {
 
         List<Prestacion> prestacionesDisponiblesPorEspecialidad = getPrestacionesActivasPorEspecialidad(especialidad);
 
-        for(Prestacion pdispo : prestacionesDisponiblesPorEspecialidad) {
+        for (Prestacion pdispo : prestacionesDisponiblesPorEspecialidad) {
 
-            for (int i=0; i<prestaciones.size(); i++){
-                if (prestaciones.get(i).getNombre().equals(pdispo.getNombre())){
+            for (int i = 0; i < prestaciones.size(); i++) {
+                if (prestaciones.get(i).getNombre().equals(pdispo.getNombre())) {
                     str.append(i).append(" - ").append(prestaciones.get(i).getNombre()).append("\n");
                 }
             }
@@ -198,63 +199,58 @@ public class Clinica {
     }
 
     public String listarHorariosDeTodosLosTurnosPorPrestacion(Prestacion prestacion) {
-        int indice = 1;
         StringBuilder str = new StringBuilder();
-        List<Turno>  ts = obtenerTurnosSegunEspeciliadadYMapa(turnos, prestacion);
+        List<Turno> listaTurnos = getTurnos().get(prestacion);
+        List<Turno> listaSobre = getSobreTurnos().get(prestacion);
 
-        for (int i=0; i<ts.size(); i++){
-            str.append(i+1).append(" - ").append(ts.get(i)).append("\n");
+        for (int i = 0; i < listaTurnos.size(); i++) {
+            Turno turno = listaTurnos.get(i);
+            if (turno.getDisponible())
+                str.append(i + 1).append(" - ").append(turno.getHorario()).append("\n");
         }
-
-        //int indice = 1;
-       // StringBuilder str = new StringBuilder();
-     /*
-        for (Turno t : getTurnosDisponiblesPorPrestacion(prestacion)) {
-            str.append(indice).append(" - ").append(t.getHorario()).append("\n");
-            indice++;
-        }
-        */
         str.append("Sobre turnos:").append("\n");
-       /* for (Turno t : getSobreTurnosDisponiblesPorPrestacion(prestacion)) {
-            str.append(indice).append(" - ").append(t.getHorario()).append("\n");
-            indice++;
+        for (int i = 0; i < listaSobre.size(); i++) {
+            Turno turno = listaSobre.get(i);
+            if (turno.getDisponible())
+                str.append(i + 1 + listaTurnos.size()).append(" - ").append(turno.getHorario()).append("\n");
         }
-        */
-        List<Turno>  sts = obtenerTurnosSegunEspeciliadadYMapa(sobreTurnos, prestacion);
-
-        for (int i=0; i<sts.size(); i++){
-            str.append(i+1).append(" - ").append(sts.get(i)).append("\n");
-        }
-
         return str.toString();
     }
 
     public Turno seleccionarTurnoPorPrestacionConIndice(Prestacion prestacion, int indice) {
         Turno turno;
-
-        if (indice < turnos.size()) {
-            turno = getTurnosDisponiblesPorPrestacion(prestacion).get(indice-1);
+        if (indice < getTurnos().size()) {
+            turno = getTurnos().get(prestacion).get(indice - 1);
         } else {
-            turno = sobreTurnos.get(prestacion).get(indice - 1 - turnos.size());
+            turno = getSobreTurnos().get(prestacion).get(indice - 1 - getTurnos().get(prestacion).size());
         }
         return turno;
     }
 
     private void inicializarEspecialidades() {
 
-        Ubicacion ubicacionA = new Ubicacion("Consultorio 01") {};
-        Ubicacion ubicacionB = new Ubicacion("Consultorio 02") {};
-        Ubicacion ubicacionC = new Ubicacion("Consultorio 03") {};
-        Ubicacion ubicacionD = new Ubicacion("Consultorio 04") {};
-        Ubicacion ubicacionE = new Ubicacion("Consultorio 05") {};
+        Ubicacion ubicacionA = new Ubicacion("Consultorio 01") {
+        };
+        Ubicacion ubicacionB = new Ubicacion("Consultorio 02") {
+        };
+        Ubicacion ubicacionC = new Ubicacion("Consultorio 03") {
+        };
+        Ubicacion ubicacionD = new Ubicacion("Consultorio 04") {
+        };
+        Ubicacion ubicacionE = new Ubicacion("Consultorio 05") {
+        };
 
-        Ubicacion ubicacionF = new Ubicacion("Consultorio 06") {};
+        Ubicacion ubicacionF = new Ubicacion("Consultorio 06") {
+        };
 
-        Ubicacion ubicacionG = new Ubicacion("Consultorio 07") {};
+        Ubicacion ubicacionG = new Ubicacion("Consultorio 07") {
+        };
 
-        Ubicacion ubicacionH = new Ubicacion("Consultorio 08") {};
+        Ubicacion ubicacionH = new Ubicacion("Consultorio 08") {
+        };
 
-        Ubicacion ubicacionI = new Ubicacion("Consultorio 09") {};
+        Ubicacion ubicacionI = new Ubicacion("Consultorio 09") {
+        };
 
 
         Especialidad radiologia = new Especialidad("Radiologia");
@@ -360,8 +356,6 @@ public class Clinica {
     }
 
     private void inicializarTurnosYSobreturnos() {
-
-
         ArrayList<Especialidad> esp = new ArrayList<>();
 
         for (Especialidad e : this.especialidades) {
@@ -382,6 +376,15 @@ public class Clinica {
         Turno t7 = new Turno(LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 16, 0), LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 17, 0));
         Turno t8 = new Turno(LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 17, 0), LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 18, 0));
 
+        Turno t9 = new Turno(LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 9, 0), LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 10, 0));
+        Turno t10 = new Turno(LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 10, 0), LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 11, 0));
+        Turno t11 = new Turno(LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 11, 0), LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 12, 0));
+        Turno t12 = new Turno(LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 12, 0), LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 13, 0));
+        Turno t13 = new Turno(LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 14, 0), LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 15, 0));
+        Turno t14 = new Turno(LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 15, 0), LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 16, 0));
+        Turno t15 = new Turno(LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 16, 0), LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 17, 0));
+        Turno t16 = new Turno(LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 17, 0), LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 18, 0));
+
         ArrayList<Turno> turnosDisponibles = new ArrayList<>();
         turnosDisponibles.add(t1);
         turnosDisponibles.add(t2);
@@ -392,9 +395,19 @@ public class Clinica {
         turnosDisponibles.add(t7);
         turnosDisponibles.add(t8);
 
+        ArrayList<Turno> turnosDisponibles2 = new ArrayList<>();
+        turnosDisponibles2.add(t9);
+        turnosDisponibles2.add(t10);
+        turnosDisponibles2.add(t11);
+        turnosDisponibles2.add(t12);
+        turnosDisponibles2.add(t13);
+        turnosDisponibles2.add(t14);
+        turnosDisponibles2.add(t15);
+        turnosDisponibles2.add(t16);
+
         for (Prestacion p : prestaciones) {
             turnos.put(p, turnosDisponibles);
-            sobreTurnos.put(p, turnosDisponibles);
+            sobreTurnos.put(p, turnosDisponibles2);
         }
     }
 
