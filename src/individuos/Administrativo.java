@@ -50,22 +50,4 @@ public class Administrativo extends Persona {
         }
         return null;
     }
-
-    public List<Prestacion> prestacionesActivasPorEspecialidad(Especialidad especialidad) {
-        return clinica.getPrestacionesActivasPorEspecialidad(especialidad);
-    }
-
-    public List<Turno> turnosDisponiblesPorPrestacion(Prestacion prestacion) {
-        return clinica.getTurnosDisponiblesPorPrestacion(prestacion);
-    }
-
-    //TODO creo que no hace falta esto, se puede consultar en turnos buscando el paciente asociado (evitemos referenciacion en doble sentido)
-    //y recuperarlo para pasarselo a este metodo
-    /*
-    public List<Turno> turnosTomados(Paciente paciente) {
-        Paciente pacienteEncontrado = clinica.getPacientes().stream().filter(p -> p.getDni().equals(paciente.getDni())).findFirst().get();
-        //pacienteEncontrado.
-        return pacienteEncontrado.getTurnosAsignados();
-    }
-    */
 }
