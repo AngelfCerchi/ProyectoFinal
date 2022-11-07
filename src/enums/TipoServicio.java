@@ -15,4 +15,17 @@ public enum TipoServicio {
     public String getTipo() {
         return tipo;
     }
+
+    public static String mostrarTipos() {
+        int indice = 1;
+        StringBuilder str = new StringBuilder();
+        for (TipoServicio servicio : TipoServicio.values()) {
+            str.append(indice).append(" - ").append(servicio.getTipo()).append("\n");
+            indice++;
+        }
+        return str.toString();
+    }
+    public static TipoServicio seleccionarTipoPorIndice(int indice) {
+        return TipoServicio.values()[indice - 1];
+    }
 }

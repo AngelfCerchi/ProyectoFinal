@@ -1,5 +1,7 @@
 package clinica.prestacion;
 
+import clinica.Especialidad;
+import clinica.ubicaciones.Ubicacion;
 import individuos.Doctor;
 
 public class Prestacion {
@@ -9,6 +11,10 @@ public class Prestacion {
     private Boolean activa;
 
     private Boolean esEstudio;
+
+    private Especialidad especialidad;
+
+    private Ubicacion ubicacion;
 
     public Prestacion(String nombre) {
         this.nombre = nombre;
@@ -50,6 +56,22 @@ public class Prestacion {
 
     public void setEsEstudio(Boolean esEstudio) {
         this.esEstudio = esEstudio;
+    }
+
+    public Especialidad getEspecialidad() {
+        return especialidad;
+    }
+
+    public void setEspecialidad(Especialidad especialidad) {
+        this.especialidad = especialidad;
+    }
+
+    public Ubicacion getUbicacion() {
+        return ubicacion;
+    }
+
+    public void setUbicacion(Ubicacion ubicacion) {
+        this.ubicacion = ubicacion;
     }
 
     @Override

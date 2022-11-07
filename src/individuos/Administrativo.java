@@ -2,11 +2,10 @@ package individuos;
 
 import clinica.Clinica;
 import clinica.Especialidad;
-import clinica.prestacion.Prestacion;
 import clinica.Turno;
-import clinica.ubicaciones.Ubicacion;
+import clinica.prestacion.Prestacion;
 
-import java.util.List;
+import java.util.*;
 
 public class Administrativo extends Persona {
 
@@ -28,23 +27,47 @@ public class Administrativo extends Persona {
         clinica.agregarPrestacion(nuevaPrestacion, especialidad);
     }
 
-    public Turno darTurno(Paciente paciente, Turno turno, Ubicacion ubicacion, Doctor doctor) {
-        turno.setUbicacionTurno(ubicacion);
-        turno.setDoctor(doctor);
-        turno.asociarPaciente(paciente);
-        paciente.agregarTurno(turno);
-        return turno;
+    public Turno darTurno(Paciente paciente, Turno turno, Prestacion prestacion, boolean esSobreTurno) {
+        List<Turno> listaTurnos;
+        if (esSobreTurno) {
+            listaTurnos = clinica.getSobreTurnosDisponiblesPorPrestacion(prestacion);
+        } else {
+            listaTurnos = clinica.getTurnosDisponiblesPorPrestacion(prestacion);
+        }
+        for (Turno t : listaTurnos) {
+            if (t.getHorario().equals(turno.getHorario())) {
+                t.asociarPaciente(paciente);
+                t.setDisponible(false);
+                t.setEspecialidadDelTurno(prestacion.getEspecialidad());
+                t.setUbicacionTurno(prestacion.getUbicacion());
+                t.setDoctor(prestacion.getDoctorAsociado());
+                return t;
+            }
+        }
+        return null;
     }
 
-    public List<Prestacion> prestacionesActivasPorEspecialidad(Especialidad especialidad) {
-        return clinica.getPrestacionesActivasPorEspecialidad(especialidad);
-    }
-
-    public List<Turno> turnosDisponiblesPorPrestacion(Prestacion prestacion) {
-        return clinica.getTurnosDisponiblesPorPrestacion(prestacion);
-    }
-
-    public List<Turno> turnosTomados(Paciente paciente) {
-        return paciente.getTurnosAsignados();
+    public Turno darTurno2(Paciente paciente, Turno turno, Prestacion prestacion, boolean esSobreTurno) {
+        Set<Map.Entry<Prestacion, ArrayList<Turno>>> listaTurnos;
+        if (esSobreTurno) {
+            listaTurnos = clinica.getSobreTurnos().entrySet();
+        } else {
+            listaTurnos = clinica.getTurnos().entrySet();
+        }
+        for (Map.Entry<Prestacion, ArrayList<Turno>> entry : listaTurnos) {
+            if (entry.getKey().getNombre().equals(turno.getPrestacionBrindada().getNombre())) {
+                for (Turno t : entry.getValue()) {
+                    if (t.getHorario().equals(turno.getHorario())) {
+                        t.asociarPaciente(paciente);
+                        t.setDisponible(false);
+                        t.setEspecialidadDelTurno(entry.getKey().getEspecialidad());
+                        t.setUbicacionTurno(entry.getKey().getUbicacion());
+                        t.setDoctor(entry.getKey().getDoctorAsociado());
+                        return t;
+                    }
+                }
+            }
+        }
+        return null;
     }
 }

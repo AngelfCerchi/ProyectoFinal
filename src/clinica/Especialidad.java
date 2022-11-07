@@ -45,8 +45,6 @@ public class Especialidad {
         this.activa = activa;
     }
 
-
-
     @Override
     public String toString() {
         return "Especialidad{" +
