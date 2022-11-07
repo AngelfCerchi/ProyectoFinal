@@ -18,8 +18,10 @@ public class Clinica {
     private ArrayList<Paciente> pacientes;
     private ArrayList<Especialidad> especialidades;
     private ArrayList<Prestacion> prestaciones;
+    private ArrayList<Doctor> doctores;
     private HashMap<Prestacion, ArrayList<Turno>> turnos;
     private HashMap<Prestacion, ArrayList<Turno>> sobreTurnos;
+    private ArrayList<Ubicacion> ubicaciones;
 
     public Clinica() {
         this.director = new Director("Martin", "Abogado", "36758988");
@@ -37,6 +39,14 @@ public class Clinica {
             instance = new Clinica();
         }
         return instance;
+    }
+
+    public ArrayList<Doctor> getDoctores() {
+        return doctores;
+    }
+
+    public void setDoctores(ArrayList<Doctor> doctores) {
+        this.doctores = doctores;
     }
 
     public Director getDirector() {
@@ -81,6 +91,14 @@ public class Clinica {
 
     public HashMap<Prestacion, ArrayList<Turno>> getSobreTurnos() {
         return sobreTurnos;
+    }
+
+    public ArrayList<Ubicacion> getUbicaciones() {
+        return ubicaciones;
+    }
+
+    public void setUbicaciones(ArrayList<Ubicacion> ubicaciones) {
+        this.ubicaciones = ubicaciones;
     }
 
     public void setSobreTurnos(HashMap<Prestacion, ArrayList<Turno>> sobreTurnos) {

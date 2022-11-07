@@ -9,11 +9,8 @@ public class Prestacion {
     private String nombre;
     private Doctor doctorAsociado;
     private Boolean activa;
-
     private Boolean esEstudio;
-
     private Especialidad especialidad;
-
     private Ubicacion ubicacion;
 
     public Prestacion(String nombre) {
