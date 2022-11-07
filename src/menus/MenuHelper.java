@@ -24,7 +24,7 @@ public class MenuHelper {
     public static String getStringPrestacionesConIndice(List<Prestacion> prestaciones) {
         StringBuilder str = new StringBuilder();
         for (int i = 0; i < prestaciones.size(); i++) {
-            str.append(i + 1).append(" - ").append(prestaciones.get(i)).append("\n");
+            str.append(i + 1).append(" - ").append(prestaciones.get(i).getNombre()).append("\n");
         }
         return str.toString();
     }
