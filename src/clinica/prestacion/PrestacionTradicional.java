@@ -2,7 +2,7 @@ package clinica.prestacion;
 
 import java.util.ArrayList;
 
-public class PrestacionTradicional extends  Prestacion {
+public class PrestacionTradicional extends Prestacion {
 
     private ArrayList<Prescripcion> prescripciones;
 

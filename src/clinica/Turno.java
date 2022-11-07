@@ -6,6 +6,7 @@ import individuos.Doctor;
 import individuos.Persona;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Turno {
     private static int nroTurno = 0;
@@ -18,6 +19,7 @@ public class Turno {
     private Prestacion prestacionBrindada;
     private Especialidad especialidadDelTurno;
     private Ubicacion ubicacionTurno;
+
 
     public Turno(LocalDateTime inicio, LocalDateTime fin) {
         this.inicio = inicio;
@@ -112,18 +114,12 @@ public class Turno {
     }
 
     public String getHorario() {
-        return getInicio() + " - " + getFin();
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        return "Inicio: "+getInicio().format(format) + " - Fin: " + getFin().format(format);
     }
 
     @Override
     public String toString() {
-        return "Turno{" +
-                "inicio=" + inicio +
-                ", fin=" + fin +
-                ", doctor=" + doctor +
-                ", prestacionBrindada=" + prestacionBrindada +
-                ", especialidadDelTurno=" + especialidadDelTurno +
-                ", ubicacionTurno=" + ubicacionTurno +
-                '}';
+        return "Turno para " + especialidadDelTurno + ":\n  - Prestacion: "+ prestacionBrindada.getNombre()+".\n  - Horario: "+getHorario()+". Ubicacion: "+ubicacionTurno +".\n  - Doctor: "+doctor+"\n";
     }
 }

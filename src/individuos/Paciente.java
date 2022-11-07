@@ -23,4 +23,9 @@ public class Paciente extends Persona {
     public void setTipoServicio(TipoServicio tipoServicio) {
         this.tipoServicio = tipoServicio;
     }
+
+    @Override
+    public String toString() {
+        return "Apellido: " +getNombre()+ " Nombre: "+ getNombre() + " DNI: " +getDni() + " Tipo de servicio: "+getTipoServicio();
+}
 }

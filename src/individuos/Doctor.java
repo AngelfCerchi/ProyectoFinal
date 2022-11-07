@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class Doctor extends Persona {
 
     private ArrayList<Especialidad> especialidades = new ArrayList<>();
+
     /**
      * CONSTRUCTOR
      *
