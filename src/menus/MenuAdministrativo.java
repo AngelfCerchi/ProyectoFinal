@@ -17,8 +17,9 @@ public class MenuAdministrativo {
 
     public static void mostrarMenu(Administrativo administrativo, Scanner sn) {
 
+
         boolean salir = false;
-        int op;
+        int op=0;
 
         while (!salir) {
             System.out.println("1. Crear Prestacion");
@@ -28,32 +29,42 @@ public class MenuAdministrativo {
             System.out.println("5. Menu Paciente");
             System.out.println("6. Dar turno");
             System.out.println("7. Salir");
-            op = sn.nextInt();
 
-            switch (op) {
-                case 1:
-                    String nombre;
-                    System.out.println("Nombre de la prestacion: ");
-                    nombre = sn.next();
-                    administrativo.crearPrestacion(nombre, new Especialidad(null));
-                    mostrarMenu(administrativo, sn);
-                    break;
-                case 2:
-                    administrativo.prestacionesActivasPorEspecialidad(new Especialidad(null));
-                    mostrarMenu(administrativo, sn);
-                    break;
-                case 3:
-                    administrativo.turnosDisponiblesPorPrestacion(new Prestacion(null));
-                    mostrarMenu(administrativo, sn);
-                    break;
-                case 6:
-                    darTurno(administrativo, sn);
-                    mostrarMenu(administrativo, sn);
-                    break;
-                case 0:
-                    salir = true;
+            try {
+
+                op = sn.nextInt();
+
+                switch (op) {
+                    case 1:
+                        String nombre;
+                        System.out.println("Nombre de la prestacion: ");
+                        nombre = sn.next();
+                        administrativo.crearPrestacion(nombre, new Especialidad(null));
+                        break;
+                    case 2:
+                        administrativo.prestacionesActivasPorEspecialidad(new Especialidad(null));
+                        break;
+                    case 3:
+                        administrativo.turnosDisponiblesPorPrestacion(new Prestacion(null));
+                        break;
+                    case 4:
+                        System.out.println("Ingreso a la opcion turnos de paciente");
+                        break;
+                    case 5:
+                        System.out.println("Ingreso a la opcion de paciente");
+                        break;
+                    case 6:
+                        darTurno(administrativo, sn);
+                        break;
+                    case 0:
+                        salir = true;
+                }
+                mostrarMenu(administrativo, sn);
+            } catch (Exception e) {
+                System.out.println("Ocurrio un error al procesar su selección. Intente nuevamente!");
+                e.printStackTrace();
+                mostrarMenu(administrativo, sn);
             }
-
         }
     }
 
@@ -85,14 +96,15 @@ public class MenuAdministrativo {
         int especialidad = sn.nextInt();
 
         System.out.println("Seleccione la prestacion deseada:");
-        System.out.println(clinica.listarPrestacionesActivas(clinica.getEspecialidades().get(especialidad)));
+        System.out.println(clinica.listarPrestacionesActivas(clinica.getEspecialidades().get(especialidad-1)));
         int prestacionElegida = sn.nextInt();
-        Prestacion prestacion = clinica.getPrestacionesActivas().get(prestacionElegida - 1);
+        Prestacion prestacion = clinica.getPrestacionesActivas().get(prestacionElegida);
 
         System.out.println("Seleccione el horario deseado: ");
         System.out.println(clinica.listarHorariosDeTodosLosTurnosPorPrestacion(prestacion));
         int horarioElegido = sn.nextInt();
         Turno turno = clinica.seleccionarTurnoPorPrestacionConIndice(prestacion, horarioElegido);
+        turno.setPrestacionBrindada(prestacion);
         turno = administrativo.darTurno(paciente, turno);
         System.out.println("Se creo el siguiente turno: \n" + turno.toString());
 

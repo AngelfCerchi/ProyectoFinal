@@ -2,12 +2,12 @@ package individuos;
 
 import clinica.Clinica;
 import clinica.Especialidad;
-import clinica.prestacion.Prestacion;
 import clinica.Turno;
-import clinica.ubicaciones.Ubicacion;
+import clinica.prestacion.Prestacion;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Administrativo extends Persona {
 
@@ -29,23 +29,27 @@ public class Administrativo extends Persona {
         clinica.agregarPrestacion(nuevaPrestacion, especialidad);
     }
 
-    //TODO si es un solo Doctor por especialidad, para que se lo pasammos aca como parametro?
-    //TODO Por la firma del metodo, entiendo que este turno se llamara desde el MENU una vez que se haya pedido data del paciente y la prestacion a pedir turno
     public Turno darTurno(Paciente paciente, Turno turno) {
 
-        //Recupero los turnos por la especialidad
-        ArrayList<Turno> turnos = clinica.getTurnos().get(turno.getPrestacionBrindada());
 
-        //Agarro uno q este disponible
-        Turno turnoDisponible = turnos.stream().filter(t -> t.getDisponible()).findFirst().get();
-        turnoDisponible.asociarPaciente(paciente);
-        turnoDisponible.setDisponible(false);
-
-        paciente.agregarTurno(turnoDisponible);
+        for (Map.Entry<Prestacion, ArrayList<Turno>> entry : clinica.getTurnos().entrySet()) {
+            if(entry.getKey().getNombre().equals(turno.getPrestacionBrindada().getNombre())){
+                for(Turno t : entry.getValue()){
+                    if(t.getHorario().equals(turno.getHorario())){
+                        t.asociarPaciente(paciente);
+                        t.setDisponible(false);
+                        t.setEspecialidadDelTurno(entry.getKey().getEspecialidad());
+                        t.setUbicacionTurno(entry.getKey().getUbicacion());
+                        t.setDoctor(entry.getKey().getDoctorAsociado());
+                        return t;
+                    }
+                }
+            }
+        }
 
         //TODO verificar que el turno asignado en la linea anterior ya este no-disponible en el turnos del singletone de Clinica
-
-        return turnoDisponible;
+        System.out.println("No se encontro el turno o el mismo ya no esta disponible. Saque otro turno.");
+        return null;
     }
 
     public List<Prestacion> prestacionesActivasPorEspecialidad(Especialidad especialidad) {
@@ -56,11 +60,13 @@ public class Administrativo extends Persona {
         return clinica.getTurnosDisponiblesPorPrestacion(prestacion);
     }
 
-    //TODO no debería esto ser por DNI? Porque asi, entiendo que en el menu vamos a tener q buscar por DNI,
+    //TODO creo que no hace falta esto, se puede consultar en turnos buscando el paciente asociado (evitemos referenciacion en doble sentido)
     //y recuperarlo para pasarselo a este metodo
+    /*
     public List<Turno> turnosTomados(Paciente paciente) {
         Paciente pacienteEncontrado = clinica.getPacientes().stream().filter(p -> p.getDni().equals(paciente.getDni())).findFirst().get();
         //pacienteEncontrado.
         return pacienteEncontrado.getTurnosAsignados();
     }
+    */
 }
