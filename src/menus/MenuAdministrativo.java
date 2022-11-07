@@ -27,9 +27,10 @@ public class MenuAdministrativo {
             System.out.println("4. Desactivar prestacion");
             System.out.println("5. Listar prestaciones activas");
             System.out.println("6. Listar prestaciones desactivadas");
-            System.out.println("7. Turnos por prestacion");
-            System.out.println("8. Turnos del Paciente");
+            System.out.println("7. Turnos disponibles por prestacion");
+            System.out.println("8. Turnos del paciente");
             System.out.println("9. Dar turno");
+            System.out.println("10. Listar pacientes");
             System.out.println("0. Salir");
             try {
                 op = sn.nextInt();
@@ -61,6 +62,9 @@ public class MenuAdministrativo {
                     case 9:
                         darTurno(administrativo, sn);
                         break;
+                    case 10:
+                        listarPacientes();
+                        break;
                     case 0:
                         salir = true;
                 }
@@ -70,6 +74,15 @@ public class MenuAdministrativo {
                 mostrarMenu(administrativo, sn);
             }
         }
+    }
+
+    private static void listarPacientes() {
+        System.out.println("Lista de pacientes:");
+        ArrayList<Paciente> pacientes = clinica.getPacientes();
+        if (pacientes.isEmpty())
+            System.out.println("No hay pacientes registrados en la clinica");
+        else
+            pacientes.forEach(x -> System.out.println(x.toString()));
     }
 
     private static void listarTurnosDelPaciente(Scanner sn) {
@@ -91,7 +104,7 @@ public class MenuAdministrativo {
         List<Prestacion> prestaciones = listarPrestacionesPorEspecialidad(sn, !activar);
         String mensaje = activar ? "Seleccione la prestacion que desea activar" : "Seleccione la prestacion que desea desactivar";
         System.out.println(mensaje);
-        int prestacionDeseada = sn.nextInt();
+        int prestacionDeseada = sn.nextInt() - 1;
         Prestacion prestacion = prestaciones.get(prestacionDeseada);
         clinica.modificarEstadoDeActividadPrestacion(prestacion, activar);
         mensaje = activar ? "Prestacion: \"" + prestacion.getNombre() + "\" activada correctamente"
@@ -102,11 +115,14 @@ public class MenuAdministrativo {
     private static Prestacion listarTurnosDisponiblesPorPrestacion(Scanner sn) {
         System.out.println("Turnos disponibles por prestacion");
         List<Prestacion> prestaciones = listarPrestacionesPorEspecialidad(sn, true);
-        System.out.println("Seleccione la prestacion que desea mostrar sus turnos disponibles");
-        int prestacionDeseada = sn.nextInt();
-        Prestacion prestacion = prestaciones.get(prestacionDeseada);
-        System.out.println("Turnos disponibles de la prestacion: " + prestacion.getNombre());
-        System.out.println(clinica.listarHorariosDeTodosLosTurnosPorPrestacion(prestacion));
+        Prestacion prestacion = null;
+        if (!prestaciones.isEmpty()) {
+            System.out.println("Seleccione la prestacion que desea mostrar sus turnos disponibles");
+            int prestacionDeseada = sn.nextInt() - 1;
+            prestacion = prestaciones.get(prestacionDeseada);
+            System.out.println("Turnos disponibles de la prestacion: " + prestacion.getNombre());
+            System.out.println(clinica.listarHorariosDeTodosLosTurnosPorPrestacion(prestacion));
+        }
         return prestacion;
     }
 
@@ -125,9 +141,11 @@ public class MenuAdministrativo {
         ArrayList<Especialidad> listaEspecialidades = clinica.listaDeEspecialidades(true);
         System.out.println(getStringEspecialidadesConIndice(listaEspecialidades));
         int especialidadDeseada = sn.nextInt();
-        System.out.println("Prestaciones de la especialidad: " + listaEspecialidades.get(especialidadDeseada));
-        List<Prestacion> prestaciones = clinica.getPrestacionesPorEspecialidad(listaEspecialidades.get(especialidadDeseada), activas);
-        getStringPrestacionesConIndice(prestaciones);
+        Especialidad especialidad = listaEspecialidades.get(especialidadDeseada - 1);
+        System.out.println("Prestaciones de la especialidad: " + especialidad);
+        List<Prestacion> prestaciones = clinica.getPrestacionesPorEspecialidad(especialidad, activas);
+        String mensaje = prestaciones.isEmpty() ? "No hay prestaciones para mostrar" : getStringPrestacionesConIndice(prestaciones);
+        System.out.println(mensaje);
         return prestaciones;
     }
 
@@ -168,14 +186,17 @@ public class MenuAdministrativo {
 
         }
         Prestacion prestacion = listarTurnosDisponiblesPorPrestacion(sn);
-        System.out.println("Seleccione el horario deseado: ");
-        System.out.println(clinica.listarHorariosDeTodosLosTurnosPorPrestacion(prestacion));
-        int horarioElegido = sn.nextInt();
-        Turno turno = clinica.seleccionarTurnoPorPrestacionConIndice(prestacion, horarioElegido);
-        turno.setPrestacionBrindada(prestacion);
-        turno = administrativo.darTurno(paciente, turno, (clinica.getTurnosDisponiblesPorPrestacion(prestacion).size() < horarioElegido));
-        String mensaje = turno != null ? "Se creo el siguiente turno: \n" + turno : "No se encontro el turno o el mismo ya no esta disponible. Saque otro turno.";
-        System.out.println(mensaje);
+        if (prestacion != null) {
+            System.out.println("Seleccione el horario deseado: ");
+            int horarioElegido = sn.nextInt();
+            Turno turno = clinica.seleccionarTurnoPorPrestacionConIndice(prestacion, horarioElegido);
+            turno.setPrestacionBrindada(prestacion);
+            turno = administrativo.darTurno(paciente, turno, prestacion, (clinica.getTurnosDisponiblesPorPrestacion(prestacion).size() < horarioElegido));
+            String mensaje = turno != null ? "Se creo el siguiente turno: \n" + turno : "No se encontro el turno o el mismo ya no esta disponible. Saque otro turno.";
+            System.out.println(mensaje);
+        } else {
+            System.out.println("No hay turnos disponibles");
+        }
     }
 
     private static Paciente crearPacienteInexistente(Scanner sn, int dniPaciente) {

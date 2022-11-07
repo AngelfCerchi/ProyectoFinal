@@ -138,9 +138,7 @@ public class Clinica {
         Set<Map.Entry<Prestacion, ArrayList<Turno>>> mapaTurnos = turnos.entrySet();
         for (Map.Entry<Prestacion, ArrayList<Turno>> entry : mapaTurnos) {
             if (entry.getKey().getNombre().equals(prestacion.getNombre())) {
-                for (Turno t : entry.getValue()) {
-                    listaTurnos.add(t);
-                }
+                listaTurnos.addAll(entry.getValue());
             }
         }
         return listaTurnos;
@@ -179,7 +177,8 @@ public class Clinica {
     public List<Turno> getListaTurnosDePaciente(Paciente paciente) {
         return getListaTurnosTotales().stream()
                 .filter(x -> x.getPacienteAsociado() != null)
-                .filter(x -> x.getPacienteAsociado().getDni().equals(paciente.getDni())).collect(Collectors.toList());
+                .filter(x -> x.getPacienteAsociado().getDni().equals(paciente.getDni()))
+                .collect(Collectors.toList());
     }
 
     public void modificarEstadoDeActividadPrestacion(Prestacion prestacion, boolean activa) {
@@ -231,24 +230,34 @@ public class Clinica {
         List<Turno> listaTurnos = getTurnosDisponiblesPorPrestacion(prestacion);
         List<Turno> listaSobre = getSobreTurnosDisponiblesPorPrestacion(prestacion);
 
-        for (int i = 0; i < listaTurnos.size(); i++) {
-            Turno turno = listaTurnos.get(i);
-            str.append(i + 1).append(" - ").append(turno.getHorario()).append("\n");
+        if (!listaTurnos.isEmpty()) {
+            for (int i = 0; i < listaTurnos.size(); i++) {
+                Turno turno = listaTurnos.get(i);
+                str.append(i + 1).append(" - ").append(turno.getHorario()).append("\n");
+            }
+        } else {
+            str.append("No hay turnos disponibles");
         }
-        str.append("Sobre turnos:").append("\n");
-        for (int i = 0; i < listaSobre.size(); i++) {
-            Turno turno = listaSobre.get(i);
-            str.append(i + 1 + listaTurnos.size()).append(" - ").append(turno.getHorario()).append("\n");
+        if (!listaSobre.isEmpty()) {
+            str.append("Sobre turnos:").append("\n");
+            for (int i = 0; i < listaSobre.size(); i++) {
+                Turno turno = listaSobre.get(i);
+                str.append(i + 1 + listaTurnos.size()).append(" - ").append(turno.getHorario()).append("\n");
+            }
+        } else {
+            str.append("No hay sobre turnos disponibles");
         }
         return str.toString();
     }
 
     public Turno seleccionarTurnoPorPrestacionConIndice(Prestacion prestacion, int indice) {
         Turno turno;
-        if (indice < getTurnos().size()) {
-            turno = getTurnos().get(prestacion).get(indice - 1);
+        List<Turno> listaTurnos = getTurnosDisponiblesPorPrestacion(prestacion);
+        List<Turno> listaSobreTurnos = getSobreTurnosDisponiblesPorPrestacion(prestacion);
+        if (indice <= listaTurnos.size()) {
+            turno = listaTurnos.get(indice - 1);
         } else {
-            turno = getSobreTurnos().get(prestacion).get(indice - 1 - getTurnos().get(prestacion).size());
+            turno = listaSobreTurnos.get(indice - 1 - listaTurnos.size());
         }
         return turno;
     }
@@ -265,16 +274,12 @@ public class Clinica {
         };
         Ubicacion ubicacionE = new Ubicacion("Consultorio 05") {
         };
-
         Ubicacion ubicacionF = new Ubicacion("Consultorio 06") {
         };
-
         Ubicacion ubicacionG = new Ubicacion("Consultorio 07") {
         };
-
         Ubicacion ubicacionH = new Ubicacion("Consultorio 08") {
         };
-
         Ubicacion ubicacionI = new Ubicacion("Consultorio 09") {
         };
 
@@ -348,7 +353,10 @@ public class Clinica {
         toxicologia.getPrestaciones().add(estudioAzufre);
         toxicologia.getPrestaciones().add(estudioCianuro);
 
+        consulta.setActiva(false);
+        terapia.setActiva(true);
         psicologia.getPrestaciones().add(terapia);
+        psicologia.getPrestaciones().add(consulta);
 
         medicinaClinica.getPrestaciones().add(consulta);
 
@@ -414,26 +422,46 @@ public class Clinica {
         ArrayList<Turno> turnosDisponibles = new ArrayList<>();
         turnosDisponibles.add(t1);
         turnosDisponibles.add(t2);
-        turnosDisponibles.add(t3);
-        turnosDisponibles.add(t4);
-        turnosDisponibles.add(t5);
-        turnosDisponibles.add(t6);
-        turnosDisponibles.add(t7);
-        turnosDisponibles.add(t8);
 
         ArrayList<Turno> turnosDisponibles2 = new ArrayList<>();
-        turnosDisponibles2.add(t9);
-        turnosDisponibles2.add(t10);
-        turnosDisponibles2.add(t11);
-        turnosDisponibles2.add(t12);
-        turnosDisponibles2.add(t13);
-        turnosDisponibles2.add(t14);
-        turnosDisponibles2.add(t15);
-        turnosDisponibles2.add(t16);
+        turnosDisponibles2.add(t3);
+        turnosDisponibles2.add(t4);
 
-        for (Prestacion p : prestaciones) {
-            turnos.put(p, turnosDisponibles);
-            sobreTurnos.put(p, turnosDisponibles2);
-        }
+        ArrayList<Turno> turnosDisponibles3 = new ArrayList<>();
+        turnosDisponibles3.add(t5);
+        turnosDisponibles3.add(t6);
+
+        ArrayList<Turno> turnosDisponibles4 = new ArrayList<>();
+        turnosDisponibles4.add(t7);
+        turnosDisponibles4.add(t8);
+
+        ArrayList<Turno> sobreTurnosDisponibles = new ArrayList<>();
+        sobreTurnosDisponibles.add(t9);
+        sobreTurnosDisponibles.add(t10);
+
+        ArrayList<Turno> sobreTurnosDisponibles2 = new ArrayList<>();
+        sobreTurnosDisponibles2.add(t11);
+        sobreTurnosDisponibles2.add(t12);
+
+        ArrayList<Turno> sobreTurnosDisponibles3 = new ArrayList<>();
+        sobreTurnosDisponibles3.add(t13);
+        sobreTurnosDisponibles3.add(t14);
+
+        ArrayList<Turno> sobreTurnosDisponibles4 = new ArrayList<>();
+        sobreTurnosDisponibles4.add(t15);
+        sobreTurnosDisponibles4.add(t16);
+
+        turnos.put(this.prestaciones.get(0), turnosDisponibles);
+        sobreTurnos.put(this.prestaciones.get(0), sobreTurnosDisponibles);
+
+        turnos.put(this.prestaciones.get(1), turnosDisponibles2);
+        sobreTurnos.put(this.prestaciones.get(1), sobreTurnosDisponibles2);
+
+        turnos.put(this.prestaciones.get(2), turnosDisponibles3);
+        sobreTurnos.put(this.prestaciones.get(2), sobreTurnosDisponibles3);
+
+        turnos.put(this.prestaciones.get(3), turnosDisponibles4);
+        sobreTurnos.put(this.prestaciones.get(3), sobreTurnosDisponibles4);
+
     }
 }
