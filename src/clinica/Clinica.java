@@ -117,9 +117,12 @@ public class Clinica {
     public List<Turno> getTurnosDisponiblesPorPrestacion(Prestacion prestacion) {
         return obtenerTurnosDisponiblesSegunEspeciliadadYMapa(turnos, prestacion);
     }
-
     public List<Turno> getSobreTurnosDisponiblesPorPrestacion(Prestacion prestacion) {
         return obtenerTurnosDisponiblesSegunEspeciliadadYMapa(sobreTurnos, prestacion);
+    }
+
+    public List<Turno> getTurnosPorPrestacion(Prestacion prestacion) {
+       return turnos.get(prestacion).stream().collect(Collectors.toList());
     }
 
     public List<Turno> getTurnosAsistidosPorPrestacion(Prestacion prestacion) {
@@ -160,6 +163,10 @@ public class Clinica {
         return turnos.get(especialidad).stream().filter(Turno::getDisponible).collect(Collectors.toList());
     }
 
+    private List<Turno> obtenerTurnosSegunEspeciliadadYMapa(HashMap<Prestacion, ArrayList<Turno>> turnos, Prestacion especialidad) {
+        return turnos.get(especialidad).stream().collect(Collectors.toList());
+    }
+
     public String listarEspecialidadesActivas() {
         int indice = 1;
         StringBuilder str = new StringBuilder();
@@ -193,15 +200,32 @@ public class Clinica {
     public String listarHorariosDeTodosLosTurnosPorPrestacion(Prestacion prestacion) {
         int indice = 1;
         StringBuilder str = new StringBuilder();
+        List<Turno>  ts = obtenerTurnosSegunEspeciliadadYMapa(turnos, prestacion);
+
+        for (int i=0; i<ts.size(); i++){
+            str.append(i+1).append(" - ").append(ts.get(i)).append("\n");
+        }
+
+        //int indice = 1;
+       // StringBuilder str = new StringBuilder();
+     /*
         for (Turno t : getTurnosDisponiblesPorPrestacion(prestacion)) {
             str.append(indice).append(" - ").append(t.getHorario()).append("\n");
             indice++;
         }
+        */
         str.append("Sobre turnos:").append("\n");
-        for (Turno t : getSobreTurnosDisponiblesPorPrestacion(prestacion)) {
+       /* for (Turno t : getSobreTurnosDisponiblesPorPrestacion(prestacion)) {
             str.append(indice).append(" - ").append(t.getHorario()).append("\n");
             indice++;
         }
+        */
+        List<Turno>  sts = obtenerTurnosSegunEspeciliadadYMapa(sobreTurnos, prestacion);
+
+        for (int i=0; i<sts.size(); i++){
+            str.append(i+1).append(" - ").append(sts.get(i)).append("\n");
+        }
+
         return str.toString();
     }
 
