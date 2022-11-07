@@ -158,7 +158,6 @@ public class Clinica {
                 .findFirst().get().getPrestaciones().stream().filter(x -> x.getActiva().equals(activas)).collect(Collectors.toList());
     }
 
-
     public List<Prestacion> getPrestacionesActivas() {
         List<Prestacion> prestaciones = new ArrayList<>();
         getEspecialidades().stream().forEach(x -> prestaciones.addAll(getPrestacionesPorEspecialidad(x, false)));
@@ -236,7 +235,7 @@ public class Clinica {
                 str.append(i + 1).append(" - ").append(turno.getHorario()).append("\n");
             }
         } else {
-            str.append("No hay turnos disponibles");
+            str.append("No hay turnos disponibles\n");
         }
         if (!listaSobre.isEmpty()) {
             str.append("Sobre turnos:").append("\n");

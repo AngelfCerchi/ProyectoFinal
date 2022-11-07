@@ -22,16 +22,14 @@ public class MenuPrincipal {
             op = sn.nextInt();
             switch (op) {
                 case 1:
-                    System.out.println("Has seleccionado la opcion 1");
                     break;
                 case 2:
                     MenuAdministrativo.mostrarMenu(administrativo, sn);
                     break;
                 case 3:
-                    System.out.println("Has seleccionado la opcion 3");
                     break;
                 case 4:
-                    System.out.println("Has seleccionado la opcion 4");
+                    MenuPaciente.mostrarMenu(administrativo, sn);
                     break;
                 case 0:
                     System.out.println("Has seleccionado la opcion 0");

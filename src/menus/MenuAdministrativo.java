@@ -4,11 +4,11 @@ import clinica.Clinica;
 import clinica.Especialidad;
 import clinica.Turno;
 import clinica.prestacion.Prestacion;
-import enums.TipoServicio;
 import individuos.Administrativo;
 import individuos.Paciente;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -21,49 +21,41 @@ public class MenuAdministrativo {
         int op = 0;
 
         while (!salir) {
-            System.out.println("1. Agregar Paciente");
-            System.out.println("2. Crear Prestacion");
-            System.out.println("3. Activar prestacion");
-            System.out.println("4. Desactivar prestacion");
-            System.out.println("5. Listar prestaciones activas");
-            System.out.println("6. Listar prestaciones desactivadas");
-            System.out.println("7. Turnos disponibles por prestacion");
-            System.out.println("8. Turnos del paciente");
-            System.out.println("9. Dar turno");
-            System.out.println("10. Listar pacientes");
-            System.out.println("0. Salir");
+            MenuHelper.imprimirMenu(Arrays.asList("1. Crear Prestacion",
+                    "2. Activar prestacion",
+                    "3. Desactivar prestacion",
+                    "4. Listar prestaciones activas",
+                    "5. Listar prestaciones desactivadas",
+                    "6. Turnos disponibles por prestacion",
+                    "7. Turnos del paciente",
+                    "8. Dar turno",
+                    "0. Salir"));
             try {
                 op = sn.nextInt();
                 switch (op) {
                     case 1:
-                        crearPacienteMenu(sn);
-                        break;
-                    case 2:
                         nuevaPrestacion(administrativo, sn);
                         break;
-                    case 3:
+                    case 2:
                         modificarEstadoPrestacion(sn, true);
                         break;
-                    case 4:
+                    case 3:
                         modificarEstadoPrestacion(sn, false);
                         break;
-                    case 5:
+                    case 4:
                         listarPrestacionesActivasPorEspecialidad(sn);
                         break;
-                    case 6:
+                    case 5:
                         listarPrestacionesDesactivasPorEspecialidad(sn);
                         break;
-                    case 7:
+                    case 6:
                         listarTurnosDisponiblesPorPrestacion(sn);
                         break;
-                    case 8:
+                    case 7:
                         listarTurnosDelPaciente(sn);
                         break;
-                    case 9:
+                    case 8:
                         darTurno(administrativo, sn);
-                        break;
-                    case 10:
-                        listarPacientes();
                         break;
                     case 0:
                         salir = true;
@@ -76,15 +68,6 @@ public class MenuAdministrativo {
         }
     }
 
-    private static void listarPacientes() {
-        System.out.println("Lista de pacientes:");
-        ArrayList<Paciente> pacientes = clinica.getPacientes();
-        if (pacientes.isEmpty())
-            System.out.println("No hay pacientes registrados en la clinica");
-        else
-            pacientes.forEach(x -> System.out.println(x.toString()));
-    }
-
     private static void listarTurnosDelPaciente(Scanner sn) {
         System.out.println("Turnos del paciente");
         System.out.println("Ingrese el DNI del paciente: ");
@@ -93,7 +76,7 @@ public class MenuAdministrativo {
         if (paciente != null) {
             List<Turno> turnosDelPaciente = clinica.getListaTurnosDePaciente(paciente);
             String mensaje = turnosDelPaciente.isEmpty() ? "El paciente no tiene tiene ningun turno asociado todavia"
-                    : "El paciente tiene los siguientes turnos: \n" + getStringTurnosDelPaciente(turnosDelPaciente);
+                    : "El paciente tiene los siguientes turnos: \n" + MenuHelper.getStringTurnosDelPaciente(turnosDelPaciente);
             System.out.println(mensaje);
         } else {
             System.out.println("El paciente no existe en nuestra base. No tiene turnos asignados");
@@ -139,12 +122,12 @@ public class MenuAdministrativo {
     private static List<Prestacion> listarPrestacionesPorEspecialidad(Scanner sn, boolean activas) {
         System.out.println("Seleccione la especialidad deseada para listar sus prestaciones:");
         ArrayList<Especialidad> listaEspecialidades = clinica.listaDeEspecialidades(true);
-        System.out.println(getStringEspecialidadesConIndice(listaEspecialidades));
+        System.out.println(MenuHelper.getStringEspecialidadesConIndice(listaEspecialidades));
         int especialidadDeseada = sn.nextInt();
         Especialidad especialidad = listaEspecialidades.get(especialidadDeseada - 1);
         System.out.println("Prestaciones de la especialidad: " + especialidad);
         List<Prestacion> prestaciones = clinica.getPrestacionesPorEspecialidad(especialidad, activas);
-        String mensaje = prestaciones.isEmpty() ? "No hay prestaciones para mostrar" : getStringPrestacionesConIndice(prestaciones);
+        String mensaje = prestaciones.isEmpty() ? "No hay prestaciones para mostrar" : MenuHelper.getStringPrestacionesConIndice(prestaciones);
         System.out.println(mensaje);
         return prestaciones;
     }
@@ -159,20 +142,6 @@ public class MenuAdministrativo {
         administrativo.crearPrestacion(nombre, clinica.getEspecialidades().get(especialidadElegida));
     }
 
-    private static void crearPacienteMenu(Scanner sn) {
-        System.out.println("Crear paciente");
-        System.out.println("Ingrese el DNI del nuevo paciente: ");
-        int dni = sn.nextInt();
-        Paciente paciente = clinica.getPacientePorDni(String.valueOf(dni));
-        if (paciente == null) {
-            paciente = crearPacienteInexistente(sn, dni);
-            System.out.println("Paciente creado exitosamente");
-        } else {
-            System.out.println("El paciente ya existe en nuestra base");
-        }
-        System.out.println(paciente);
-    }
-
     private static void darTurno(Administrativo administrativo, Scanner sn) {
         System.out.println("Dar turno a paciente");
         //Pido el DNI y lo busco en el singletone o lo creo...
@@ -182,7 +151,7 @@ public class MenuAdministrativo {
 
         if (paciente == null) {
             System.out.println("Paciente no encontrado.");
-            paciente = crearPacienteInexistente(sn, dni);
+            paciente = MenuPaciente.crearPacienteInexistente(sn, dni);
 
         }
         Prestacion prestacion = listarTurnosDisponiblesPorPrestacion(sn);
@@ -198,49 +167,4 @@ public class MenuAdministrativo {
             System.out.println("No hay turnos disponibles");
         }
     }
-
-    private static Paciente crearPacienteInexistente(Scanner sn, int dniPaciente) {
-        System.out.println("Ingrese su Apellido: ");
-        String apellido = sn.next();
-
-        //apellido
-        System.out.println("Ingrese su nombre: ");
-        String nombre = sn.next();
-
-        //Tipo Servicvio
-        System.out.println("Seleccione su tipo de cobertura: ");
-        System.out.println(TipoServicio.mostrarTipos());
-
-        int tipoServicio = sn.nextInt();
-        Paciente paciente = new Paciente(apellido, nombre, String.valueOf(dniPaciente), TipoServicio.seleccionarTipoPorIndice(tipoServicio));
-        clinica.getPacientes().add(paciente);
-        return paciente;
-    }
-
-
-    public static String getStringEspecialidadesConIndice(ArrayList<Especialidad> especialidades) {
-        StringBuilder str = new StringBuilder();
-        for (int i = 0; i < especialidades.size(); i++) {
-            str.append(i + 1).append(" - ").append(especialidades.get(i).getNombre()).append("\n");
-        }
-        return str.toString();
-    }
-
-    public static String getStringPrestacionesConIndice(List<Prestacion> prestaciones) {
-        StringBuilder str = new StringBuilder();
-        for (int i = 0; i < prestaciones.size(); i++) {
-            str.append(i + 1).append(" - ").append(prestaciones.get(i).getNombre()).append("\n");
-        }
-        return str.toString();
-    }
-
-    public static String getStringTurnosDelPaciente(List<Turno> turnosDelPaciente) {
-        StringBuilder str = new StringBuilder();
-        for (int i = 0; i < turnosDelPaciente.size(); i++) {
-            Turno turno = turnosDelPaciente.get(i);
-            str.append(i + 1).append(" - ").append(turno).append("\n");
-        }
-        return str.toString();
-    }
-
 }
