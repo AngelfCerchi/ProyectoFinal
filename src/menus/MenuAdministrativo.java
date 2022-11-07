@@ -143,13 +143,11 @@ public class MenuAdministrativo {
 
     private static void crearPacienteMenu(Scanner sn) {
         System.out.println("Crear paciente");
-        //Pido el DNI y lo busco en el singletone o lo creo...
         System.out.println("Ingrese el DNI del nuevo paciente: ");
         int dni = sn.nextInt();
         Paciente paciente = clinica.getPacientePorDni(String.valueOf(dni));
         if (paciente == null) {
             paciente = crearPacienteInexistente(sn, dni);
-            clinica.getPacientes().add(paciente);
             System.out.println("Paciente creado exitosamente");
         } else {
             System.out.println("El paciente ya existe en nuestra base");
@@ -167,7 +165,7 @@ public class MenuAdministrativo {
         if (paciente == null) {
             System.out.println("Paciente no encontrado.");
             paciente = crearPacienteInexistente(sn, dni);
-            clinica.getPacientes().add(paciente);
+
         }
         Prestacion prestacion = listarTurnosDisponiblesPorPrestacion(sn);
         System.out.println("Seleccione el horario deseado: ");
@@ -193,7 +191,9 @@ public class MenuAdministrativo {
         System.out.println(TipoServicio.mostrarTipos());
 
         int tipoServicio = sn.nextInt();
-        return new Paciente(apellido, nombre, String.valueOf(dniPaciente), TipoServicio.seleccionarTipoPorIndice(tipoServicio));
+        Paciente paciente = new Paciente(apellido, nombre, String.valueOf(dniPaciente), TipoServicio.seleccionarTipoPorIndice(tipoServicio));
+        clinica.getPacientes().add(paciente);
+        return paciente;
     }
 
 
