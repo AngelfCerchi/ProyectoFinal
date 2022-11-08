@@ -41,7 +41,7 @@ public class MenuPrincipal {
                         System.out.println("Solo números entre 1 y 4. Opcion 0 para salir.");
                 }
             } catch (Exception e) {
-                System.out.println("Ocurrio un error al procesar su solicitud. Seleccione la opcion:");
+                System.out.println("Ocurrio un error al procesar su solicitud. Seleccione la opcion: ");
             }
         }
     }
