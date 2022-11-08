@@ -30,7 +30,7 @@ public abstract class Persona {
     }
 
     public String getNombreCompleto() {
-        return getNombre() + " " + getApellido();
+        return getApellido() + " " + getNombre();
     }
 
     /**
@@ -47,6 +47,4 @@ public abstract class Persona {
     public void setDni(String dni) {
         this.dni = dni;
     }
-
-
 }

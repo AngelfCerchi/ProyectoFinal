@@ -31,6 +31,9 @@ public class MenuPaciente {
                         break;
                     case 0:
                         salir = true;
+                        break;
+                    default:
+                        mostrarMenu(sn);
                 }
             } catch (Exception e) {
                 System.out.println("Ocurrio un error al procesar su selección. Intente nuevamente!");
@@ -43,10 +46,11 @@ public class MenuPaciente {
     private static void listarPacientes() {
         System.out.println("Lista de pacientes:");
         ArrayList<Paciente> pacientes = clinica.getPacientes();
-        if (pacientes.isEmpty())
+        if (pacientes.isEmpty()) {
             System.out.println("No hay pacientes registrados en la clinica");
-        else
+        } else {
             pacientes.forEach(x -> System.out.println(x.toString()));
+        }
     }
 
     private static void crearPacienteMenu(Scanner sn) {

@@ -123,8 +123,8 @@ public class Turno {
 
     @Override
     public String toString() {
-        return "Turno para " + especialidadDelTurno + ":\n  - Prestacion: " + prestacionBrindada + ".\n  - Horario: " + getHorario() + ". Ubicacion: " + ubicacionTurno
-                + ".\n  - Doctor: " + doctor + "\n"
+        return "Turno para " + especialidadDelTurno + ":\n  - Prestacion: " + prestacionBrindada + ".\n  - Horario: " + getHorario() + ". Ubicacion: " + ubicacionTurno.getNombre()
+                + ".\n  - Doctor: " + doctor.getNombreCompleto()
                 + ".\n  - Asistio: " + getAsistioToString() + "\n";
     }
 }

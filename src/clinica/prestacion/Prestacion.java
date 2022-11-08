@@ -5,7 +5,6 @@ import clinica.ubicaciones.Ubicacion;
 import individuos.Doctor;
 
 public class Prestacion {
-    public static int nroPrestacion;
     private String nombre;
     private Doctor doctorAsociado;
     private Boolean activa;
@@ -16,7 +15,6 @@ public class Prestacion {
     public Prestacion(String nombre) {
         this.nombre = nombre;
         this.activa = true;
-        nroPrestacion++;
     }
 
     public Prestacion(String nombre, Boolean esEstudio, Especialidad especialidad, Ubicacion ubicacion) {
@@ -49,10 +47,6 @@ public class Prestacion {
 
     public void setActiva(Boolean activa) {
         this.activa = activa;
-    }
-
-    public static int getNroPrestacion() {
-        return nroPrestacion;
     }
 
     public Boolean getEsEstudio() {

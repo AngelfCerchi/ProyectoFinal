@@ -47,6 +47,9 @@ public class MenuDoctor {
                         break;
                     case 0:
                         salir = true;
+                        break;
+                    default:
+                        mostrarMenu(sn);
                 }
             } catch (Exception e) {
                 System.out.println("Ocurrio un error al procesar su selección. Intente nuevamente!");
