@@ -28,4 +28,5 @@ public enum TipoServicio {
     public static TipoServicio seleccionarTipoPorIndice(int indice) {
         return TipoServicio.values()[indice - 1];
     }
+
 }

@@ -6,6 +6,7 @@ import individuos.Doctor;
 import individuos.Persona;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Turno {
     private static int nroTurno = 0;
@@ -104,7 +105,7 @@ public class Turno {
     }
 
     public void registrarAsistenciaPaciente() {
-        setAsistio(false);
+        setAsistio(true);
     }
 
     public void asociarPaciente(Persona paciente) {
@@ -112,19 +113,18 @@ public class Turno {
     }
 
     public String getHorario() {
-        return getInicio() + " - " + getFin();
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        return "Inicio: " + getInicio().format(format) + " - Fin: " + getFin().format(format);
+    }
+
+    private String getAsistioToString() {
+        return getAsistio() ? "Si" : "No";
     }
 
     @Override
     public String toString() {
-        return "Turno{" +
-                "inicio=" + inicio +
-                ", fin=" + fin +
-                ", doctor=" + doctor +
-                ", prestacionBrindada=" + prestacionBrindada +
-                ", especialidadDelTurno=" + especialidadDelTurno +
-                ", asistio=" + asistio +
-                ", ubicacionTurno=" + ubicacionTurno +
-                '}';
+        return "Turno para " + especialidadDelTurno + ":\n  - Prestacion: " + prestacionBrindada + ".\n  - Horario: " + getHorario() + ". Ubicacion: " + ubicacionTurno
+                + ".\n  - Doctor: " + doctor + "\n"
+                + ".\n  - Asistio: " + getAsistioToString() + "\n";
     }
 }
