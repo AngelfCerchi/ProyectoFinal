@@ -22,10 +22,6 @@ public class Medicamento {
         return gramos;
     }
 
-    public void setGramos(int gramos) {
-        this.gramos = gramos;
-    }
-
     @Override
     public String toString() {
         return "Medicamento{" +

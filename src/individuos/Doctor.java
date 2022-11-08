@@ -24,26 +24,6 @@ public class Doctor extends Persona {
         super(nombre, apellido, dni);
     }
 
-    private void registrarAsistencia(Turno turno) {
-        turno.registrarAsistenciaPaciente();
-    }
-
-    private void cargarPrestacion() {
-
-    }
-
-    public ArrayList<Especialidad> getEspecialidades() {
-        return especialidades;
-    }
-
-    public void setEspecialidades(ArrayList<Especialidad> especialidades) {
-        this.especialidades = especialidades;
-    }
-
-    public boolean trabajaParaLaEspecialidad(Especialidad especialidad) {
-        return especialidades.stream().anyMatch(x -> x.getNombre().equals(especialidad.getNombre()));
-    }
-
     public void registrarAsistenciaPaciente(List<Turno> turnos, int turnoSeleccionado) {
         Turno t = turnos.get(turnoSeleccionado - 1);
         t.setAsistio(true);

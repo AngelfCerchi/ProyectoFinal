@@ -1,5 +1,4 @@
 import clinica.Clinica;
-import individuos.Administrativo;
 import menus.MenuPrincipal;
 
 public class Main {

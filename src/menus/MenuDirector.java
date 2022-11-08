@@ -1,7 +1,6 @@
 package menus;
 
 import clinica.Clinica;
-import individuos.Administrativo;
 import individuos.Doctor;
 
 import java.util.Arrays;

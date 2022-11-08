@@ -4,7 +4,6 @@ import clinica.Clinica;
 import clinica.Turno;
 import clinica.prestacion.*;
 import individuos.Doctor;
-import individuos.Paciente;
 
 import java.util.Arrays;
 import java.util.List;

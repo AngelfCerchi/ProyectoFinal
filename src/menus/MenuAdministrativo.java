@@ -146,7 +146,6 @@ public class MenuAdministrativo {
         System.out.println("Ingrese el DNI del paciente: ");
         int dni = sn.nextInt();
         Paciente paciente = clinica.getPacientePorDni(String.valueOf(dni));
-
         if (paciente == null) {
             System.out.println("Paciente no encontrado.");
             paciente = MenuPaciente.crearPacienteInexistente(sn, dni);

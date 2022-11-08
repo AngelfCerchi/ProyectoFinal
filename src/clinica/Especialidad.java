@@ -28,16 +28,8 @@ public class Especialidad {
         return activa;
     }
 
-    public void setActiva(Boolean activa) {
-        this.activa = activa;
-    }
-
     public ArrayList<Prestacion> getPrestaciones() {
         return prestaciones;
-    }
-
-    public void setPrestaciones(ArrayList<Prestacion> prestaciones) {
-        this.prestaciones = prestaciones;
     }
 
     @Override
