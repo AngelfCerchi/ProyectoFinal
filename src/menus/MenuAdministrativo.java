@@ -77,8 +77,8 @@ public class MenuAdministrativo {
         List<Prestacion> prestaciones = listarPrestacionesPorEspecialidad(sn, !activar);
         String mensaje = activar ? "Seleccione la prestacion que desea activar" : "Seleccione la prestacion que desea desactivar";
         System.out.println(mensaje);
-        int prestacionDeseada = sn.nextInt() - 1;
-        Prestacion prestacion = prestaciones.get(prestacionDeseada);
+        int prestacionDeseada = MenuHelper.controlDeOpcionElegidaEntero(sn, 1, prestaciones.size());
+        Prestacion prestacion = prestaciones.get(prestacionDeseada - 1);
         clinica.modificarEstadoDeActividadPrestacion(prestacion, activar);
         mensaje = activar ? "Prestacion: \"" + prestacion.getNombre() + "\" activada correctamente"
                 : "Prestacion: \"" + prestacion.getNombre() + "\" desactivada correctamente";
@@ -91,8 +91,8 @@ public class MenuAdministrativo {
         Prestacion prestacion = null;
         if (!prestaciones.isEmpty()) {
             System.out.println("Seleccione la prestacion que desea mostrar sus turnos disponibles");
-            int prestacionDeseada = sn.nextInt() - 1;
-            prestacion = prestaciones.get(prestacionDeseada);
+            int prestacionDeseada = MenuHelper.controlDeOpcionElegidaEntero(sn, 1, prestaciones.size());
+            prestacion = prestaciones.get(prestacionDeseada - 1);
             System.out.println("Turnos disponibles de la prestacion: " + prestacion.getNombre());
             System.out.println(clinica.listarHorariosDeTodosLosTurnosPorPrestacion(prestacion));
         }
