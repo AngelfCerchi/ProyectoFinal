@@ -33,7 +33,7 @@ public class MenuAdministrativo {
                     "8. Dar turno",
                     "0. Salir"));
             try {
-                op = sn.nextInt();
+                op = MenuHelper.controlDeOpcionElegidaEntero(sn, 0, 8);
                 switch (op) {
                     case 1:
                         nuevaPrestacion(administrativo, sn);
@@ -113,7 +113,7 @@ public class MenuAdministrativo {
         System.out.println("Seleccione la especialidad deseada para listar sus prestaciones:");
         ArrayList<Especialidad> listaEspecialidades = clinica.listaDeEspecialidades(true);
         System.out.println(MenuHelper.getStringEspecialidadesConIndice(listaEspecialidades));
-        int especialidadDeseada = sn.nextInt();
+        int especialidadDeseada = MenuHelper.controlDeOpcionElegidaEntero(sn, 1, listaEspecialidades.size());
         Especialidad especialidad = listaEspecialidades.get(especialidadDeseada - 1);
         System.out.println("Prestaciones de la especialidad: " + especialidad);
         List<Prestacion> prestaciones = clinica.getPrestacionesPorEspecialidad(especialidad, activas);
@@ -127,7 +127,7 @@ public class MenuAdministrativo {
         System.out.println("Seleccione a que Especialidad va a pertenecer la nueva prestacion");
         ArrayList<Especialidad> especialidades = clinica.getEspecialidades();
         System.out.println(MenuHelper.getStringEspecialidadesConIndice(especialidades));
-        int especialidadElegida = sn.nextInt();
+        int especialidadElegida = MenuHelper.controlDeOpcionElegidaEntero(sn, 1, especialidades.size());
         sn.nextLine();
         Especialidad especialidad = especialidades.get(especialidadElegida - 1);
         System.out.print("Nombre de la prestacion: ");
@@ -136,12 +136,12 @@ public class MenuAdministrativo {
         boolean esEstudio = sn.nextInt() == 1;
         System.out.println("Seleccione la ubicacion donde se va a realizar la prestacion");
         System.out.println(MenuHelper.getStringUbicaciones(clinica.getUbicaciones()));
-        int ubicacionElegida = sn.nextInt();
+        int ubicacionElegida = MenuHelper.controlDeOpcionElegidaEntero(sn, 1, clinica.getUbicaciones().size());
         Ubicacion ubicacion = clinica.getUbicaciones().get(ubicacionElegida - 1);
 
         System.out.println("Seleccione el doctor para la prestacion: ");
         System.out.println(MenuHelper.getStringDoctores(clinica.getDoctores()));
-        int doctornum = sn.nextInt();
+        int doctornum = MenuHelper.controlDeOpcionElegidaEntero(sn, 1, clinica.getDoctores().size());
         Doctor doctor = clinica.getDoctores().get(doctornum - 1);
 
         Prestacion prestacionNueva = administrativo.crearPrestacion(nombre, esEstudio, especialidad, ubicacion, doctor);
@@ -152,7 +152,7 @@ public class MenuAdministrativo {
         System.out.println("Dar turno a paciente");
         //Pido el DNI y lo busco en el singletone o lo creo...
         System.out.println("Ingrese el DNI del paciente: ");
-        int dni = sn.nextInt();
+        int dni = MenuHelper.controlDeOpcionElegidaEntero(sn, 1, 99999999);
         Paciente paciente = clinica.getPacientePorDni(String.valueOf(dni));
         if (paciente == null) {
             System.out.println("Paciente no encontrado.");

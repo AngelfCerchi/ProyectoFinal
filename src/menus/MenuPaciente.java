@@ -58,13 +58,12 @@ public class MenuPaciente {
             System.out.println("No se encontraron turnos");
         } else {
             System.out.println("Seleccione el turno al que esta asistiendo el paciente");
-            int turnoSeleccionado = sn.nextInt();
+            int turnoSeleccionado = MenuHelper.controlDeOpcionElegidaEntero(sn, 1, turnos.size());
             turnoAtendido = turnos.get(turnoSeleccionado - 1);
             if (!turnoAtendido.getTurnoPagado()) {
-
                 System.out.println("Como desea pagar el turno: ");
                 System.out.println(TipoMediosDePago.mostrarTipos());
-                int opcion = sn.nextInt();
+                int opcion = MenuHelper.controlDeOpcionElegidaEntero(sn, 1, TipoMediosDePago.values().length);
                 turnoAtendido.setTurnoPagado(true);
                 turnoAtendido.setTipoDePago(TipoMediosDePago.seleccionarTipoPorIndice(opcion).getTipo());
                 if (opcion == 2) {
@@ -91,7 +90,7 @@ public class MenuPaciente {
     private static void crearPacienteMenu(Scanner sn) {
         System.out.println("Crear paciente");
         System.out.print("Ingrese el DNI del nuevo paciente: ");
-        int dni = Integer.parseInt(sn.next());
+        int dni = MenuHelper.controlDeOpcionElegidaEntero(sn, 1, 99999999);
         sn.nextLine();
         Paciente paciente = clinica.getPacientePorDni(String.valueOf(dni));
         if (paciente == null) {
@@ -115,7 +114,7 @@ public class MenuPaciente {
         System.out.println("Seleccione su tipo de cobertura: ");
         System.out.println(TipoServicio.mostrarTipos());
 
-        int tipoServicio = sn.nextInt();
+        int tipoServicio = MenuHelper.controlDeOpcionElegidaEntero(sn, 1, TipoServicio.values().length);
         Paciente paciente = new Paciente(nombre, apellido, String.valueOf(dniPaciente), TipoServicio.seleccionarTipoPorIndice(tipoServicio));
         clinica.getPacientes().add(paciente);
         return paciente;

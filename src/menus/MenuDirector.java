@@ -69,7 +69,7 @@ public class MenuDirector {
     private static Doctor elegirDoctorParaReporte(Scanner sn) {
         System.out.println("Seleccione el doctor para el reporte: ");
         System.out.println(MenuHelper.getStringDoctores(clinica.getDoctores()));
-        int doctornum = sn.nextInt();
+        int doctornum = MenuHelper.controlDeOpcionElegidaEntero(sn, 1, clinica.getDoctores().size());
         return clinica.getDoctores().get(doctornum - 1);
     }
 

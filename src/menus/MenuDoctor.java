@@ -22,7 +22,7 @@ public class MenuDoctor {
             System.out.println("Seleccione el doctor: ");
             System.out.println(MenuHelper.getStringDoctores(clinica.getDoctores()));
 
-            int doctornum = sn.nextInt();
+            int doctornum = MenuHelper.controlDeOpcionElegidaEntero(sn, 1, clinica.getDoctores().size());
 
             doctor = clinica.getDoctores().get(doctornum - 1);
 
@@ -65,7 +65,7 @@ public class MenuDoctor {
             System.out.println("No se encontraron turnos");
         } else {
             System.out.println("Seleccione el turno al que esta asistiendo el paciente");
-            int turnoSeleccionado = sn.nextInt();
+            int turnoSeleccionado = MenuHelper.controlDeOpcionElegidaEntero(sn, 1, turnos.size());
             turnoAtendido = turnos.get(turnoSeleccionado - 1);
             if (turnoAtendido.getAsistio()) {
                 Prestacion prestacionDelTurno = turnoAtendido.getPrestacionBrindada();
@@ -97,7 +97,7 @@ public class MenuDoctor {
         System.out.println("¿Desea agregar un estudio o un medicamento?");
         System.out.println("1- Estudio");
         System.out.println("2- Medicamento");
-        int opcion = sn.nextInt();
+        int opcion = MenuHelper.controlDeOpcionElegidaEntero(sn, 1, 2);
         sn.nextLine();
         if (opcion == 1) {
             System.out.print("Ingrese el nombre del estudio");
@@ -110,7 +110,7 @@ public class MenuDoctor {
             System.out.print("Ingrese el nombre del medicamento ");
             String nombre = sn.nextLine();
             System.out.println("Ingrese los gramos del medicamento en enteros por favor");
-            int gramos = sn.nextInt();
+            int gramos = MenuHelper.controlDeOpcionElegidaEntero(sn, 1, 2000);
             Medicamento medicamento = new Medicamento(nombre, gramos);
             prescripcion.agregarMedicamento(medicamento);
             System.out.println("Medicamento asignado correctamente: " + medicamento.getNombre() + " por " + medicamento.getGramos() + "grs.");
@@ -126,7 +126,7 @@ public class MenuDoctor {
             System.out.println("¿Desea agregar UNA NUEVA prescripcion más?");
             System.out.println("1- Si");
             System.out.println("2- No");
-            salir = sn.nextInt();
+            salir = MenuHelper.controlDeOpcionElegidaEntero(sn, 1, 2);
         }
         doctor.agregarPrescripcionAPrestacion(turnoAtendido, prestacionTradicional, prescripcion);
         turnoAtendido.setPrestacionBrindada(prestacionTradicional);
@@ -139,7 +139,7 @@ public class MenuDoctor {
             System.out.println("No se encontraron turnos");
         } else {
             System.out.println("Seleccione el turno al que esta asistiendo el paciente");
-            int turnoSeleccionado = sn.nextInt();
+            int turnoSeleccionado = MenuHelper.controlDeOpcionElegidaEntero(sn, 1, turnos.size());
             doctor.registrarAsistenciaPaciente(turnos, turnoSeleccionado);
             System.out.println("Se registro la asistencia");
         }
