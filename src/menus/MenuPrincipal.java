@@ -22,7 +22,7 @@ public class MenuPrincipal {
                     "4. Menu Paciente",
                     "0. Salir"));
             try {
-                op = sn.nextInt();
+                op = MenuHelper.controlDeOpcionElegidaEntero(sn, 0, 4);
                 switch (op) {
                     case 1:
                         MenuDirector.mostrarMenu(sn);

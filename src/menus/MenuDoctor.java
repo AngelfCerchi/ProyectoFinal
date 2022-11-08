@@ -36,7 +36,7 @@ public class MenuDoctor {
                     "2. Atender turno",
                     "0. Salir"));
             try {
-                op = sn.nextInt();
+                op = MenuHelper.controlDeOpcionElegidaEntero(sn, 0, 2);
                 switch (op) {
                     case 1:
                         registrarAsistencia(sn, doctor);

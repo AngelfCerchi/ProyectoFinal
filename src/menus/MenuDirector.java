@@ -20,7 +20,7 @@ public class MenuDirector {
                     "3. Obtener reporte de estudios y prestaciones",
                     "0. Salir"));
             try {
-                op = sn.nextInt();
+                op = op = MenuHelper.controlDeOpcionElegidaEntero(sn, 0, 3);
                 switch (op) {
                     case 1:
                         obtenerReportePrestaciones(sn);

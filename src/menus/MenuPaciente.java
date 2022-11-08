@@ -25,7 +25,7 @@ public class MenuPaciente {
                     "3. Pagar turno",
                     "0. Salir"));
             try {
-                op = sn.nextInt();
+                op = MenuHelper.controlDeOpcionElegidaEntero(sn, 0, 3);
                 switch (op) {
                     case 1:
                         crearPacienteMenu(sn);
