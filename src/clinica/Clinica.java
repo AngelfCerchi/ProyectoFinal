@@ -135,7 +135,7 @@ public class Clinica {
         int cantidad = 0;
         for (Prestacion p : this.turnos.keySet()) {
             for (Turno t : this.turnos.get(p)) {
-                if (t.getDoctor().getDni().equals(doctor.getDni()) && !t.getAusente() && t.getPrestacionBrindada().getEsEstudio().equals(esEstudio)) {
+                if (t.getDoctor().getDni().equals(doctor.getDni()) && t.getAsistio() && t.getPrestacionBrindada().getEsEstudio().equals(esEstudio)) {
                     cantidad++;
                 }
             }
@@ -214,7 +214,7 @@ public class Clinica {
     private List<Turno> obtenerTurnosAsistidosSegunEspeciliadadYMapa(HashMap<Prestacion, ArrayList<Turno>> turnos, Prestacion prestacion) {
         List<Turno> turnosAsistidos = new ArrayList<>();
         for (Turno t : getTurnosPorPrestacion(turnos, prestacion)) {
-            if (!t.getAusente())
+            if (t.getAsistio())
                 turnosAsistidos.add(t);
         }
         return turnosAsistidos;

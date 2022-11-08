@@ -2,7 +2,6 @@ package menus;
 
 import clinica.Clinica;
 import enums.TipoServicio;
-import individuos.Administrativo;
 import individuos.Paciente;
 
 import java.util.ArrayList;
@@ -13,7 +12,7 @@ public class MenuPaciente {
 
     private static final Clinica clinica = Clinica.getInstance();
 
-    public static void mostrarMenu(Administrativo administrativo, Scanner sn) {
+    public static void mostrarMenu(Scanner sn) {
         boolean salir = false;
         int op = 0;
 
@@ -36,7 +35,7 @@ public class MenuPaciente {
             } catch (Exception e) {
                 System.out.println("Ocurrio un error al procesar su selección. Intente nuevamente!");
                 e.printStackTrace();
-                mostrarMenu(administrativo, sn);
+                mostrarMenu(sn);
             }
         }
     }

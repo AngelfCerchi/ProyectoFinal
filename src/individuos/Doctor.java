@@ -2,8 +2,12 @@ package individuos;
 
 import clinica.Especialidad;
 import clinica.Turno;
+import clinica.prestacion.Estudio;
+import clinica.prestacion.Prescripcion;
+import clinica.prestacion.PrestacionTradicional;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Doctor extends Persona {
 
@@ -40,4 +44,19 @@ public class Doctor extends Persona {
         return especialidades.stream().anyMatch(x -> x.getNombre().equals(especialidad.getNombre()));
     }
 
+    public void registrarAsistenciaPaciente(List<Turno> turnos, int turnoSeleccionado) {
+        Turno t = turnos.get(turnoSeleccionado - 1);
+        t.setAsistio(true);
+        t.setDoctor(this);
+    }
+
+    public void registrarAtencionDeEstudio(Turno turno, Estudio estudio) {
+        estudio.setAsistio(true);
+        estudio.setFechaYHoraRealizacion(turno.getFin());
+    }
+
+    public void agregarPrescripcionAPrestacion(Turno turnoAtendido, PrestacionTradicional prestacionTradicional, Prescripcion prescripcion) {
+        prestacionTradicional.agregarPrescripcion(prescripcion);
+        turnoAtendido.setPrestacionBrindada(prestacionTradicional);
+    }
 }

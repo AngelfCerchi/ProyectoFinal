@@ -48,28 +48,4 @@ public class Administrativo extends Persona {
         }
         return null;
     }
-
-    public Turno darTurno2(Paciente paciente, Turno turno, Prestacion prestacion, boolean esSobreTurno) {
-        Set<Map.Entry<Prestacion, ArrayList<Turno>>> listaTurnos;
-        if (esSobreTurno) {
-            listaTurnos = clinica.getSobreTurnos().entrySet();
-        } else {
-            listaTurnos = clinica.getTurnos().entrySet();
-        }
-        for (Map.Entry<Prestacion, ArrayList<Turno>> entry : listaTurnos) {
-            if (entry.getKey().getNombre().equals(turno.getPrestacionBrindada().getNombre())) {
-                for (Turno t : entry.getValue()) {
-                    if (t.getHorario().equals(turno.getHorario())) {
-                        t.asociarPaciente(paciente);
-                        t.setDisponible(false);
-                        t.setEspecialidadDelTurno(entry.getKey().getEspecialidad());
-                        t.setUbicacionTurno(entry.getKey().getUbicacion());
-                        t.setDoctor(entry.getKey().getDoctorAsociado());
-                        return t;
-                    }
-                }
-            }
-        }
-        return null;
-    }
 }
