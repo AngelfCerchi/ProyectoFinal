@@ -1,11 +1,14 @@
 package menus;
 
 import clinica.Clinica;
+import clinica.Turno;
+import enums.TipoMediosDePago;
 import enums.TipoServicio;
 import individuos.Paciente;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class MenuPaciente {
@@ -19,6 +22,7 @@ public class MenuPaciente {
         while (!salir) {
             MenuHelper.imprimirMenu(Arrays.asList("1. Agregar Paciente",
                     "2. Listar pacientes",
+                    "3. Pagar turno",
                     "0. Salir"));
             try {
                 op = sn.nextInt();
@@ -28,6 +32,9 @@ public class MenuPaciente {
                         break;
                     case 2:
                         listarPacientes();
+                        break;
+                    case 3:
+                        pagarTurno(sn);
                         break;
                     case 0:
                         salir = true;
@@ -39,6 +46,34 @@ public class MenuPaciente {
                 System.out.println("Ocurrio un error al procesar su selección. Intente nuevamente!");
                 e.printStackTrace();
                 mostrarMenu(sn);
+            }
+        }
+    }
+
+    private static void pagarTurno(Scanner sn) throws InterruptedException {
+        System.out.println("Pagar turno del paciente.");
+        List<Turno> turnos = MenuHelper.listarTurnosDelPaciente(sn);
+        Turno turnoAtendido;
+        if (turnos == null || turnos.size() < 1) {
+            System.out.println("No se encontraron turnos");
+        } else {
+            System.out.println("Seleccione el turno al que esta asistiendo el paciente");
+            int turnoSeleccionado = sn.nextInt();
+            turnoAtendido = turnos.get(turnoSeleccionado - 1);
+            if (!turnoAtendido.getTurnoPagado()) {
+
+                System.out.println("Como desea pagar el turno: ");
+                System.out.println(TipoMediosDePago.mostrarTipos());
+                int opcion = sn.nextInt();
+                turnoAtendido.setTurnoPagado(true);
+                turnoAtendido.setTipoDePago(TipoMediosDePago.seleccionarTipoPorIndice(opcion).getTipo());
+                if (opcion == 2) {
+                    System.out.println("Aguarde unos segundos.\nEl pago con tarjeta tiene una pequeña demora. No más de 5 segundos...");
+                    Thread.sleep(4000);
+                }
+                System.out.println("Listo! Pago realizado correctamente");
+            } else {
+                System.out.println("El turno elegido ya esta pago. Puede pagar otro turno o listo.");
             }
         }
     }

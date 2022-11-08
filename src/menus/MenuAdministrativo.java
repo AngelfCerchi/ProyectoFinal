@@ -53,7 +53,7 @@ public class MenuAdministrativo {
                         listarTurnosDisponiblesPorPrestacion(sn);
                         break;
                     case 7:
-                        listarTurnosDelPaciente(sn);
+                        MenuHelper.listarTurnosDelPaciente(sn);
                         break;
                     case 8:
                         darTurno(administrativo, sn);
@@ -69,21 +69,6 @@ public class MenuAdministrativo {
                 e.printStackTrace();
                 mostrarMenu(administrativo, sn);
             }
-        }
-    }
-
-    private static void listarTurnosDelPaciente(Scanner sn) {
-        System.out.println("Turnos del paciente");
-        System.out.println("Ingrese el DNI del paciente: ");
-        int dni = sn.nextInt();
-        Paciente paciente = clinica.getPacientePorDni(String.valueOf(dni));
-        if (paciente != null) {
-            List<Turno> turnosDelPaciente = clinica.getListaTurnosDePaciente(paciente);
-            String mensaje = turnosDelPaciente.isEmpty() ? "El paciente no tiene tiene ningun turno asociado todavia"
-                    : "El paciente tiene los siguientes turnos: \n" + MenuHelper.getStringTurnosDelPaciente(turnosDelPaciente);
-            System.out.println(mensaje);
-        } else {
-            System.out.println("El paciente no existe en nuestra base. No tiene turnos asignados");
         }
     }
 
