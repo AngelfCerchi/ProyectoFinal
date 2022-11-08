@@ -30,7 +30,7 @@ public class MenuPrincipal {
                         MenuDoctor.mostrarMenu(sn);
                         break;
                     case 4:
-                        MenuPaciente.mostrarMenu(administrativo, sn);
+                        MenuPaciente.mostrarMenu(sn);
                         break;
                     case 0:
                         System.out.println("Has seleccionado la opcion 0");

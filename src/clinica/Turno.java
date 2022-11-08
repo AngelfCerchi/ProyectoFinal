@@ -11,7 +11,7 @@ public class Turno {
     private static int nroTurno = 0;
     private LocalDateTime inicio;
     private LocalDateTime fin;
-    private Boolean ausente;
+    private Boolean asistio;
     private Boolean disponible;
     private Persona pacienteAsociado;
     private Doctor doctor;
@@ -22,7 +22,7 @@ public class Turno {
     public Turno(LocalDateTime inicio, LocalDateTime fin) {
         this.inicio = inicio;
         this.fin = fin;
-        this.ausente = false;
+        this.asistio = false;
         this.disponible = true;
         nroTurno++;
     }
@@ -47,12 +47,12 @@ public class Turno {
         this.fin = fin;
     }
 
-    public Boolean getAusente() {
-        return ausente;
+    public Boolean getAsistio() {
+        return asistio;
     }
 
-    public void setAusente(Boolean ausente) {
-        this.ausente = ausente;
+    public void setAsistio(Boolean asistio) {
+        this.asistio = asistio;
     }
 
     public Prestacion getPrestacionBrindada() {
@@ -104,7 +104,7 @@ public class Turno {
     }
 
     public void registrarAsistenciaPaciente() {
-        setAusente(false);
+        setAsistio(false);
     }
 
     public void asociarPaciente(Persona paciente) {
@@ -123,7 +123,7 @@ public class Turno {
                 ", doctor=" + doctor +
                 ", prestacionBrindada=" + prestacionBrindada +
                 ", especialidadDelTurno=" + especialidadDelTurno +
-                ", ausente=" + ausente +
+                ", asistio=" + asistio +
                 ", ubicacionTurno=" + ubicacionTurno +
                 '}';
     }
