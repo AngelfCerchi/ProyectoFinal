@@ -59,4 +59,11 @@ public class Doctor extends Persona {
         prestacionTradicional.agregarPrescripcion(prescripcion);
         turnoAtendido.setPrestacionBrindada(prestacionTradicional);
     }
+
+    @Override
+    public String toString() {
+        return "Doctor{" +
+                "especialidades=" + especialidades +
+                '}';
+    }
 }
