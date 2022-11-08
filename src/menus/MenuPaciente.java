@@ -90,8 +90,9 @@ public class MenuPaciente {
 
     private static void crearPacienteMenu(Scanner sn) {
         System.out.println("Crear paciente");
-        System.out.println("Ingrese el DNI del nuevo paciente: ");
-        int dni = sn.nextInt();
+        System.out.print("Ingrese el DNI del nuevo paciente: ");
+        int dni = Integer.parseInt(sn.next());
+        sn.nextLine();
         Paciente paciente = clinica.getPacientePorDni(String.valueOf(dni));
         if (paciente == null) {
             paciente = crearPacienteInexistente(sn, dni);
@@ -103,19 +104,19 @@ public class MenuPaciente {
     }
 
     protected static Paciente crearPacienteInexistente(Scanner sn, int dniPaciente) {
-        System.out.println("Ingrese su Apellido: ");
-        String apellido = sn.next();
+        System.out.print("Ingrese su apellido: ");
+        String apellido = sn.nextLine();
 
         //apellido
-        System.out.println("Ingrese su nombre: ");
-        String nombre = sn.next();
+        System.out.print("Ingrese su nombre: ");
+        String nombre = sn.nextLine();
 
         //Tipo Servicvio
         System.out.println("Seleccione su tipo de cobertura: ");
         System.out.println(TipoServicio.mostrarTipos());
 
         int tipoServicio = sn.nextInt();
-        Paciente paciente = new Paciente(apellido, nombre, String.valueOf(dniPaciente), TipoServicio.seleccionarTipoPorIndice(tipoServicio));
+        Paciente paciente = new Paciente(nombre, apellido, String.valueOf(dniPaciente), TipoServicio.seleccionarTipoPorIndice(tipoServicio));
         clinica.getPacientes().add(paciente);
         return paciente;
     }

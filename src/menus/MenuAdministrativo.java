@@ -6,6 +6,7 @@ import clinica.Turno;
 import clinica.prestacion.Prestacion;
 import clinica.ubicaciones.Ubicacion;
 import individuos.Administrativo;
+import individuos.Doctor;
 import individuos.Paciente;
 
 import java.util.ArrayList;
@@ -127,16 +128,23 @@ public class MenuAdministrativo {
         ArrayList<Especialidad> especialidades = clinica.getEspecialidades();
         System.out.println(MenuHelper.getStringEspecialidadesConIndice(especialidades));
         int especialidadElegida = sn.nextInt();
+        sn.nextLine();
         Especialidad especialidad = especialidades.get(especialidadElegida - 1);
-        System.out.println("Nombre de la prestacion: ");
-        String nombre = sn.next();
+        System.out.print("Nombre de la prestacion: ");
+        String nombre = sn.nextLine();
         System.out.println("¿La prestacion a crear va a ser un estudio?\n" + "1- Si\n" + "2- No\n");
         boolean esEstudio = sn.nextInt() == 1;
         System.out.println("Seleccione la ubicacion donde se va a realizar la prestacion");
         System.out.println(MenuHelper.getStringUbicaciones(clinica.getUbicaciones()));
         int ubicacionElegida = sn.nextInt();
         Ubicacion ubicacion = clinica.getUbicaciones().get(ubicacionElegida - 1);
-        Prestacion prestacionNueva = administrativo.crearPrestacion(nombre, esEstudio, especialidad, ubicacion);
+
+        System.out.println("Seleccione el doctor para la prestacion: ");
+        System.out.println(MenuHelper.getStringDoctores(clinica.getDoctores()));
+        int doctornum = sn.nextInt();
+        Doctor doctor = clinica.getDoctores().get(doctornum - 1);
+
+        Prestacion prestacionNueva = administrativo.crearPrestacion(nombre, esEstudio, especialidad, ubicacion, doctor);
         System.out.println("Se creo la prestacion: " + prestacionNueva.getNombre());
     }
 

@@ -98,16 +98,17 @@ public class MenuDoctor {
         System.out.println("1- Estudio");
         System.out.println("2- Medicamento");
         int opcion = sn.nextInt();
+        sn.nextLine();
         if (opcion == 1) {
-            System.out.println("Ingrese el nombre del estudio");
-            String nombreEstudio = sn.next();
+            System.out.print("Ingrese el nombre del estudio");
+            String nombreEstudio = sn.nextLine();
             Estudio estudio = new Estudio(nombreEstudio);
             estudio.setAsistio(true);
             prescripcion.agregarEstudio(estudio);
             System.out.println("Estudio asignado correctamente: " + estudio.getNombre());
         } else if (opcion == 2) {
-            System.out.println("Ingrese el nombre del medicamento");
-            String nombre = sn.next();
+            System.out.print("Ingrese el nombre del medicamento ");
+            String nombre = sn.nextLine();
             System.out.println("Ingrese los gramos del medicamento en enteros por favor");
             int gramos = sn.nextInt();
             Medicamento medicamento = new Medicamento(nombre, gramos);
