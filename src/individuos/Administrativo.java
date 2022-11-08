@@ -4,6 +4,7 @@ import clinica.Clinica;
 import clinica.Especialidad;
 import clinica.Turno;
 import clinica.prestacion.Prestacion;
+import clinica.ubicaciones.Ubicacion;
 
 import java.util.*;
 
@@ -22,9 +23,10 @@ public class Administrativo extends Persona {
         super(nombre, apellido, dni);
     }
 
-    public void crearPrestacion(String nombre, Especialidad especialidad) {
-        Prestacion nuevaPrestacion = new Prestacion(nombre);
-        clinica.agregarPrestacion(nuevaPrestacion, especialidad);
+    public Prestacion crearPrestacion(String nombre, Boolean esEstudio, Especialidad especialidad, Ubicacion ubicacion) {
+        Prestacion nuevaPrestacion = new Prestacion(nombre, esEstudio, especialidad, ubicacion);
+        clinica.agregarPrestacion(nuevaPrestacion);
+        return nuevaPrestacion;
     }
 
     public Turno darTurno(Paciente paciente, Turno turno, Prestacion prestacion, boolean esSobreTurno) {
