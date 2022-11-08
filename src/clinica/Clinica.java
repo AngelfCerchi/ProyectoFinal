@@ -111,8 +111,8 @@ public class Clinica {
 
     public void agregarPrestacion(Prestacion nuevaPrestacion) {
         Especialidad especialidad = nuevaPrestacion.getEspecialidad();
-        getTurnos().put(nuevaPrestacion, generarTurnosNuevos());
-        getSobreTurnos().put(nuevaPrestacion, generarTurnosNuevos());
+        getTurnos().put(nuevaPrestacion, generarTurnosNuevosParaNuevaPrestacion());
+        getSobreTurnos().put(nuevaPrestacion, generarTurnosNuevosParaNuevaPrestacion());
         getPrestaciones().add(nuevaPrestacion);
         for (Especialidad e : getEspecialidades()) {
             if (e.getNombre().equals(especialidad.getNombre())) {
@@ -122,27 +122,48 @@ public class Clinica {
         }
     }
 
-    private ArrayList<Turno> generarTurnosNuevos() {
+    private ArrayList<Turno> generarTurnosNuevosParaNuevaPrestacion() {
         return null;
     }
 
-    public String reportePrestacionesPorDoctor(Doctor doctor) {
-        int estudios = cantidadPrestaciones(doctor, true);
-        int prestaciones = cantidadPrestaciones(doctor, false);
-        return "El doctor " + doctor.getNombreCompleto() + " realizo " + estudios + " estudios y " + prestaciones + " prestaciones";
-    }
-
-
-    private int cantidadPrestaciones(Doctor doctor, boolean esEstudio) {
+    public String reportePrestacionesPorDoctor(Doctor doctor, boolean esEstudio) {
         int cantidad = 0;
+        boolean encontreTurno = false;
+        StringBuilder str = new StringBuilder();
+        String realizadoPorDoctor;
+        String mensajeSinResultados;
+        if (esEstudio) {
+            realizadoPorDoctor = "estudio/estudioss";
+            str.append("Estudios brindados:\n");
+            mensajeSinResultados = "El doctor seleccionado no tiene " + realizadoPorDoctor + " brindados\n";
+        } else {
+            realizadoPorDoctor = "prestacion/prestaciones";
+            str.append("Prestaciones brindadas:\n");
+            mensajeSinResultados = "El doctor seleccionado no tiene " + realizadoPorDoctor + " brindadas\n";
+        }
         for (Prestacion p : this.turnos.keySet()) {
             for (Turno t : this.turnos.get(p)) {
-                if (t.getDoctor().getDni().equals(doctor.getDni()) && t.getAsistio() && t.getPrestacionBrindada().getEsEstudio().equals(esEstudio)) {
+                if (t.getDoctor() != null
+                        && t.getDoctor().getDni().equals(doctor.getDni())
+                        && t.getAsistio()
+                        && t.getPrestacionBrindada().getEsEstudio().equals(esEstudio)) {
+                    encontreTurno = true;
+                    str.append("- ").append(t.getPrestacionBrindada().getNombre()).append(" - Horario: ").append(t.getHorario())
+                            .append(" - Ubicacion: ").append(t.getUbicacionTurno().getNombre());
+                    str.append("\n");
                     cantidad++;
                 }
             }
         }
-        return cantidad;
+        str.append("---------------------------------------------------------------------\n");
+        String mensaje = "El doctor " + doctor.getNombreCompleto() + " brindo en total " + cantidad + " " + realizadoPorDoctor + "\n";
+        if (encontreTurno) {
+            str.append(mensaje);
+        } else {
+            str.append(mensajeSinResultados);
+        }
+        str.append("---------------------------------------------------------------------\n");
+        return str.toString();
     }
 
     public List<Turno> getTurnosDisponiblesPorPrestacion(Prestacion prestacion) {
@@ -216,8 +237,9 @@ public class Clinica {
     private List<Turno> obtenerTurnosAsistidosSegunEspeciliadadYMapa(HashMap<Prestacion, ArrayList<Turno>> turnos, Prestacion prestacion) {
         List<Turno> turnosAsistidos = new ArrayList<>();
         for (Turno t : getTurnosPorPrestacion(turnos, prestacion)) {
-            if (t.getAsistio())
+            if (t.getAsistio()) {
                 turnosAsistidos.add(t);
+            }
         }
         return turnosAsistidos;
     }
@@ -225,8 +247,9 @@ public class Clinica {
     private List<Turno> obtenerTurnosDisponiblesSegunEspeciliadadYMapa(HashMap<Prestacion, ArrayList<Turno>> turnos, Prestacion prestacion) {
         List<Turno> turnosDisponibles = new ArrayList<>();
         for (Turno t : getTurnosPorPrestacion(turnos, prestacion)) {
-            if (t.getDisponible())
+            if (t.getDisponible()) {
                 turnosDisponibles.add(t);
+            }
         }
         return turnosDisponibles;
     }
@@ -234,8 +257,9 @@ public class Clinica {
     public ArrayList<Especialidad> listaDeEspecialidades(boolean especialidadesActivas) {
         ArrayList<Especialidad> listaNueva = new ArrayList<>();
         for (int i = 0; i < getEspecialidades().size(); i++) {
-            if (getEspecialidades().get(i).getActiva().equals(especialidadesActivas))
+            if (getEspecialidades().get(i).getActiva().equals(especialidadesActivas)) {
                 listaNueva.add(getEspecialidades().get(i));
+            }
         }
         return listaNueva;
     }
@@ -320,7 +344,6 @@ public class Clinica {
                 ubicacionG,
                 ubicacionH,
                 ubicacionI));
-
 
         Especialidad radiologia = new Especialidad("Radiologia");
         Especialidad toxicologia = new Especialidad("Toxicologia");
