@@ -60,6 +60,9 @@ public class MenuAdministrativo {
                         break;
                     case 0:
                         salir = true;
+                        break;
+                    default:
+                        mostrarMenu(administrativo, sn);
                 }
             } catch (Exception e) {
                 System.out.println("Ocurrio un error al procesar su selección. Intente nuevamente!");

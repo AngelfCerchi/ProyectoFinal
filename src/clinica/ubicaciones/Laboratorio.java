@@ -20,7 +20,7 @@ public class Laboratorio extends Ubicacion {
         this.estudiosDisponibles = estudiosDisponibles;
     }
 
-    public ArrayList<Estudio> estudiosDisponibles(){
+    public ArrayList<Estudio> estudiosDisponibles() {
         return getEstudiosDisponibles();
     }
 }
