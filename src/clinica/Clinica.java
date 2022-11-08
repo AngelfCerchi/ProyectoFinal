@@ -31,6 +31,7 @@ public class Clinica {
         this.turnos = new HashMap<>();
         this.sobreTurnos = new HashMap<>();
         this.doctores = new ArrayList<>();
+        this.ubicaciones = new ArrayList<>();
         inicializarEspecialidades();
         inicializarTurnosYSobreturnos();
     }
@@ -106,14 +107,21 @@ public class Clinica {
         this.sobreTurnos = sobreTurnos;
     }
 
-    public void agregarPrestacion(Prestacion nuevaPrestacion, Especialidad especialidad) {
+    public void agregarPrestacion(Prestacion nuevaPrestacion) {
+        Especialidad especialidad = nuevaPrestacion.getEspecialidad();
+        getTurnos().put(nuevaPrestacion, generarTurnosNuevos());
+        getSobreTurnos().put(nuevaPrestacion, generarTurnosNuevos());
+        getPrestaciones().add(nuevaPrestacion);
         for (Especialidad e : getEspecialidades()) {
             if (e.getNombre().equals(especialidad.getNombre())) {
                 System.out.println("Se agregara la prestacion nueva para la especialidad " + especialidad.getNombre());
                 e.getPrestaciones().add(nuevaPrestacion);
             }
-            System.out.println("No existe la especialidad para la que se desea agregar la especliadad");
         }
+    }
+
+    private ArrayList<Turno> generarTurnosNuevos() {
+        return null;
     }
 
     public String reportePrestacionesPorDoctor(Doctor doctor) {
@@ -300,6 +308,16 @@ public class Clinica {
         };
         Ubicacion ubicacionI = new Ubicacion("Consultorio 09") {
         };
+
+        this.ubicaciones.addAll(Arrays.asList(ubicacionA,
+                ubicacionB,
+                ubicacionC,
+                ubicacionD,
+                ubicacionE,
+                ubicacionF,
+                ubicacionG,
+                ubicacionH,
+                ubicacionI));
 
 
         Especialidad radiologia = new Especialidad("Radiologia");

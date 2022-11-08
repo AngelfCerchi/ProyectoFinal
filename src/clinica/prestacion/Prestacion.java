@@ -19,6 +19,14 @@ public class Prestacion {
         nroPrestacion++;
     }
 
+    public Prestacion(String nombre, Boolean esEstudio, Especialidad especialidad, Ubicacion ubicacion) {
+        this.nombre = nombre;
+        this.activa = true;
+        this.esEstudio = esEstudio;
+        this.especialidad = especialidad;
+        this.ubicacion = ubicacion;
+    }
+
     public String getNombre() {
         return nombre;
     }
@@ -74,7 +82,7 @@ public class Prestacion {
     @Override
     public String toString() {
         return "Prestacion{" +
-                "nroPrestacion'" + this.nroPrestacion+ '\'' +
+                "nroPrestacion'" + this.nroPrestacion + '\'' +
                 "nombre='" + this.nombre + '\'' +
                 ", doctor=" + this.doctorAsociado +
                 ", activa=" + this.activa +

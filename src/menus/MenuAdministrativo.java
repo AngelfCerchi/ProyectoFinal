@@ -4,6 +4,7 @@ import clinica.Clinica;
 import clinica.Especialidad;
 import clinica.Turno;
 import clinica.prestacion.Prestacion;
+import clinica.ubicaciones.Ubicacion;
 import individuos.Administrativo;
 import individuos.Paciente;
 
@@ -134,12 +135,21 @@ public class MenuAdministrativo {
 
     private static void nuevaPrestacion(Administrativo administrativo, Scanner sn) {
         System.out.println("Crear prestacion nueva");
-        System.out.println("Seleccione a que Especialidad va a pertenecer la prestacion");
-        clinica.listaDeEspecialidades(true);
+        System.out.println("Seleccione a que Especialidad va a pertenecer la nueva prestacion");
+        ArrayList<Especialidad> especialidades = clinica.getEspecialidades();
+        System.out.println(MenuHelper.getStringEspecialidadesConIndice(especialidades));
         int especialidadElegida = sn.nextInt();
+        Especialidad especialidad = especialidades.get(especialidadElegida - 1);
         System.out.println("Nombre de la prestacion: ");
         String nombre = sn.next();
-        administrativo.crearPrestacion(nombre, clinica.getEspecialidades().get(especialidadElegida));
+        System.out.println("¿La prestacion a crear va a ser un estudio?\n" + "1- Si\n" + "2- No\n");
+        boolean esEstudio = sn.nextInt() == 1;
+        System.out.println("Seleccione la ubicacion donde se va a realizar la prestacion");
+        System.out.println(MenuHelper.getStringUbicaciones(clinica.getUbicaciones()));
+        int ubicacionElegida = sn.nextInt();
+        Ubicacion ubicacion = clinica.getUbicaciones().get(ubicacionElegida - 1);
+        Prestacion prestacionNueva = administrativo.crearPrestacion(nombre, esEstudio, especialidad, ubicacion);
+        System.out.println("Se creo la prestacion: " + prestacionNueva.getNombre());
     }
 
     private static void darTurno(Administrativo administrativo, Scanner sn) {

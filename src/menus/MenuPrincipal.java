@@ -27,7 +27,6 @@ public class MenuPrincipal {
                         MenuAdministrativo.mostrarMenu(administrativo, sn);
                         break;
                     case 3:
-
                         MenuDoctor.mostrarMenu(sn);
                         break;
                     case 4:
