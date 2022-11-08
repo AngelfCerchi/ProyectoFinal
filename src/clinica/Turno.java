@@ -123,6 +123,7 @@ public class Turno {
                 ", doctor=" + doctor +
                 ", prestacionBrindada=" + prestacionBrindada +
                 ", especialidadDelTurno=" + especialidadDelTurno +
+                ", ausente=" + ausente +
                 ", ubicacionTurno=" + ubicacionTurno +
                 '}';
     }

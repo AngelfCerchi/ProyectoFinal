@@ -27,7 +27,6 @@ public class MenuPrincipal {
                         MenuAdministrativo.mostrarMenu(administrativo, sn);
                         break;
                     case 3:
-                        System.out.println("Indique que dodctor es:");
 
                         MenuDoctor.mostrarMenu(sn);
                         break;
