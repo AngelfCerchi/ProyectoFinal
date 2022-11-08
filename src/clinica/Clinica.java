@@ -18,8 +18,10 @@ public class Clinica {
     private ArrayList<Paciente> pacientes;
     private ArrayList<Especialidad> especialidades;
     private ArrayList<Prestacion> prestaciones;
+    private ArrayList<Doctor> doctores;
     private HashMap<Prestacion, ArrayList<Turno>> turnos;
     private HashMap<Prestacion, ArrayList<Turno>> sobreTurnos;
+    private ArrayList<Ubicacion> ubicaciones;
 
     public Clinica() {
         this.director = new Director("Martin", "Abogado", "36758988");
@@ -28,6 +30,7 @@ public class Clinica {
         this.prestaciones = new ArrayList<>();
         this.turnos = new HashMap<>();
         this.sobreTurnos = new HashMap<>();
+        this.doctores = new ArrayList<>();
         inicializarEspecialidades();
         inicializarTurnosYSobreturnos();
     }
@@ -37,6 +40,14 @@ public class Clinica {
             instance = new Clinica();
         }
         return instance;
+    }
+
+    public ArrayList<Doctor> getDoctores() {
+        return doctores;
+    }
+
+    public void setDoctores(ArrayList<Doctor> doctores) {
+        this.doctores = doctores;
     }
 
     public Director getDirector() {
@@ -81,6 +92,14 @@ public class Clinica {
 
     public HashMap<Prestacion, ArrayList<Turno>> getSobreTurnos() {
         return sobreTurnos;
+    }
+
+    public ArrayList<Ubicacion> getUbicaciones() {
+        return ubicaciones;
+    }
+
+    public void setUbicaciones(ArrayList<Ubicacion> ubicaciones) {
+        this.ubicaciones = ubicaciones;
     }
 
     public void setSobreTurnos(HashMap<Prestacion, ArrayList<Turno>> sobreTurnos) {
@@ -292,57 +311,74 @@ public class Clinica {
 
         /**/
 
+        Doctor nicolas = new Doctor("Nico", "Coluc", "37123231");
+        Doctor nestorK = new Doctor("Nestor", "Krack", "123412612");
+        Doctor florK = new Doctor("Florencia", "Kraken", "89754112");
+        Doctor mercedes = new Doctor("Mereceds", "Passucci", "25789125");
+        Doctor martinIbarrola = new Doctor("Martin", "Ibarrolla", "27898541");
+        Doctor lisMont = new Doctor("Lis", "Monti", "37869099");
+        Doctor ubaldoLanza = new Doctor("Ubaldo", "Lanza", "4089123");
+
+
+        doctores.add(nicolas);
+        doctores.add(nestorK);
+        doctores.add(florK);
+        doctores.add(mercedes);
+        doctores.add(martinIbarrola);
+        doctores.add(lisMont);
+        doctores.add(ubaldoLanza);
+
         Prestacion placaToraxica = new Estudio("RX Torax");
         placaToraxica.setEsEstudio(true);
-        placaToraxica.setDoctorAsociado(new Doctor("Nico", "Coluc", "37123231"));
+        placaToraxica.setDoctorAsociado(nicolas);
         placaToraxica.setEspecialidad(radiologia);
         placaToraxica.setUbicacion(ubicacionA);
 
         Prestacion estudioAzufre = new Estudio("Analisis Azufre");
         estudioAzufre.setEsEstudio(true);
-        estudioAzufre.setDoctorAsociado(new Doctor("Mart", "Law", "123412612"));
+        estudioAzufre.setDoctorAsociado(nestorK);
         estudioAzufre.setEspecialidad(toxicologia);
         estudioAzufre.setUbicacion(ubicacionB);
 
         Prestacion estudioCianuro = new Estudio("Analisis Cianuro");
         estudioCianuro.setEsEstudio(true);
-        estudioCianuro.setDoctorAsociado(new Doctor("Mart", "Law", "123412612"));
+        estudioCianuro.setDoctorAsociado(florK);
         estudioCianuro.setEspecialidad(toxicologia);
         estudioCianuro.setUbicacion(ubicacionC);
 
         Prestacion terapia = new PrestacionTradicional("Terapia");
         terapia.setEsEstudio(false);
-        terapia.setDoctorAsociado(new Doctor("Mercedes", "P", "123231723"));
+        terapia.setDoctorAsociado(mercedes);
         terapia.setEspecialidad(psicologia);
         terapia.setUbicacion(ubicacionD);
 
         Prestacion consulta = new PrestacionTradicional("Consulta Gral");
         consulta.setEsEstudio(false);
-        consulta.setDoctorAsociado(new Doctor("Mart", "Law", "123412612"));
+        consulta.setDoctorAsociado(ubaldoLanza);
         consulta.setEspecialidad(medicinaClinica);
         consulta.setUbicacion(ubicacionE);
 
         Prestacion biopsiaPiel = new Estudio("Biopsia de Piel");
         biopsiaPiel.setEsEstudio(true);
-        biopsiaPiel.setDoctorAsociado(new Doctor("Mart", "Law", "123412612"));
+        biopsiaPiel.setDoctorAsociado(lisMont);
         biopsiaPiel.setEspecialidad(dermatologia);
         biopsiaPiel.setUbicacion(ubicacionF);
 
         Prestacion limpiezaFacial = new PrestacionTradicional("Limpieza cutis");
         limpiezaFacial.setEsEstudio(false);
-        limpiezaFacial.setDoctorAsociado(new Doctor("Mart", "Law", "123412612"));
+        limpiezaFacial.setDoctorAsociado(lisMont);
         limpiezaFacial.setEspecialidad(dermatologia);
         limpiezaFacial.setUbicacion(ubicacionG);
 
         Prestacion electroCardiograma = new Estudio("Electrocardiograma");
         electroCardiograma.setEsEstudio(true);
-        electroCardiograma.setDoctorAsociado(new Doctor("Mart", "Law", "123412612"));
+        electroCardiograma.setDoctorAsociado(martinIbarrola);
         electroCardiograma.setEspecialidad(cardiologia);
         electroCardiograma.setUbicacion(ubicacionH);
 
         Prestacion ergometria = new Estudio("Ergometria");
         ergometria.setEsEstudio(true);
-        ergometria.setDoctorAsociado(new Doctor("Mart", "Law", "123412612"));
+        ergometria.setDoctorAsociado(martinIbarrola);
         ergometria.setEspecialidad(cardiologia);
         ergometria.setUbicacion(ubicacionI);
 

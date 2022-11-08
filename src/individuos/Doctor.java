@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class Doctor extends Persona {
 
     private ArrayList<Especialidad> especialidades = new ArrayList<>();
+
     /**
      * CONSTRUCTOR
      *
@@ -33,6 +34,10 @@ public class Doctor extends Persona {
 
     public void setEspecialidades(ArrayList<Especialidad> especialidades) {
         this.especialidades = especialidades;
+    }
+
+    public boolean trabajaParaLaEspecialidad(Especialidad especialidad) {
+        return especialidades.stream().anyMatch(x -> x.getNombre().equals(especialidad.getNombre()));
     }
 
 }
