@@ -15,16 +15,8 @@ public class Prescripcion {
         return medicamentos;
     }
 
-    public void setMedicamentos(ArrayList<Medicamento> medicamentos) {
-        this.medicamentos = medicamentos;
-    }
-
     public ArrayList<Estudio> getEstudios() {
         return estudios;
-    }
-
-    public void setEstudios(ArrayList<Estudio> estudios) {
-        this.estudios = estudios;
     }
 
     public void agregarEstudio(Estudio estudio) {

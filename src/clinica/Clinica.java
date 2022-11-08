@@ -1,14 +1,12 @@
 package clinica;
 
-import clinica.prestacion.Estudio;
 import clinica.prestacion.Prestacion;
-import clinica.prestacion.PrestacionTradicional;
 import clinica.ubicaciones.Ubicacion;
 import individuos.Director;
 import individuos.Doctor;
 import individuos.Paciente;
 
-import java.time.LocalDateTime;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -26,7 +24,7 @@ public class Clinica {
 
     public Clinica() {
         this.nombre = "Clinica San Andres Juarez";
-        this.director = new Director("Pepe", "Bolanios", "36758988");
+        this.director = new Director("Pedro", "Bolanios", "36758988");
         this.pacientes = new ArrayList<>();
         this.especialidades = new ArrayList<>();
         this.prestaciones = new ArrayList<>();
@@ -34,8 +32,8 @@ public class Clinica {
         this.sobreTurnos = new HashMap<>();
         this.doctores = new ArrayList<>();
         this.ubicaciones = new ArrayList<>();
-        inicializarEspecialidades();
-        inicializarTurnosYSobreturnos();
+        GeneradorDeDatos.crearDoctoresEspecialidadesYPrestaciones(this.doctores, this.prestaciones, this.especialidades, this.ubicaciones);
+        GeneradorDeDatos.asignarTurnosAPrestaciones(this.turnos, this.sobreTurnos, this.prestaciones);
     }
 
     public static Clinica getInstance() {
@@ -45,28 +43,16 @@ public class Clinica {
         return instance;
     }
 
-    public ArrayList<Doctor> getDoctores() {
-        return doctores;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setDoctores(ArrayList<Doctor> doctores) {
-        this.doctores = doctores;
-    }
-
-    public Director getDirector() {
-        return director;
-    }
-
-    public void setDirector(Director director) {
-        this.director = director;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public ArrayList<Paciente> getPacientes() {
         return pacientes;
-    }
-
-    public void setPacientes(ArrayList<Paciente> pacientes) {
-        this.pacientes = pacientes;
     }
 
     public ArrayList<Especialidad> getEspecialidades() {
@@ -77,20 +63,12 @@ public class Clinica {
         return prestaciones;
     }
 
-    public void setPrestaciones(ArrayList<Prestacion> prestaciones) {
-        this.prestaciones = prestaciones;
-    }
-
-    public void setEspecialidades(ArrayList<Especialidad> especialidades) {
-        this.especialidades = especialidades;
+    public ArrayList<Doctor> getDoctores() {
+        return doctores;
     }
 
     public HashMap<Prestacion, ArrayList<Turno>> getTurnos() {
         return turnos;
-    }
-
-    public void setTurnos(HashMap<Prestacion, ArrayList<Turno>> turnos) {
-        this.turnos = turnos;
     }
 
     public HashMap<Prestacion, ArrayList<Turno>> getSobreTurnos() {
@@ -105,14 +83,9 @@ public class Clinica {
         this.ubicaciones = ubicaciones;
     }
 
-    public void setSobreTurnos(HashMap<Prestacion, ArrayList<Turno>> sobreTurnos) {
-        this.sobreTurnos = sobreTurnos;
-    }
-
     public void agregarPrestacion(Prestacion nuevaPrestacion) {
         Especialidad especialidad = nuevaPrestacion.getEspecialidad();
-        getTurnos().put(nuevaPrestacion, generarTurnosNuevosParaNuevaPrestacion());
-        getSobreTurnos().put(nuevaPrestacion, generarTurnosNuevosParaNuevaPrestacion());
+        GeneradorDeDatos.crearTurnosYSobreTurnosParaPrestacion(turnos, sobreTurnos, nuevaPrestacion);
         getPrestaciones().add(nuevaPrestacion);
         for (Especialidad e : getEspecialidades()) {
             if (e.getNombre().equals(especialidad.getNombre())) {
@@ -120,10 +93,6 @@ public class Clinica {
                 e.getPrestaciones().add(nuevaPrestacion);
             }
         }
-    }
-
-    private ArrayList<Turno> generarTurnosNuevosParaNuevaPrestacion() {
-        return null;
     }
 
     public String reportePrestacionesPorDoctor(Doctor doctor, boolean esEstudio) {
@@ -194,24 +163,10 @@ public class Clinica {
         return listaTurnos;
     }
 
-    public List<Turno> getTurnosAsistidosPorPrestacion(Prestacion prestacion) {
-        return obtenerTurnosAsistidosSegunEspeciliadadYMapa(turnos, prestacion);
-    }
-
-    public List<Turno> getSobreTurnosAsistidosPorPrestacion(Prestacion prestacion) {
-        return obtenerTurnosAsistidosSegunEspeciliadadYMapa(sobreTurnos, prestacion);
-    }
-
     public List<Prestacion> getPrestacionesPorEspecialidad(Especialidad especialidad, boolean activas) {
         return getEspecialidades().stream()
                 .filter(x -> x.getNombre().equals(especialidad.getNombre()))
                 .findFirst().get().getPrestaciones().stream().filter(x -> x.getActiva().equals(activas)).collect(Collectors.toList());
-    }
-
-    public List<Prestacion> getPrestacionesActivas() {
-        List<Prestacion> prestaciones = new ArrayList<>();
-        getEspecialidades().stream().forEach(x -> prestaciones.addAll(getPrestacionesPorEspecialidad(x, false)));
-        return prestaciones;
     }
 
     public Paciente getPacientePorDni(String dni) {
@@ -234,16 +189,6 @@ public class Clinica {
         getPrestaciones().stream().filter(x -> x.getNombre().equals(prestacion.getNombre())).findFirst().get().setActiva(activa);
     }
 
-    private List<Turno> obtenerTurnosAsistidosSegunEspeciliadadYMapa(HashMap<Prestacion, ArrayList<Turno>> turnos, Prestacion prestacion) {
-        List<Turno> turnosAsistidos = new ArrayList<>();
-        for (Turno t : getTurnosPorPrestacion(turnos, prestacion)) {
-            if (t.getAsistio()) {
-                turnosAsistidos.add(t);
-            }
-        }
-        return turnosAsistidos;
-    }
-
     private List<Turno> obtenerTurnosDisponiblesSegunEspeciliadadYMapa(HashMap<Prestacion, ArrayList<Turno>> turnos, Prestacion prestacion) {
         List<Turno> turnosDisponibles = new ArrayList<>();
         for (Turno t : getTurnosPorPrestacion(turnos, prestacion)) {
@@ -262,19 +207,6 @@ public class Clinica {
             }
         }
         return listaNueva;
-    }
-
-    public String listarPrestacionesActivas(Especialidad especialidad) {
-        StringBuilder str = new StringBuilder();
-        List<Prestacion> prestacionesDisponiblesPorEspecialidad = getPrestacionesPorEspecialidad(especialidad, true);
-        for (Prestacion pdispo : prestacionesDisponiblesPorEspecialidad) {
-            for (int i = 0; i < prestaciones.size(); i++) {
-                if (prestaciones.get(i).getNombre().equals(pdispo.getNombre())) {
-                    str.append(i).append(" - ").append(prestaciones.get(i).getNombre()).append("\n");
-                }
-            }
-        }
-        return str.toString();
     }
 
     public String listarHorariosDeTodosLosTurnosPorPrestacion(Prestacion prestacion) {
@@ -312,235 +244,6 @@ public class Clinica {
             turno = listaSobreTurnos.get(indice - 1 - listaTurnos.size());
         }
         return turno;
-    }
-
-    private void inicializarEspecialidades() {
-
-        Ubicacion ubicacionA = new Ubicacion("Consultorio 01") {
-        };
-        Ubicacion ubicacionB = new Ubicacion("Consultorio 02") {
-        };
-        Ubicacion ubicacionC = new Ubicacion("Consultorio 03") {
-        };
-        Ubicacion ubicacionD = new Ubicacion("Consultorio 04") {
-        };
-        Ubicacion ubicacionE = new Ubicacion("Consultorio 05") {
-        };
-        Ubicacion ubicacionF = new Ubicacion("Consultorio 06") {
-        };
-        Ubicacion ubicacionG = new Ubicacion("Consultorio 07") {
-        };
-        Ubicacion ubicacionH = new Ubicacion("Consultorio 08") {
-        };
-        Ubicacion ubicacionI = new Ubicacion("Consultorio 09") {
-        };
-
-        this.ubicaciones.addAll(Arrays.asList(ubicacionA,
-                ubicacionB,
-                ubicacionC,
-                ubicacionD,
-                ubicacionE,
-                ubicacionF,
-                ubicacionG,
-                ubicacionH,
-                ubicacionI));
-
-        Especialidad radiologia = new Especialidad("Radiologia");
-        Especialidad toxicologia = new Especialidad("Toxicologia");
-        Especialidad psicologia = new Especialidad("Psicologia");
-        Especialidad medicinaClinica = new Especialidad("Medicina Clinica");
-        Especialidad dermatologia = new Especialidad("Dermatologia");
-        Especialidad cardiologia = new Especialidad("Cardiologia");
-
-        /**/
-
-        Doctor nicolas = new Doctor("Nico", "Coluc", "37123231");
-        Doctor nestorK = new Doctor("Nestor", "Krack", "123412612");
-        Doctor florK = new Doctor("Florencia", "Kraken", "89754112");
-        Doctor mercedes = new Doctor("Mereceds", "Passucci", "25789125");
-        Doctor martinIbarrola = new Doctor("Martin", "Ibarrolla", "27898541");
-        Doctor lisMont = new Doctor("Lis", "Monti", "37869099");
-        Doctor ubaldoLanza = new Doctor("Ubaldo", "Lanza", "4089123");
-
-
-        doctores.add(nicolas);
-        doctores.add(nestorK);
-        doctores.add(florK);
-        doctores.add(mercedes);
-        doctores.add(martinIbarrola);
-        doctores.add(lisMont);
-        doctores.add(ubaldoLanza);
-
-        Prestacion placaToraxica = new Estudio("RX Torax");
-        placaToraxica.setEsEstudio(true);
-        placaToraxica.setDoctorAsociado(nicolas);
-        placaToraxica.setEspecialidad(radiologia);
-        placaToraxica.setUbicacion(ubicacionA);
-
-        Prestacion estudioAzufre = new Estudio("Analisis Azufre");
-        estudioAzufre.setEsEstudio(true);
-        estudioAzufre.setDoctorAsociado(nestorK);
-        estudioAzufre.setEspecialidad(toxicologia);
-        estudioAzufre.setUbicacion(ubicacionB);
-
-        Prestacion estudioCianuro = new Estudio("Analisis Cianuro");
-        estudioCianuro.setEsEstudio(true);
-        estudioCianuro.setDoctorAsociado(florK);
-        estudioCianuro.setEspecialidad(toxicologia);
-        estudioCianuro.setUbicacion(ubicacionC);
-
-        Prestacion terapia = new PrestacionTradicional("Terapia");
-        terapia.setEsEstudio(false);
-        terapia.setDoctorAsociado(mercedes);
-        terapia.setEspecialidad(psicologia);
-        terapia.setUbicacion(ubicacionD);
-
-        Prestacion consulta = new PrestacionTradicional("Consulta Gral");
-        consulta.setEsEstudio(false);
-        consulta.setDoctorAsociado(ubaldoLanza);
-        consulta.setEspecialidad(medicinaClinica);
-        consulta.setUbicacion(ubicacionE);
-
-        Prestacion biopsiaPiel = new Estudio("Biopsia de Piel");
-        biopsiaPiel.setEsEstudio(true);
-        biopsiaPiel.setDoctorAsociado(lisMont);
-        biopsiaPiel.setEspecialidad(dermatologia);
-        biopsiaPiel.setUbicacion(ubicacionF);
-
-        Prestacion limpiezaFacial = new PrestacionTradicional("Limpieza cutis");
-        limpiezaFacial.setEsEstudio(false);
-        limpiezaFacial.setDoctorAsociado(lisMont);
-        limpiezaFacial.setEspecialidad(dermatologia);
-        limpiezaFacial.setUbicacion(ubicacionG);
-
-        Prestacion electroCardiograma = new Estudio("Electrocardiograma");
-        electroCardiograma.setEsEstudio(true);
-        electroCardiograma.setDoctorAsociado(martinIbarrola);
-        electroCardiograma.setEspecialidad(cardiologia);
-        electroCardiograma.setUbicacion(ubicacionH);
-
-        Prestacion ergometria = new Estudio("Ergometria");
-        ergometria.setEsEstudio(true);
-        ergometria.setDoctorAsociado(martinIbarrola);
-        ergometria.setEspecialidad(cardiologia);
-        ergometria.setUbicacion(ubicacionI);
-
-
-        radiologia.getPrestaciones().add(placaToraxica);
-
-        toxicologia.getPrestaciones().add(estudioAzufre);
-        toxicologia.getPrestaciones().add(estudioCianuro);
-
-        consulta.setActiva(false);
-        terapia.setActiva(true);
-        psicologia.getPrestaciones().add(terapia);
-        psicologia.getPrestaciones().add(consulta);
-
-        medicinaClinica.getPrestaciones().add(consulta);
-
-        dermatologia.getPrestaciones().add(biopsiaPiel);
-        dermatologia.getPrestaciones().add(limpiezaFacial);
-
-
-        cardiologia.getPrestaciones().add(electroCardiograma);
-        cardiologia.getPrestaciones().add(ergometria);
-        cardiologia.getPrestaciones().add(consulta);
-
-        this.prestaciones.add(placaToraxica);
-        this.prestaciones.add(estudioAzufre);
-        this.prestaciones.add(estudioCianuro);
-        this.prestaciones.add(terapia);
-        this.prestaciones.add(consulta);
-        this.prestaciones.add(biopsiaPiel);
-        this.prestaciones.add(limpiezaFacial);
-        this.prestaciones.add(electroCardiograma);
-        this.prestaciones.add(ergometria);
-
-        /**/
-
-        this.especialidades.add(radiologia);
-        this.especialidades.add(toxicologia);
-        this.especialidades.add(psicologia);
-        this.especialidades.add(medicinaClinica);
-        this.especialidades.add(dermatologia);
-        this.especialidades.add(cardiologia);
-
-    }
-
-    private void inicializarTurnosYSobreturnos() {
-        ArrayList<Especialidad> esp = new ArrayList<>();
-
-        for (Especialidad e : this.especialidades) {
-            esp.add(e);
-        }
-
-        //Los turnos son de 1 hora, politica de la Clinica.
-        //En horario de almuerzo, de 13 a 14 hrs no se atienden turnos.
-
-        LocalDateTime hoy = LocalDateTime.now();
-
-        Turno t1 = new Turno(LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 9, 0), LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 10, 0));
-        Turno t2 = new Turno(LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 10, 0), LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 11, 0));
-        Turno t3 = new Turno(LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 11, 0), LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 12, 0));
-        Turno t4 = new Turno(LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 12, 0), LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 13, 0));
-        Turno t5 = new Turno(LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 14, 0), LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 15, 0));
-        Turno t6 = new Turno(LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 15, 0), LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 16, 0));
-        Turno t7 = new Turno(LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 16, 0), LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 17, 0));
-        Turno t8 = new Turno(LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 17, 0), LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 18, 0));
-
-        Turno t9 = new Turno(LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 9, 0), LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 10, 0));
-        Turno t10 = new Turno(LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 10, 0), LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 11, 0));
-        Turno t11 = new Turno(LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 11, 0), LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 12, 0));
-        Turno t12 = new Turno(LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 12, 0), LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 13, 0));
-        Turno t13 = new Turno(LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 14, 0), LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 15, 0));
-        Turno t14 = new Turno(LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 15, 0), LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 16, 0));
-        Turno t15 = new Turno(LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 16, 0), LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 17, 0));
-        Turno t16 = new Turno(LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 17, 0), LocalDateTime.of(hoy.getYear(), hoy.getMonth(), hoy.getDayOfMonth(), 18, 0));
-
-        ArrayList<Turno> turnosDisponibles = new ArrayList<>();
-        turnosDisponibles.add(t1);
-        turnosDisponibles.add(t2);
-
-        ArrayList<Turno> turnosDisponibles2 = new ArrayList<>();
-        turnosDisponibles2.add(t3);
-        turnosDisponibles2.add(t4);
-
-        ArrayList<Turno> turnosDisponibles3 = new ArrayList<>();
-        turnosDisponibles3.add(t5);
-        turnosDisponibles3.add(t6);
-
-        ArrayList<Turno> turnosDisponibles4 = new ArrayList<>();
-        turnosDisponibles4.add(t7);
-        turnosDisponibles4.add(t8);
-
-        ArrayList<Turno> sobreTurnosDisponibles = new ArrayList<>();
-        sobreTurnosDisponibles.add(t9);
-        sobreTurnosDisponibles.add(t10);
-
-        ArrayList<Turno> sobreTurnosDisponibles2 = new ArrayList<>();
-        sobreTurnosDisponibles2.add(t11);
-        sobreTurnosDisponibles2.add(t12);
-
-        ArrayList<Turno> sobreTurnosDisponibles3 = new ArrayList<>();
-        sobreTurnosDisponibles3.add(t13);
-        sobreTurnosDisponibles3.add(t14);
-
-        ArrayList<Turno> sobreTurnosDisponibles4 = new ArrayList<>();
-        sobreTurnosDisponibles4.add(t15);
-        sobreTurnosDisponibles4.add(t16);
-
-        turnos.put(this.prestaciones.get(0), turnosDisponibles);
-        sobreTurnos.put(this.prestaciones.get(0), sobreTurnosDisponibles);
-
-        turnos.put(this.prestaciones.get(1), turnosDisponibles2);
-        sobreTurnos.put(this.prestaciones.get(1), sobreTurnosDisponibles2);
-
-        turnos.put(this.prestaciones.get(2), turnosDisponibles3);
-        sobreTurnos.put(this.prestaciones.get(2), sobreTurnosDisponibles3);
-
-        turnos.put(this.prestaciones.get(3), turnosDisponibles4);
-        sobreTurnos.put(this.prestaciones.get(3), sobreTurnosDisponibles4);
-
     }
 
     @Override

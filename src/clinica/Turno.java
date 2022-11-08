@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Turno {
-    private static int nroTurno = 0;
     private LocalDateTime inicio;
     private LocalDateTime fin;
     private Boolean asistio;
@@ -29,27 +28,14 @@ public class Turno {
         this.disponible = true;
         this.turnoPagado = false;
         this.tipoDePago = "Impago";
-        nroTurno++;
-    }
-
-    public static int getNroTurno() {
-        return nroTurno;
     }
 
     public LocalDateTime getInicio() {
         return inicio;
     }
 
-    public void setInicio(LocalDateTime inicio) {
-        this.inicio = inicio;
-    }
-
     public LocalDateTime getFin() {
         return fin;
-    }
-
-    public void setFin(LocalDateTime fin) {
-        this.fin = fin;
     }
 
     public Boolean getAsistio() {
@@ -90,10 +76,6 @@ public class Turno {
 
     public void setDoctor(Doctor doctor) {
         this.doctor = doctor;
-    }
-
-    public Especialidad getEspecialidadDelTurno() {
-        return especialidadDelTurno;
     }
 
     public void setEspecialidadDelTurno(Especialidad especialidadDelTurno) {

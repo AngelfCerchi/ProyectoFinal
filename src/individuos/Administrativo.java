@@ -23,8 +23,9 @@ public class Administrativo extends Persona {
         super(nombre, apellido, dni);
     }
 
-    public Prestacion crearPrestacion(String nombre, Boolean esEstudio, Especialidad especialidad, Ubicacion ubicacion) {
+    public Prestacion crearPrestacion(String nombre, Boolean esEstudio, Especialidad especialidad, Ubicacion ubicacion, Doctor doctor) {
         Prestacion nuevaPrestacion = new Prestacion(nombre, esEstudio, especialidad, ubicacion);
+        nuevaPrestacion.setDoctorAsociado(doctor);
         clinica.agregarPrestacion(nuevaPrestacion);
         return nuevaPrestacion;
     }

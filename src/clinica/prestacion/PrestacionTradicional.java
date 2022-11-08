@@ -27,10 +27,6 @@ public class PrestacionTradicional extends Prestacion {
         return prescripciones;
     }
 
-    public void setPrescripciones(ArrayList<Prescripcion> prescripciones) {
-        this.prescripciones = prescripciones;
-    }
-
     public void agregarPrescripcion(Prescripcion prescripcion) {
         getPrescripciones().add(prescripcion);
     }

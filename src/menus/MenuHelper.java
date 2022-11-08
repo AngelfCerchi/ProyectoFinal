@@ -16,6 +16,10 @@ public class MenuHelper {
 
     private static final Clinica clinica = Clinica.getInstance();
 
+    private static String MENSAJE_INTRODUZCA_VALOR = "Introduzca un valor por favor: ";
+
+    private static String MENSAJE_DATO_INCORRECTO = "X - Dato ingresado incorrecto - X";
+
     protected static void imprimirMenu(List<String> menu) {
         menu.forEach(System.out::println);
     }
@@ -63,10 +67,39 @@ public class MenuHelper {
         return str.toString();
     }
 
+    /*
+     * Pre: recibe el scanner para la interaccion con el usuario, un int minimo y int maximo
+     * Post: controla que el usuario no pueda introducir ningun valor que no corresponda
+     * y que no este entre el minimo y el maximo. Luego retorna el valor que puso el usuario si es correcto
+     * @return: String
+     */
+    protected static Integer controlDeOpcionElegidaEntero(Scanner scanner, int minimo, int maximo) {
+        String opcion = scanner.next();
+        if (opcion.equals("")) {
+            System.out.println(MENSAJE_DATO_INCORRECTO);
+            System.out.println("Por favor a continuacion ingrese un numero entre " + minimo + " y " + maximo);
+            return controlDeOpcionElegidaEntero(scanner, minimo, maximo);
+        }
+        if (opcion.matches("[0-9]*")) {
+            Integer opcionInteger = Integer.parseInt(opcion);
+            if (opcionInteger <= maximo && opcionInteger >= minimo) {
+                return Integer.parseInt(opcion);
+            } else {
+                System.out.println(MENSAJE_DATO_INCORRECTO);
+                System.out.println("Por favor a continuacion ingrese un numero entre " + minimo + " y " + maximo);
+                return controlDeOpcionElegidaEntero(scanner, minimo, maximo);
+            }
+        } else {
+            System.out.println(MENSAJE_DATO_INCORRECTO);
+            System.out.println("Por favor a continuacion ingrese un numero entre " + minimo + " y " + maximo);
+            return controlDeOpcionElegidaEntero(scanner, minimo, maximo);
+        }
+    }
+
     protected static List<Turno> listarTurnosDelPaciente(Scanner sn) {
         System.out.println("Turnos del paciente");
         System.out.println("Ingrese el DNI del paciente: ");
-        int dni = sn.nextInt();
+        int dni = MenuHelper.controlDeOpcionElegidaEntero(sn, 1, 99999999);
         Paciente paciente = clinica.getPacientePorDni(String.valueOf(dni));
         if (paciente != null) {
             List<Turno> turnosDelPaciente = clinica.getListaTurnosDePaciente(paciente);

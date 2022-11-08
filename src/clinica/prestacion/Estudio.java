@@ -13,27 +13,27 @@ public class Estudio extends Prestacion {
         this.setEsEstudio(true);
     }
 
-    public LocalDateTime getFechaYHoraRealizacion() {
-        return fechaYHoraRealizacion;
-    }
-
     public void setFechaYHoraRealizacion(LocalDateTime fechaYHoraRealizacion) {
         this.fechaYHoraRealizacion = fechaYHoraRealizacion;
     }
 
-    public boolean isAsistio() {
-        return asistio;
+    public String asistioToString() {
+        return asistio ? "Si" : "No";
     }
 
     public void setAsistio(boolean asistio) {
         this.asistio = asistio;
     }
 
+    public String getFechaToString() {
+        return this.fechaYHoraRealizacion == null ? "No hay fecha" : fechaYHoraRealizacion.toString();
+    }
+
     @Override
     public String toString() {
         return "Estudio{" +
                 "fechaYHoraRealizacion=" + fechaYHoraRealizacion +
-                ", asistio=" + asistio +
+                ", asistio=" + asistioToString() +
                 '}';
     }
 }
