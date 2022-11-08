@@ -522,6 +522,6 @@ public class Clinica {
 
     @Override
     public String toString() {
-        return nombre+" Director: "+director.getNombreCompleto();
+        return nombre + " Director: " + director.getNombreCompleto();
     }
 }

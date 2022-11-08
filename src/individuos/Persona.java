@@ -29,7 +29,7 @@ public abstract class Persona {
         return dni;
     }
 
-    public String getNombreCompleto(){
+    public String getNombreCompleto() {
         return getNombre() + " " + getApellido();
     }
 

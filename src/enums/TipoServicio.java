@@ -25,6 +25,7 @@ public enum TipoServicio {
         }
         return str.toString();
     }
+
     public static TipoServicio seleccionarTipoPorIndice(int indice) {
         return TipoServicio.values()[indice - 1];
     }
