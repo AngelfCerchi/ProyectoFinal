@@ -85,6 +85,6 @@ public class Prestacion {
 
     @Override
     public String toString() {
-        return "Nombre: "+nombre+" Doctor: "+doctorAsociado+" Activa: " + activaFormat() ;
+        return "Nombre: " + nombre + " Doctor: " + doctorAsociado + " Activa: " + activaFormat();
     }
 }
