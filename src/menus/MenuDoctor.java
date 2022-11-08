@@ -60,7 +60,7 @@ public class MenuDoctor {
 
     private static void atenderPaciente(Scanner sn, Doctor doctor) {
         System.out.println("Atendiendo paciente. Se completara la prestacion del turno");
-        List<Turno> turnos = listarTurnosDelPaciente(sn);
+        List<Turno> turnos = MenuHelper.listarTurnosDelPaciente(sn);
         Turno turnoAtendido;
         if (turnos == null || turnos.size() < 1) {
             System.out.println("No se encontraron turnos");
@@ -134,7 +134,7 @@ public class MenuDoctor {
     }
 
     private static void registrarAsistencia(Scanner sn, Doctor doctor) {
-        List<Turno> turnos = listarTurnosDelPaciente(sn);
+        List<Turno> turnos = MenuHelper.listarTurnosDelPaciente(sn);
         if (turnos == null || turnos.size() < 1) {
             System.out.println("No se encontraron turnos");
         } else {
@@ -142,23 +142,6 @@ public class MenuDoctor {
             int turnoSeleccionado = sn.nextInt();
             doctor.registrarAsistenciaPaciente(turnos, turnoSeleccionado);
             System.out.println("Se registro la asistencia");
-        }
-    }
-
-    private static List<Turno> listarTurnosDelPaciente(Scanner sn) {
-        System.out.println("Turnos del paciente");
-        System.out.println("Ingrese el DNI del paciente: ");
-        int dni = sn.nextInt();
-        Paciente paciente = clinica.getPacientePorDni(String.valueOf(dni));
-        if (paciente != null) {
-            List<Turno> turnosDelPaciente = clinica.getListaTurnosDePaciente(paciente);
-            String mensaje = turnosDelPaciente.isEmpty() ? "El paciente no tiene tiene ningun turno asociado todavia"
-                    : "El paciente tiene los siguientes turnos: \n" + MenuHelper.getStringTurnosDelPaciente(turnosDelPaciente);
-            System.out.println(mensaje);
-            return turnosDelPaciente;
-        } else {
-            System.out.println("El paciente no existe en nuestra base. No tiene turnos asignados");
-            return null;
         }
     }
 

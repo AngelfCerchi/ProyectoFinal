@@ -16,6 +16,8 @@ public class Turno {
     private Boolean disponible;
     private Persona pacienteAsociado;
     private Doctor doctor;
+    private Boolean turnoPagado;
+    private String tipoDePago;
     private Prestacion prestacionBrindada;
     private Especialidad especialidadDelTurno;
     private Ubicacion ubicacionTurno;
@@ -25,6 +27,8 @@ public class Turno {
         this.fin = fin;
         this.asistio = false;
         this.disponible = true;
+        this.turnoPagado = false;
+        this.tipoDePago = "Impago";
         nroTurno++;
     }
 
@@ -104,6 +108,22 @@ public class Turno {
         this.ubicacionTurno = ubicacionTurno;
     }
 
+    public Boolean getTurnoPagado() {
+        return turnoPagado;
+    }
+
+    public void setTurnoPagado(Boolean turnoPagado) {
+        this.turnoPagado = turnoPagado;
+    }
+
+    public String getTipoDePago() {
+        return tipoDePago;
+    }
+
+    public void setTipoDePago(String tipoDePago) {
+        this.tipoDePago = tipoDePago;
+    }
+
     public void registrarAsistenciaPaciente() {
         setAsistio(true);
     }
@@ -121,10 +141,17 @@ public class Turno {
         return getAsistio() ? "Si" : "No";
     }
 
+    private String getPagadoToString() {
+        return getTurnoPagado() ? "Si" : "No";
+    }
+
     @Override
     public String toString() {
-        return "Turno para " + especialidadDelTurno + ":\n  - Prestacion: " + prestacionBrindada + ".\n  - Horario: " + getHorario() + ". Ubicacion: " + ubicacionTurno.getNombre()
-                + ".\n  - Doctor: " + doctor.getNombreCompleto()
-                + ".\n  - Asistio: " + getAsistioToString() + "\n";
+        return "Turno para " + especialidadDelTurno + ":\n  - Prestacion: " + prestacionBrindada + "\n  - Horario: " + getHorario()
+                + "\n  - Doctor: " + doctor.getNombreCompleto()
+                + " - Ubicacion: " + ubicacionTurno.getNombre()
+                + "\n  - Pagado: " + getPagadoToString()
+                + " - Tipo de pago: " + getTipoDePago()
+                + "\n  - Asistio: " + getAsistioToString() + "\n";
     }
 }
