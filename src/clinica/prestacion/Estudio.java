@@ -25,6 +25,10 @@ public class Estudio extends Prestacion {
         this.asistio = asistio;
     }
 
+    public String getFechaToString() {
+        return this.fechaYHoraRealizacion == null ? "No hay fecha" : fechaYHoraRealizacion.toString();
+    }
+
     @Override
     public String toString() {
         return "Estudio{" +
