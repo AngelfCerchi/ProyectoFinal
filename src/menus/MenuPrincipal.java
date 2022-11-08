@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class MenuPrincipal {
 
-    public static void mostrarMenu(Clinica clinica, Administrativo administrativo) {
+    public static void mostrarMenu(Administrativo administrativo) {
         Scanner sn = new Scanner(System.in);
         boolean salir = false;
         int op;

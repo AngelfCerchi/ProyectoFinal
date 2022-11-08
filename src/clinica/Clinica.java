@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 public class Clinica {
     private static Clinica instance;
+    private String nombre;
     private Director director;
     private ArrayList<Paciente> pacientes;
     private ArrayList<Especialidad> especialidades;
@@ -24,7 +25,8 @@ public class Clinica {
     private ArrayList<Ubicacion> ubicaciones;
 
     public Clinica() {
-        this.director = new Director("Martin", "Abogado", "36758988");
+        this.nombre = "Clinica San Andres Juarez";
+        this.director = new Director("Pepe", "Bolanios", "36758988");
         this.pacientes = new ArrayList<>();
         this.especialidades = new ArrayList<>();
         this.prestaciones = new ArrayList<>();
@@ -516,5 +518,10 @@ public class Clinica {
         turnos.put(this.prestaciones.get(3), turnosDisponibles4);
         sobreTurnos.put(this.prestaciones.get(3), sobreTurnosDisponibles4);
 
+    }
+
+    @Override
+    public String toString() {
+        return nombre+" Director: "+director.getNombreCompleto();
     }
 }

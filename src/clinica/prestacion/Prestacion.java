@@ -79,13 +79,12 @@ public class Prestacion {
         this.ubicacion = ubicacion;
     }
 
+    private String activaFormat() {
+        return (activa) ? "Si" : "No;";
+    }
+
     @Override
     public String toString() {
-        return "Prestacion{" +
-                "nroPrestacion'" + this.nroPrestacion + '\'' +
-                "nombre='" + this.nombre + '\'' +
-                ", doctor=" + this.doctorAsociado +
-                ", activa=" + this.activa +
-                '}';
+        return "Nombre: "+nombre+" Doctor: "+doctorAsociado+" Activa: " + activaFormat() ;
     }
 }
