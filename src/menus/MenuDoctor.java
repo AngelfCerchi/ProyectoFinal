@@ -44,7 +44,7 @@ public class MenuDoctor {
                         registrarAsistencia(sn);
                         break;
                     case 2:
-                        //modificarEstadoPrestacion(sn, true);
+                        //atender(sn, true);
                         break;
                     case 0:
                         salir = true;
