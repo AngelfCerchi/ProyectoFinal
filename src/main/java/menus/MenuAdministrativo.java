@@ -135,7 +135,7 @@ public class MenuAdministrativo {
         sn.nextLine();
         Especialidad especialidad = especialidades.get(especialidadElegida - 1);
         System.out.print("Nombre de la prestacion: ");
-        String nombre = sn.nextLine();
+        String nombrePrestacion = sn.nextLine();
         System.out.println("¿La prestacion a crear va a ser un estudio?\n" + "1- Si\n" + "2- No\n");
         boolean esEstudio = sn.nextInt() == 1;
         System.out.println("Seleccione la ubicacion donde se va a realizar la prestacion");
@@ -143,11 +143,18 @@ public class MenuAdministrativo {
         int ubicacionElegida = MenuHelper.controlDeOpcionElegidaEntero(sn, 1, clinica.getUbicaciones().size());
         Ubicacion ubicacion = clinica.getUbicaciones().get(ubicacionElegida - 1);
 
-        System.out.println("Seleccione el doctor para la prestacion: ");
-        System.out.println(MenuHelper.getStringDoctores(clinica.getDoctores()));
-        int doctornum = MenuHelper.controlDeOpcionElegidaEntero(sn, 1, clinica.getDoctores().size());
-        Doctor doctor = clinica.getDoctores().get(doctornum - 1);
-        Prestacion prestacionNueva = administrativo.crearPrestacion(nombre, esEstudio, especialidad, ubicacion, doctor);
+        System.out.println("Todos los doctores estan ocupados. Registre un nuevo doctor.");
+        System.out.print("Ingrese el DNI del nuevo doctor: ");
+        int dni = MenuHelper.controlDeOpcionElegidaEntero(sn, 1, 99999999);
+        sn.nextLine();
+        System.out.print("Ingrese su apellido: ");
+        String apellidoDoctor = sn.nextLine();
+        //apellido
+        System.out.print("Ingrese su nombre: ");
+        String nombreDoctor = sn.nextLine();
+        Doctor doctor = new Doctor(nombreDoctor, apellidoDoctor, String.valueOf(dni));
+        clinica.getDoctores().add(doctor);
+        Prestacion prestacionNueva = administrativo.crearPrestacion(nombrePrestacion, esEstudio, especialidad, ubicacion, doctor);
         System.out.println("Se creo la prestacion: " + prestacionNueva.getNombre());
     }
 

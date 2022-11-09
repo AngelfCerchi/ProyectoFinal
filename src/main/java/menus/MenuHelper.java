@@ -62,7 +62,7 @@ public class MenuHelper {
         StringBuilder str = new StringBuilder();
         for (int i = 0; i < doctores.size(); i++) {
             Doctor doctor = doctores.get(i);
-            str.append(i + 1).append(" - ").append(doctor.getDni()).append(" - ").append(doctor.getNombre()).append("\n");
+            str.append(i + 1).append(" - ").append(doctor.getDni()).append(" - ").append(doctor.getNombreCompleto()).append("\n");
         }
         return str.toString();
     }
