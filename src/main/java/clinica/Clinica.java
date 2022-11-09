@@ -250,4 +250,8 @@ public class Clinica {
     public String toString() {
         return nombre + " Director: " + director.getNombreCompleto();
     }
+
+    public Director getDirector() {
+        return director;
+    }
 }
