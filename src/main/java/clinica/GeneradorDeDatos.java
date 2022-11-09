@@ -3,6 +3,7 @@ package clinica;
 import clinica.prestacion.Estudio;
 import clinica.prestacion.Prestacion;
 import clinica.prestacion.PrestacionTradicional;
+import clinica.ubicaciones.Consultorio;
 import clinica.ubicaciones.Laboratorio;
 import clinica.ubicaciones.Ubicacion;
 import individuos.Doctor;
@@ -16,23 +17,23 @@ public class GeneradorDeDatos {
 
     public static void crearDoctoresEspecialidadesYPrestaciones(ArrayList<Doctor> doctores, ArrayList<Prestacion> prestaciones, ArrayList<Especialidad> especialidades, ArrayList<Ubicacion> ubicaciones) {
 
-        Ubicacion ubicacionA = new Ubicacion("Consultorio 01") {
+        Ubicacion ubicacionA = new Consultorio("01") {
         };
-        Laboratorio ubicacionB = new Laboratorio("Laboratorio 01") {
+        Laboratorio ubicacionB = new Laboratorio("01") {
         };
-        Ubicacion ubicacionC = new Ubicacion("Consultorio 03") {
+        Ubicacion ubicacionC = new Consultorio("03") {
         };
-        Ubicacion ubicacionD = new Ubicacion("Consultorio 04") {
+        Ubicacion ubicacionD = new Consultorio("04") {
         };
-        Ubicacion ubicacionE = new Ubicacion("Consultorio 05") {
+        Ubicacion ubicacionE = new Consultorio("05") {
         };
-        Ubicacion ubicacionF = new Ubicacion("Consultorio 06") {
+        Ubicacion ubicacionF = new Consultorio("06") {
         };
-        Ubicacion ubicacionG = new Ubicacion("Consultorio 07") {
+        Ubicacion ubicacionG = new Consultorio("07") {
         };
-        Ubicacion ubicacionH = new Ubicacion("Consultorio 08") {
+        Ubicacion ubicacionH = new Consultorio("08") {
         };
-        Ubicacion ubicacionI = new Ubicacion("Consultorio 09") {
+        Ubicacion ubicacionI = new Consultorio("09") {
         };
 
         ubicaciones.addAll(Arrays.asList(ubicacionA,

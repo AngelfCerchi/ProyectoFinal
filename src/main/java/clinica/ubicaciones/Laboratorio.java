@@ -4,7 +4,7 @@ public class Laboratorio extends Ubicacion {
 
 
     public Laboratorio(String nombre) {
-        super(nombre);
+        super("Laboratorio " + nombre);
     }
 
 }
