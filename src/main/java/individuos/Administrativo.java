@@ -49,4 +49,8 @@ public class Administrativo extends Persona {
         }
         return null;
     }
+
+    public Clinica getClinica() {
+        return clinica;
+    }
 }

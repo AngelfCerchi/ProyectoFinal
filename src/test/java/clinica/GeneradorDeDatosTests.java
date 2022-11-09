@@ -27,7 +27,7 @@ public class GeneradorDeDatosTests {
         assertEquals(8, prestaciones.size());
         assertEquals(6, especialidades.size());
         assertEquals(9, ubicaciones.size());
-
+        assertEquals(doctores.size(), prestaciones.size());
     }
 
     @Test

@@ -3,6 +3,7 @@ package clinica;
 import clinica.prestacion.Estudio;
 import clinica.prestacion.Prestacion;
 import clinica.prestacion.PrestacionTradicional;
+import clinica.ubicaciones.Laboratorio;
 import clinica.ubicaciones.Ubicacion;
 import individuos.Doctor;
 
@@ -17,7 +18,7 @@ public class GeneradorDeDatos {
 
         Ubicacion ubicacionA = new Ubicacion("Consultorio 01") {
         };
-        Ubicacion ubicacionB = new Ubicacion("Consultorio 02") {
+        Laboratorio ubicacionB = new Laboratorio("Laboratorio 01") {
         };
         Ubicacion ubicacionC = new Ubicacion("Consultorio 03") {
         };
