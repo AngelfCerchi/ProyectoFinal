@@ -96,20 +96,33 @@ public class MenuHelper {
         }
     }
 
-    protected static List<Turno> listarTurnosDelPaciente(Scanner sn) {
+    protected static List<Turno> listarTurnosDelPaciente(Scanner sn, Doctor... doctors) {
         System.out.println("Turnos del paciente");
         System.out.println("Ingrese el DNI del paciente: ");
         int dni = MenuHelper.controlDeOpcionElegidaEntero(sn, 1, 99999999);
         Paciente paciente = clinica.getPacientePorDni(String.valueOf(dni));
+        List<Turno> turnosDelPaciente = null;
         if (paciente != null) {
-            List<Turno> turnosDelPaciente = clinica.getListaTurnosDePaciente(paciente);
-            String mensaje = turnosDelPaciente.isEmpty() ? "El paciente no tiene tiene ningun turno asociado todavia"
-                    : "El paciente tiene los siguientes turnos: \n" + MenuHelper.getStringTurnosDelPaciente(turnosDelPaciente);
-            System.out.println(mensaje);
-            return turnosDelPaciente;
+            turnosDelPaciente = clinica.getListaTurnosDePaciente(paciente);
+            List<Turno> turnosConElDoctor = new ArrayList<>();
+            if (doctors.length != 0) {
+                for (int i = 0; i < turnosDelPaciente.size(); i++) {
+                    if (turnosDelPaciente.get(i).getDoctor().getNombreCompleto().equals(doctors[0].getNombreCompleto())) {
+                        turnosConElDoctor.add(turnosDelPaciente.get(i));
+                    }
+                }
+                String mensaje = turnosConElDoctor.isEmpty() ? "El paciente no tiene ningun turno con el doctor: " + doctors[0].getNombreCompleto()
+                        : "El paciente tiene los siguientes turnos: \n" + MenuHelper.getStringTurnosDelPaciente(turnosDelPaciente);
+                System.out.println(mensaje);
+                turnosDelPaciente = turnosConElDoctor;
+            } else {
+                String mensaje = turnosDelPaciente.isEmpty() ? "El paciente no tiene tiene ningun turno asociado todavia"
+                        : "El paciente tiene los siguientes turnos: \n" + MenuHelper.getStringTurnosDelPaciente(turnosDelPaciente);
+                System.out.println(mensaje);
+            }
         } else {
             System.out.println("El paciente no existe en nuestra base. No tiene turnos asignados");
-            return null;
         }
+        return turnosDelPaciente;
     }
 }

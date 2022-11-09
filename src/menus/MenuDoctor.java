@@ -59,11 +59,9 @@ public class MenuDoctor {
 
     private static void atenderPaciente(Scanner sn, Doctor doctor) {
         System.out.println("Atendiendo paciente. Se completara la prestacion del turno");
-        List<Turno> turnos = MenuHelper.listarTurnosDelPaciente(sn);
+        List<Turno> turnos = MenuHelper.listarTurnosDelPaciente(sn, doctor);
         Turno turnoAtendido;
-        if (turnos == null || turnos.size() < 1) {
-            System.out.println("No se encontraron turnos");
-        } else {
+        if (turnos != null && !turnos.isEmpty()) {
             System.out.println("Seleccione el turno al que esta asistiendo el paciente");
             int turnoSeleccionado = MenuHelper.controlDeOpcionElegidaEntero(sn, 1, turnos.size());
             turnoAtendido = turnos.get(turnoSeleccionado - 1);
@@ -75,25 +73,29 @@ public class MenuDoctor {
                     Estudio estudio = new Estudio(prestacionDelTurno.getNombre());
                     doctor.registrarAtencionDeEstudio(turnoAtendido, estudio);
                 } else {
-                    //Si no es estudio hay que hacer una prestacion tradicional
-                    // y agregar prescripciones que puede tener medicamentos y estudios
-                    System.out.println("La prestacion NO es un estudio unicamente. Por lo tanto es necesario agregar prescipciones");
-                    int opcion;
+                    //Si no es estudio hay que agregar las prescripciones que pueden medicamentos y estudios
+                    System.out.println("La prestacion NO es un estudio unicamente. Por lo tanto es necesario agregar por lo menos 1 prescipcion");
+                    int agregarOtraPrescripcionAlaPrestacion;
+                    PrestacionTradicional prestacionTradicional = new PrestacionTradicional(prestacionDelTurno.getNombre(), doctor, prestacionDelTurno.getEspecialidad(), prestacionDelTurno.getUbicacion());
                     do {
-                        System.out.println("Se creara una nueva prescripcion");
-                        Prescripcion prescripcion = new Prescripcion();
-                        opcion = agregarPrescripciones(sn, doctor, turnoAtendido, prestacionDelTurno, prescripcion);
-                    } while (opcion == 1);
-                    System.out.println("Se asignaron todas las prescripciones correctamente");
+                        System.out.println("Se asignaran los medicamentos y/o estudios una nueva prescripcion");
+                        Prescripcion prescripcion = crearPrescripcion(sn, turnoAtendido, new Prescripcion());
+                        doctor.agregarPrescripcionAPrestacion(turnoAtendido, prestacionTradicional, prescripcion);
+                        System.out.println("Se asignaron todos los medicamentos y/o estudios a la prescripcion correctamente");
+                        System.out.println("¿Desea agregar UNA NUEVA prescripcion más?");
+                        System.out.println("1- Si");
+                        System.out.println("2- No");
+                        agregarOtraPrescripcionAlaPrestacion = MenuHelper.controlDeOpcionElegidaEntero(sn, 1, 2);
+                    } while (agregarOtraPrescripcionAlaPrestacion == 1);
+                    System.out.println("Se asignaron correctamente todas las prescripcion a la prestacion\n");
                 }
             } else {
-                System.out.println("No se puede atender al paciente y registrar sus precripciones por que el paciente no registra la asistencia en el turno");
+                System.out.println("No se puede atender al paciente y registrar sus precripciones por que el doctor no registro la asistencia en el turno previamente");
             }
         }
     }
 
-    private static int agregarPrescripciones(Scanner sn, Doctor doctor, Turno turnoAtendido, Prestacion prestacionDelTurno, Prescripcion prescripcion) {
-        PrestacionTradicional prestacionTradicional = new PrestacionTradicional(prestacionDelTurno.getNombre(), doctor, prestacionDelTurno.getEspecialidad(), prestacionDelTurno.getUbicacion());
+    private static Prescripcion crearPrescripcion(Scanner sn, Turno turnoAtendido, Prescripcion prescripcion) {
         System.out.println("¿Desea agregar un estudio o un medicamento?");
         System.out.println("1- Estudio");
         System.out.println("2- Medicamento");
@@ -108,9 +110,9 @@ public class MenuDoctor {
             prescripcion.agregarEstudio(estudio);
             System.out.println("Estudio asignado correctamente: " + estudio.getNombre());
         } else if (opcion == 2) {
-            System.out.print("Ingrese el nombre del medicamento ");
+            System.out.print("Ingrese el nombre del medicamento: ");
             String nombre = sn.nextLine();
-            System.out.println("Ingrese los gramos del medicamento en enteros por favor");
+            System.out.println("Ingrese los gramos del medicamento en enteros por favor: ");
             int gramos = MenuHelper.controlDeOpcionElegidaEntero(sn, 1, 2000);
             Medicamento medicamento = new Medicamento(nombre, gramos);
             prescripcion.agregarMedicamento(medicamento);
@@ -119,31 +121,19 @@ public class MenuDoctor {
         System.out.println("¿Desea agregar más estudios o medicamentos a la misma prescripcion?");
         System.out.println("1- Si");
         System.out.println("2- No");
-        int salir = 2;
         if (sn.nextInt() == 1) {
-            salir = agregarPrescripciones(sn, doctor, turnoAtendido, prestacionTradicional, prescripcion);
-        } else {
-            System.out.println("Se creo la prescripcion correctamente\n");
-            System.out.println("¿Desea agregar UNA NUEVA prescripcion más?");
-            System.out.println("1- Si");
-            System.out.println("2- No");
-            salir = MenuHelper.controlDeOpcionElegidaEntero(sn, 1, 2);
+            prescripcion = crearPrescripcion(sn, turnoAtendido, prescripcion);
         }
-        doctor.agregarPrescripcionAPrestacion(turnoAtendido, prestacionTradicional, prescripcion);
-        turnoAtendido.setPrestacionBrindada(prestacionTradicional);
-        return salir;
+        return prescripcion;
     }
 
     private static void registrarAsistencia(Scanner sn, Doctor doctor) {
-        List<Turno> turnos = MenuHelper.listarTurnosDelPaciente(sn);
-        if (turnos == null || turnos.size() < 1) {
-            System.out.println("No se encontraron turnos");
-        } else {
+        List<Turno> turnos = MenuHelper.listarTurnosDelPaciente(sn, doctor);
+        if (turnos != null && !turnos.isEmpty()) {
             System.out.println("Seleccione el turno al que esta asistiendo el paciente");
             int turnoSeleccionado = MenuHelper.controlDeOpcionElegidaEntero(sn, 1, turnos.size());
             doctor.registrarAsistenciaPaciente(turnos, turnoSeleccionado);
             System.out.println("Se registro la asistencia");
         }
     }
-
 }

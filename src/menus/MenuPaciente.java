@@ -57,7 +57,7 @@ public class MenuPaciente {
         if (turnos == null || turnos.size() < 1) {
             System.out.println("No se encontraron turnos");
         } else {
-            System.out.println("Seleccione el turno al que esta asistiendo el paciente");
+            System.out.println("Seleccione el turno que desea pagar el paciente");
             int turnoSeleccionado = MenuHelper.controlDeOpcionElegidaEntero(sn, 1, turnos.size());
             turnoAtendido = turnos.get(turnoSeleccionado - 1);
             if (!turnoAtendido.getTurnoPagado()) {
@@ -72,7 +72,7 @@ public class MenuPaciente {
                 }
                 System.out.println("Listo! Pago realizado correctamente");
             } else {
-                System.out.println("El turno elegido ya esta pago. Puede pagar otro turno o listo.");
+                System.out.println("El turno elegido ya esta pago. Puede pagar otro turno si quiere");
             }
         }
     }
