@@ -72,7 +72,7 @@ public class MenuDoctor {
                 //Si es un estudio o no, solo completar si asistio y la fecha
                 if (prestacionDelTurno.getEsEstudio()) {
                     System.out.println("La prestacion es un estudio. Unicamente registramos la asistencia y el horario");
-                    Estudio estudio = (Estudio) prestacionDelTurno;
+                    Estudio estudio = new Estudio(prestacionDelTurno.getNombre());
                     doctor.registrarAtencionDeEstudio(turnoAtendido, estudio);
                 } else {
                     //Si no es estudio hay que hacer una prestacion tradicional
@@ -100,10 +100,11 @@ public class MenuDoctor {
         int opcion = MenuHelper.controlDeOpcionElegidaEntero(sn, 1, 2);
         sn.nextLine();
         if (opcion == 1) {
-            System.out.print("Ingrese el nombre del estudio");
+            System.out.print("Ingrese el nombre del estudio: ");
             String nombreEstudio = sn.nextLine();
             Estudio estudio = new Estudio(nombreEstudio);
             estudio.setAsistio(true);
+            estudio.setFechaYHoraRealizacion(turnoAtendido.getFin());
             prescripcion.agregarEstudio(estudio);
             System.out.println("Estudio asignado correctamente: " + estudio.getNombre());
         } else if (opcion == 2) {
@@ -120,7 +121,7 @@ public class MenuDoctor {
         System.out.println("2- No");
         int salir = 2;
         if (sn.nextInt() == 1) {
-            agregarPrescripciones(sn, doctor, turnoAtendido, prestacionTradicional, prescripcion);
+            salir = agregarPrescripciones(sn, doctor, turnoAtendido, prestacionTradicional, prescripcion);
         } else {
             System.out.println("Se creo la prescripcion correctamente\n");
             System.out.println("¿Desea agregar UNA NUEVA prescripcion más?");

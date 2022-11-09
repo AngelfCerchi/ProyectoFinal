@@ -32,8 +32,9 @@ public class Estudio extends Prestacion {
     @Override
     public String toString() {
         return "Estudio{" +
-                "fechaYHoraRealizacion=" + fechaYHoraRealizacion +
-                ", asistio=" + asistioToString() +
+                " nombre: " + getNombre() +
+                " - fechaYHoraRealizacion: " + getFechaToString() +
+                " - asistio: " + asistioToString() +
                 '}';
     }
 }

@@ -33,6 +33,7 @@ public class Doctor extends Persona {
     public void registrarAtencionDeEstudio(Turno turno, Estudio estudio) {
         estudio.setAsistio(true);
         estudio.setFechaYHoraRealizacion(turno.getFin());
+        turno.setPrestacionBrindada(estudio);
     }
 
     public void agregarPrescripcionAPrestacion(Turno turnoAtendido, PrestacionTradicional prestacionTradicional, Prescripcion prescripcion) {
