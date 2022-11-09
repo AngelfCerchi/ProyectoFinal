@@ -9,26 +9,26 @@ import static org.junit.Assert.assertNotNull;
 public class ClinicaTests {
 
     @Test
-    public void CreateAClinicShouldReturnANoEmptyInstance(){
+    public void CreateAClinicShouldReturnANoEmptyInstance() {
         Clinica c = Clinica.getInstance();
         assertNotNull(c);
     }
 
     @Test
-    public void CreateAClinicShouldHaveADirector(){
+    public void CreateAClinicShouldHaveADirector() {
         Clinica c = new Clinica();
         assertNotNull(c.getDirector().getNombre());
     }
 
     @Test
-    public void CreateAClinicShouldHaveAName(){
+    public void CreateAClinicShouldHaveAName() {
         Clinica c = new Clinica();
         assertNotNull(c.getNombre());
         assertEquals("Clinica San Andres Juarez", c.getNombre());
     }
 
     @Test
-    public void CreateAClinicShouldHavePacientesPrestacionesDoctoresTurnosSobreturnosAndLocations(){
+    public void CreateAClinicShouldHavePacientesPrestacionesDoctoresTurnosSobreturnosAndLocations() {
         Clinica c = new Clinica();
         assertNotNull(c.getPacientes());
         assertNotNull(c.getPrestaciones());

@@ -8,13 +8,13 @@ import static org.junit.Assert.assertNotNull;
 public class EspecialidadTests {
 
     @Test
-    public void CreateAnEspecialidadShouldSetStatusToActive(){
+    public void CreateAnEspecialidadShouldSetStatusToActive() {
         Especialidad e = new Especialidad("EJEMPLO");
         assertEquals(e.getActiva(), true);
     }
 
     @Test
-    public void CreateAnEspecialidadShouldHaveNotNullPrestaciones(){
+    public void CreateAnEspecialidadShouldHaveNotNullPrestaciones() {
         Especialidad e = new Especialidad("MASAJES");
         assertNotNull(e.getPrestaciones());
     }

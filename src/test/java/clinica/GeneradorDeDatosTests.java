@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 public class GeneradorDeDatosTests {
 
     @Test
-    public void crearDoctoresEspecialidadesYPrestacionesShouldWork(){
+    public void crearDoctoresEspecialidadesYPrestacionesShouldWork() {
 
         ArrayList<Doctor> doctores = new ArrayList<>();
         ArrayList<Prestacion> prestaciones = new ArrayList<>();
@@ -23,7 +23,7 @@ public class GeneradorDeDatosTests {
 
         GeneradorDeDatos.crearDoctoresEspecialidadesYPrestaciones(doctores, prestaciones, especialidades, ubicaciones);
 
-        assertEquals(8,doctores.size());
+        assertEquals(8, doctores.size());
         assertEquals(8, prestaciones.size());
         assertEquals(6, especialidades.size());
         assertEquals(9, ubicaciones.size());
@@ -31,7 +31,7 @@ public class GeneradorDeDatosTests {
     }
 
     @Test
-    public void crearTurnosYSobreturnos(){
+    public void crearTurnosYSobreturnos() {
 
         HashMap<Prestacion, ArrayList<Turno>> turnos = new HashMap<>();
         HashMap<Prestacion, ArrayList<Turno>> sobreTurnos = new HashMap<>();
