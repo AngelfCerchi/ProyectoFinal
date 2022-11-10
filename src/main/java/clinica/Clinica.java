@@ -136,11 +136,11 @@ public class Clinica {
     }
 
     public List<Turno> getTurnosDisponiblesPorPrestacion(Prestacion prestacion) {
-        return obtenerTurnosDisponiblesSegunEspeciliadadYMapa(turnos, prestacion);
+        return obtenerTurnosDisponiblesSegunPrestacionYMapa(turnos, prestacion);
     }
 
     public List<Turno> getSobreTurnosDisponiblesPorPrestacion(Prestacion prestacion) {
-        return obtenerTurnosDisponiblesSegunEspeciliadadYMapa(sobreTurnos, prestacion);
+        return obtenerTurnosDisponiblesSegunPrestacionYMapa(sobreTurnos, prestacion);
     }
 
     private List<Turno> getListaTurnosTotales() {
@@ -189,7 +189,7 @@ public class Clinica {
         getPrestaciones().stream().filter(x -> x.getNombre().equals(prestacion.getNombre())).findFirst().get().setActiva(activa);
     }
 
-    private List<Turno> obtenerTurnosDisponiblesSegunEspeciliadadYMapa(HashMap<Prestacion, ArrayList<Turno>> turnos, Prestacion prestacion) {
+    private List<Turno> obtenerTurnosDisponiblesSegunPrestacionYMapa(HashMap<Prestacion, ArrayList<Turno>> turnos, Prestacion prestacion) {
         List<Turno> turnosDisponibles = new ArrayList<>();
         for (Turno t : getTurnosPorPrestacion(turnos, prestacion)) {
             if (t.getDisponible()) {
