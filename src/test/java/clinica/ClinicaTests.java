@@ -5,6 +5,8 @@ import clinica.prestacion.PrestacionTradicional;
 import individuos.Paciente;
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 
@@ -96,7 +98,27 @@ public class ClinicaTests {
         p.setActiva(true);
         e.getPrestaciones().add(p);
         c.getEspecialidades().add(e);
-        c.getPrestacionesPorEspecialidad(e, true);
+        List<Prestacion> prestaciones = c.getPrestacionesPorEspecialidad(e, true);
+        assertEquals(1, prestaciones.size());
+    }
+
+    @Test
+    public void inhabilitarPrestacionShouldWork(){
+        Clinica c = Clinica.getInstance();
+        Especialidad e = new Especialidad("Traumatologia");
+        PrestacionTradicional p = new PrestacionTradicional("Control");
+        p.setActiva(true);
+
+        e.getPrestaciones().add(p);
+
+        c.getEspecialidades().add(e);
+        c.getPrestaciones().add(p);
+
+        assertEquals(p.getActiva(), true);
+
+        c.modificarEstadoDeActividadPrestacion(p, false);
+
+        assertEquals(p.getActiva(), false);
     }
 
 }
