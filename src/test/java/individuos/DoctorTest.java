@@ -2,13 +2,15 @@ package individuos;
 
 import clinica.Clinica;
 import clinica.Turno;
+import clinica.prestacion.Estudio;
 import clinica.prestacion.Prestacion;
 import enums.TipoServicio;
 import org.junit.Test;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class DoctorTest {
     Clinica clinica = Clinica.getInstance();
@@ -31,6 +33,16 @@ public class DoctorTest {
 
     @Test
     public void registrarAtencionDeEstudioShouldWork() {
-        //TODO.
+        Doctor doc = new Doctor("Meze", "Law", "37869123");
+        Estudio radiografia = new Estudio("Radiografia");
+
+        Turno turno = new Turno(LocalDateTime.now(), LocalDateTime.now());
+
+        doc.registrarAtencionDeEstudio(turno, radiografia);
+
+        assertEquals(true, radiografia.getEsEstudio());
+        assertEquals(true, radiografia.isAsistio());
+        assertNotNull(radiografia.getFechaYHoraRealizacion());
+
     }
 }
