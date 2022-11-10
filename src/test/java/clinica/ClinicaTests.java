@@ -5,6 +5,7 @@ import clinica.prestacion.PrestacionTradicional;
 import individuos.Paciente;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -121,4 +122,12 @@ public class ClinicaTests {
         assertEquals(p.getActiva(), false);
     }
 
+
+    @Test
+    public void getListaDeEspecialidadesShouldReturnResults(){
+
+        Clinica c = new Clinica();
+        ArrayList<Especialidad> especialidades = c.listaDeEspecialidades(true);
+        assertEquals(6, especialidades.size());
+    }
 }
