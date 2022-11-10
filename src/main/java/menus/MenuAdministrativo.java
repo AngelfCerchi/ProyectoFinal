@@ -174,7 +174,6 @@ public class MenuAdministrativo {
             System.out.println("Seleccione el horario deseado: ");
             int horarioElegido = sn.nextInt();
             Turno turno = clinica.seleccionarTurnoPorPrestacionConIndice(prestacion, horarioElegido);
-            turno.setPrestacionBrindada(prestacion);
             turno = administrativo.darTurno(paciente, turno, prestacion, (clinica.getTurnosDisponiblesPorPrestacion(prestacion).size() < horarioElegido));
             String mensaje = turno != null ? "Se creo el siguiente turno: \n" + turno : "No se encontro el turno o el mismo ya no esta disponible. Saque otro turno.";
             System.out.println(mensaje);

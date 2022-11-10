@@ -41,6 +41,7 @@ public class Administrativo extends Persona {
             if (t.getHorario().equals(turno.getHorario())) {
                 t.asociarPaciente(paciente);
                 t.setDisponible(false);
+                turno.setPrestacionBrindada(prestacion);
                 t.setEspecialidadDelTurno(prestacion.getEspecialidad());
                 t.setUbicacionTurno(prestacion.getUbicacion());
                 t.setDoctor(prestacion.getDoctorAsociado());
