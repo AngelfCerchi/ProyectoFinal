@@ -19,6 +19,7 @@ public class PrestacionTradicional extends Prestacion {
     public PrestacionTradicional(String nombre, Doctor doctor, Especialidad especialidad, Ubicacion ubicacion) {
         super(nombre, false, especialidad, ubicacion);
         this.prescripciones = new ArrayList<>();
+
         this.setEsEstudio(false);
         this.setDoctorAsociado(doctor);
     }
