@@ -40,6 +40,7 @@ public class DoctorTest {
 
         doc.registrarAtencionDeEstudio(turno, radiografia);
 
+        assertEquals("Radiografia", radiografia.getNombre());
         assertEquals(true, radiografia.getEsEstudio());
         assertEquals(true, radiografia.isAsistio());
         assertNotNull(radiografia.getFechaYHoraRealizacion());
