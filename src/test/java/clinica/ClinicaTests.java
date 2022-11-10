@@ -1,5 +1,8 @@
 package clinica;
 
+import clinica.prestacion.Prestacion;
+import clinica.prestacion.PrestacionTradicional;
+import individuos.Paciente;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -47,4 +50,53 @@ public class ClinicaTests {
 
         assertTrue(reporte.contains(message));
     }
+
+    @Test
+    public void agregarPrestacionShouldWork(){
+        Clinica c = Clinica.getInstance();
+        int cantidadPrestacionesOriginales = c.getPrestaciones().size();
+
+        PrestacionTradicional controlMedico = new PrestacionTradicional("Control medico");
+        controlMedico.setEspecialidad(c.getEspecialidades().get(0));
+        c.agregarPrestacion(controlMedico);
+
+
+        assertEquals(cantidadPrestacionesOriginales+1, c.getPrestaciones().size());
+    }
+
+    @Test
+    public void getPacientePorDNIShouldReturnResults(){
+        Clinica c = Clinica.getInstance();
+
+        c.getPacientes().add(new Paciente("Martin", "Abogado", "37869099", null));
+
+        Paciente p = c.getPacientePorDni("37869099");
+
+        assertNotNull(p);
+        assertEquals(p.getDni(), "37869099");
+    }
+
+    @Test
+    public void getPacientePorDNIShouldReturnNoResults(){
+        Clinica c = Clinica.getInstance();
+
+        c.getPacientes().add(new Paciente("Martin", "Abogado", "37869099", null));
+
+        Paciente p = c.getPacientePorDni("123");
+
+        assertNull(p);
+    }
+
+    @Test
+    public void getPrestacionesPorEspecialidadShouldReturnResults(){
+
+        Clinica c = Clinica.getInstance();
+        Especialidad e = new Especialidad("Traumatologia");
+        PrestacionTradicional p = new PrestacionTradicional("Control");
+        p.setActiva(true);
+        e.getPrestaciones().add(p);
+        c.getEspecialidades().add(e);
+        c.getPrestacionesPorEspecialidad(e, true);
+    }
+
 }
