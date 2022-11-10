@@ -1,10 +1,13 @@
 package clinica;
 
+import clinica.ubicaciones.Laboratorio;
+import individuos.Doctor;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class TurnoTests {
 
@@ -25,5 +28,17 @@ public class TurnoTests {
     public void createATurnoShouldHaveAsistioPropertyOnFalse() {
         Turno t = new Turno(LocalDateTime.now(), LocalDateTime.now());
         assertEquals(false, t.getAsistio());
+    }
+
+    @Test
+    public void toStringMethodShouldnotBeNull(){
+        Turno t = new Turno(LocalDateTime.now(), LocalDateTime.now());
+
+        t.setDoctor(new Doctor("Meze","Abogado", "378"));
+        t.setUbicacionTurno(new Laboratorio("De Dexter"));
+        t.setEspecialidadDelTurno(new Especialidad("Magia negra"));
+        String toStringResult = t.toString();
+
+        assertNotNull(toStringResult);
     }
 }
