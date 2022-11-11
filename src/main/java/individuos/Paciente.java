@@ -16,6 +16,6 @@ public class Paciente extends Persona {
 
     @Override
     public String toString() {
-        return "Nombre: " + getNombreCompleto() + " - DNI: " + getDni() + " - Tipo de servicio: " + getTipoServicio();
+        return "Nombre: " + getNombreCompleto() + " - DNI: " + getDni() + " - Tipo de servicio: " + getTipoServicio().getTipo();
     }
 }

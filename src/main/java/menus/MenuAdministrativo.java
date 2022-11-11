@@ -152,8 +152,7 @@ public class MenuAdministrativo {
         //apellido
         System.out.print("Ingrese su nombre: ");
         String nombreDoctor = sn.nextLine();
-        Doctor doctor = new Doctor(nombreDoctor, apellidoDoctor, String.valueOf(dni));
-        clinica.getDoctores().add(doctor);
+        Doctor doctor = administrativo.crearDoctor(nombreDoctor, apellidoDoctor, String.valueOf(dni));
         Prestacion prestacionNueva = administrativo.crearPrestacion(nombrePrestacion, esEstudio, especialidad, ubicacion, doctor);
         System.out.println("Se creo la prestacion: " + prestacionNueva.getNombre());
     }
@@ -167,7 +166,7 @@ public class MenuAdministrativo {
         Paciente paciente = clinica.getPacientePorDni(String.valueOf(dni));
         if (paciente == null) {
             System.out.print("Paciente no encontrado.");
-            paciente = MenuPaciente.crearPacienteInexistente(sn, dni);
+            paciente = MenuPaciente.crearPacienteInexistente(administrativo, sn, dni);
         }
         Prestacion prestacion = listarTurnosDisponiblesPorPrestacion(sn);
         if (prestacion != null) {

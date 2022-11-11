@@ -26,7 +26,7 @@ public enum TipoMediosDePago {
     }
 
     public static TipoMediosDePago seleccionarTipoPorIndice(int indice) {
-        return TipoMediosDePago.values()[indice - 1];
+        return TipoMediosDePago.values()[indice];
     }
 
 }

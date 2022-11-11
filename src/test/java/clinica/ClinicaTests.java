@@ -6,6 +6,8 @@ import individuos.Doctor;
 import individuos.Paciente;
 import org.junit.Test;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,8 +71,14 @@ public class ClinicaTests {
         turno.setPrestacionBrindada(estudioCianuro);
         turno.setUbicacionTurno(c.getUbicaciones().get(0));
 
+        LocalDateTime horaInicio = LocalDateTime.of(LocalDateTime.now().getYear(), LocalDateTime.now().getMonth(), LocalDateTime.now().getDayOfMonth(), 9, 0);
+        LocalDateTime horaFin = LocalDateTime.of(LocalDateTime.now().getYear(), LocalDateTime.now().getMonth(), LocalDateTime.now().getDayOfMonth(), 10, 0);
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
         String reporte = c.reportePrestacionesPorDoctor(doctor, true);
-        assertTrue(reporte.contains("- Analisis Cianuro - Horario: Inicio: 10/11/2022 09:00 - Fin: 10/11/2022 10:00 - Ubicacion: Consultorio 01"));
+
+        assertTrue(reporte.contains("- Analisis Cianuro - Horario: Inicio: " + horaInicio.format(format) + " - Fin: "
+                + horaFin.format(format) + " - Ubicacion: Consultorio 01"));
         assertTrue(reporte.contains("El doctor Coluc Nico brindo en total 1 estudio/estudioss"));
     }
 
@@ -89,7 +97,13 @@ public class ClinicaTests {
         turno2.setUbicacionTurno(c.getUbicaciones().get(0));
 
         String reporte = c.reportePrestacionesPorDoctor(doctor, false);
-        assertTrue(reporte.contains("- Terapia - Horario: Inicio: 10/11/2022 09:00 - Fin: 10/11/2022 10:00 - Ubicacion: Consultorio 01"));
+
+        LocalDateTime horaInicio = LocalDateTime.of(LocalDateTime.now().getYear(), LocalDateTime.now().getMonth(), LocalDateTime.now().getDayOfMonth(), 9, 0);
+        LocalDateTime horaFin = LocalDateTime.of(LocalDateTime.now().getYear(), LocalDateTime.now().getMonth(), LocalDateTime.now().getDayOfMonth(), 10, 0);
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+        assertTrue(reporte.contains("- Terapia - Horario: Inicio: " + horaInicio.format(format) + " - Fin: "
+                + horaFin.format(format) + " - Ubicacion: Consultorio 01"));
         assertTrue(reporte.contains("El doctor Coluc Nico brindo en total 1 prestacion/prestaciones"));
     }
 
